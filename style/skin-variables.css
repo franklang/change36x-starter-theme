@@ -1,0 +1,7 @@
+:root {
+
+  /* Example */
+  var-example-noneditable-color: tomato;
+  var-example-editable-color: olive /*@var example-editable-color*/;
+
+}

@@ -1,0 +1,17 @@
+#tplOneColumn #content-block {
+  width: 1140px;
+  min-width: 1140px;
+  max-width: 1140px;  
+}
+
+#sidebarLeft-block {
+  width: 292px;
+  min-width: 292px;
+  max-width: 292px;
+}
+
+#tplTwoColumnsLeft #content-block{
+  width: 878px;
+  min-width: 878px;
+  max-width: 878px; 
+}

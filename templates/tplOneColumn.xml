@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<change:templates xmlns:change="http://www.rbs.fr/change/1.0/schema" templateType="tableCells">
+  <change:template id="tplOneColumn">
+    <div id="top">
+
+      <change:templateblock type="modules_solrsearch_form" />
+      <change:templateblock type="modules_website_ConfigurableMenu" __mode="tag" __tag="contextual_website_website_menu-main" __displayMode="scroll" __depth="2" />
+      
+      <div id="content">
+        <change:content id="content-block"/>
+      </div>
+    </div>
+  </change:template>
+
+  <change:template content-type="xul" id="tplOneColumn">
+    <vbox id="top">
+      <hbox id="content" flex="12">
+        <change:content id="content-block"/>
+      </hbox>
+    </vbox>
+  </change:template>
+</change:templates>
+
+<!--
+<a name="top"></a>
+<a name="content"></a>
+<a name="mainMenu"></a>
+<a name="secondaryMenu"></a>
+<a name="search"></a>
+-->
+
+<!--
+<change:content id="content-block"/>
+<change:templateblock editname="template-block-01" />
+
+<change:templateblock type="modules_website_xhtmltemplate" __template="logo" />
+
+<change:templateblock type="modules_website_ConfigurableMenu" __mode="tag" __tag="contextual_website_website_menu-quicklinks" __displayMode="inline" __depth="1" />
+<change:templateblock type="modules_website_ConfigurableMenu" __mode="tag" __tag="contextual_website_website_menu-header" __displayMode="inline" __depth="1" />
+<change:templateblock type="modules_website_ConfigurableMenu" __mode="tag" __tag="contextual_website_website_menu-main" __displayMode="scroll" __depth="2" />
+<change:templateblock type="modules_website_ConfigurableMenu" __mode="tag" __tag="contextual_website_website_menu-footer" __displayMode="inline" __depth="1" />
+<change:templateblock type="modules_website_ConfigurableMenu" __mode="tag" __tag="contextual_website_website_menu-copyright" __displayMode="inline" __depth="1" />
+<change:templateblock type="modules_website_ConfigurableMenu" __mode="contextual" __displayMode="contextual" __deployAll="false" __showTitle="true" __depth="2" __startLevel="1" />
+
+<change:templateblock type="modules_solrsearch_form" />
+<change:templateblock type="modules_website_switchlanguage" __viewall="false" __showflag="" __displayMode="scroll" />
+<change:templateblock type="modules_website_thread" />
+
+<change:templateblock type="modules_users_showinfo" />
+<change:templateblock type="modules_order_ShortCart" />
+-->

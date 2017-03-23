@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<change:templates xmlns:change="http://www.rbs.fr/change/1.0/schema" templateType="tableCells">
+	<change:template id="tplPopin">
+		<change:content id="content-block" />
+	</change:template>
+
+	<change:template content-type="xul" id="tplPopin">
+		<vbox flex="12">
+			<change:content id="content-block"/>
+		</vbox>			
+	</change:template>	
+</change:templates>

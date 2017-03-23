@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<script>
+  <binding fileName="modules/theme/persistentdocument/import/theme_binding.xml" />
+
+  <rootfolder module="theme">
+    <theme id="starter" byCodename="starter" label="RBS Change 3.6.x starter theme" description="RBS Change 3.6.x starter theme">
+
+      <pagetemplate byCodename="starter/tplOneColumn" doctype="HTML-5"
+        useprojectcss="false"
+        cssscreen="
+          modules.generic.layout,
+          modules.media.fancybox,
+          themes.starter.layout,
+          themes.starter.main,
+          themes.starter.skin"
+        cssprint="themes.starter.print"
+        js="themes.starter.js.global-min">
+      </pagetemplate>
+
+      <pagetemplate byCodename="starter/tplTwoColumnsLeft" doctype="HTML-5"
+        useprojectcss="false"
+        cssscreen="
+          modules.generic.layout,
+          modules.media.fancybox,
+          themes.starter.layout,
+          themes.starter.main,
+          themes.starter.skin"
+        cssprint="themes.starter.print"
+        js="themes.starter.js.global-min">
+      </pagetemplate>
+
+      <pagetemplate byCodename="starter/tplPopin" doctype="HTML-5"
+        useprojectcss="false"
+        cssscreen="
+          modules.generic.layout,
+          themes.starter.layout">
+      </pagetemplate>
+
+    </theme>
+  </rootfolder>
+</script>

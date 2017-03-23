@@ -1,0 +1,10 @@
+/* Change skin: NO SASS/LESS ALLOWED !! */
+
+@import url(/themes/starter/style/skin-variables.css);
+
+.example-noneditable {
+  color: var(example-noneditable-color);
+}
+.example-editable {
+  color: var(example-editable-color) /*@var example-editable-color*/;
+}

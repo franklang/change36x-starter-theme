@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sections>
+  <section name="undefined-vars">
+    <field name="example-editable-color" type="text" initialvalue="olive"/>
+  </section>
+</sections>
+<!--
+http://wiki.rbschange.fr/html_design:skinable_theme?s[]=skin#creation_d_un_champ_de_formulaire
+
+Le contrôle de formulaire utilisé dépend de l'attribut type :
+  * color : la valeur est une couleur,
+  * dropdownlist : la valeur est un élément de la liste indiquée par l'attribut listid,
+  * imagecss : la valeur est une image venant du thème ou de la médiathèque,
+  * size : la valeur est une “taille” (width, height, …),
+  * text : la valeur est un texte “libre”, c'est le type attribué par défaut.
+-->
