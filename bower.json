@@ -1,0 +1,20 @@
+{
+  "name": "starter",
+  "authors": [
+    "Frank Lang <frank.lang@netapsys.fr>"
+  ],
+  "description": "RBS Change 3.6.x starter theme",
+  "main": "",
+  "license": "MIT",
+  "homepage": "https://github.com/franklang/change36x-starter-theme/tree/base-workflow",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "browser-detection": "jquery-browser-detection#^0.3.3"
+  }
+}
