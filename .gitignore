@@ -1,1 +1,7 @@
 /node_modules
+/js
+/src/vendor
+!/style/layout.css
+!/style/layout.xul.all.css
+!/style/skin-variables.css
+!/style/skin.css
