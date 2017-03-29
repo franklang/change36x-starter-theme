@@ -7,8 +7,6 @@
     "gulp": "^3.5.6",
     "gulp-autoprefixer": "0.0.6",
     "gulp-combine-media-queries": "0.0.1",
-    "gulp-concat": "^2.2.0",
-    "gulp-cssmin": "^0.1.5",
     "gulp-load-plugins": "^0.4.0",
     "gulp-rename": "^1.2.0",
     "gulp-ruby-sass": "^0.4.0",
@@ -23,7 +21,7 @@
   },
   "keywords": [
     "RBS",
-    "Change",
+    "Change 3.x",
     "theme",
     "starter",
     "bower",
@@ -34,11 +32,5 @@
   "bugs": {
     "url": ""
   },
-  "homepage": "https://github.com/franklang/change36x-starter-theme/tree/base-workflow",
-  "babel": {
-    "presets": [
-      "es2015",
-      "es2016"
-    ]
-  }
+  "homepage": "https://github.com/franklang/change36x-starter-theme/tree/base-workflow"
 }
