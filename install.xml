@@ -14,7 +14,7 @@
           themes.starter.main,
           themes.starter.skin"
         cssprint="themes.starter.print"
-        js="themes.starter.js.global-min">
+        js="themes.starter.js.main">
       </pagetemplate>
 
       <pagetemplate byCodename="starter/tplTwoColumnsLeft" doctype="HTML-5"
@@ -26,7 +26,7 @@
           themes.starter.main,
           themes.starter.skin"
         cssprint="themes.starter.print"
-        js="themes.starter.js.global-min">
+        js="themes.starter.js.main">
       </pagetemplate>
 
       <pagetemplate byCodename="starter/tplPopin" doctype="HTML-5"
