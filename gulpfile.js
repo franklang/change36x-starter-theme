@@ -1,8 +1,10 @@
 /**
   * source: https://www.mikestreety.co.uk/blog/advanced-gulp-file
   *
-  * - JS: minifier, rename (pour remplacer les points par des tirets)
-  *    - Voir pour un fichier "js-setup" qui liste les fichiers vendors à minifier. => http://gulpjs.org/recipes/using-external-config-file.html
+  * - JS:
+  *    - [TODO] rename (pour remplacer les points par des tirets)
+  *    - [OK] minifier
+  *    - [OK] Voir pour un fichier "vendor" qui liste les fichiers vendor à minifier. => http://gulpjs.org/recipes/using-external-config-file.html
   *    - Change possède déjà les fonctionnalités de concaténation des JS.
   * - Autoprefixer
   * - (Sourcemaps?)
@@ -41,19 +43,6 @@ var paths = {
 
     }
 };
-
-// var configs = {
-//     autoprefixer: {
-//       'last 2 version',
-//       'safari 5',
-//       'ie 8',
-//       'ie 9',
-//       'opera 12.1',
-//       'ios 6',
-//       'android 4',
-//       'Firefox >= 4'
-//     }
-// };
 
 var appFiles = {
   styles: paths.styles.src + '**/*.scss',
@@ -110,31 +99,45 @@ function doUglify(cfg) {
     .pipe(gulp.dest(cfg.dest));
 }
 
-gulp.task('css', function(){
+// gulp.task('css', function(){
 
-  var sassFiles = gulp.src(appFiles.styles)
-  .pipe(plugins.rubySass({
-    style: sassStyle, sourcemap: sourceMap, precision: 2
-  }))
-  .on('error', function(err){
-    new gutil.PluginError('CSS', err, {showStack: true});
-  });
+//   var sassFiles = gulp.src(appFiles.styles)
+//   .pipe(plugins.rubySass({
+//     style: sassStyle, sourcemap: sourceMap, precision: 2
+//   }))
+//   .on('error', function(err){
+//     new gutil.PluginError('CSS', err, {showStack: true});
+//   });
 
-  return es.concat(gulp.src(vendorFiles.styles), sassFiles)
-    .pipe(plugins.concat('style.min.css'))
-    .pipe(plugins.autoprefixer(configs.autoprefixer))
-    .pipe(isProduction ? plugins.combineMediaQueries({
-      log: true
-    }) : gutil.noop())
-    .pipe(isProduction ? plugins.cssmin() : gutil.noop())
+//   return es.concat(gulp.src(vendorFiles.styles), sassFiles)
+//     .pipe(plugins.concat('style.min.css'))
+//     .pipe(plugins.autoprefixer(configs.autoprefixer))
+//     .pipe(isProduction ? plugins.combineMediaQueries({
+//       log: true
+//     }) : gutil.noop())
+//     .pipe(isProduction ? plugins.cssmin() : gutil.noop())
+//     .pipe(plugins.size())
+//     .pipe(gulp.dest(paths.styles.dest));
+// });
+
+gulp.task('style', function() {
+  gulp.src(paths.styles.src + '*.scss')
+    .pipe(plugins.rubySass({
+      style: sassStyle, sourcemap: sourceMap, precision: 2
+    }))
+    .on('error', function(err){
+      new gutil.PluginError('CSS', err, {showStack: true});
+    })
+    .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(plugins.cssmin())
     .pipe(plugins.size())
-    .pipe(gulp.dest(paths.styles.dest));
+    .pipe(gulp.dest(paths.styles.dest));    
 });
 
-gulp.task('scripts', function() {
+gulp.task('js', function() {
   // Uglify vendor JS...
   doUglify(vendor.js);
-  // ...then Uglify custom JS
+  // ...then uglify custom JS
   gulp.src(paths.scripts.src + '*.js')
     .pipe(plugins.uglify())
     .pipe(plugins.size())
@@ -161,11 +164,11 @@ gulp.task('sprite', function () {
   spriteData.css.pipe(gulp.dest(paths.styles.src));
 });
 
-gulp.task('watch', ['sprite', 'css', 'scripts'], function(){
-  gulp.watch(appFiles.styles, ['css']).on('change', function(evt) {
+gulp.task('watch', ['sprite', 'style', 'js'], function(){
+  gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
     changeEvent(evt);
   });
-  gulp.watch(paths.scripts.src + '*.js', ['scripts']).on('change', function(evt) {
+  gulp.watch(paths.scripts.src + '*.js', ['js']).on('change', function(evt) {
     changeEvent(evt);
   });
   gulp.watch(paths.sprite.src, ['sprite']).on('change', function(evt) {
@@ -173,4 +176,4 @@ gulp.task('watch', ['sprite', 'css', 'scripts'], function(){
   });
 });
 
-gulp.task('default', ['css', 'scripts']);
+gulp.task('default', ['style', 'js']);
