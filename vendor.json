@@ -1,0 +1,15 @@
+{
+  "js" : {
+    "src" : [
+      "./src/vendor/browser-detection/src/browser-detection.js",
+      "./src/vendor/foundation/js/foundation.js"
+    ],
+    "dest" : "./js"
+  },
+  "style" : {
+    "src" : [
+      ""
+    ],
+    "dest" : "./style"
+  }
+}

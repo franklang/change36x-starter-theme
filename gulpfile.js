@@ -1,296 +1,176 @@
-/* jshint node: true */
-'use strict';
-
 /**
- * Usage général :
- *
- *  - tâche "gulp" : fichiers compilés dans "/dist" (ni minifiés ni concaténés).
- *    Le client peut modifier, améliorer et mettre en prod lui-même.
- *
- *  - tâche "gulp --prod" : fichiers compilés dans "/dist" (minifiés, concaténés,
- *    optimisés, etc.). Le client utilise tel quel.
- */
+  * source: https://www.mikestreety.co.uk/blog/advanced-gulp-file
+  *
+  * - JS: minifier, rename (pour remplacer les points par des tirets)
+  *    - Voir pour un fichier "js-setup" qui liste les fichiers vendors à minifier. => http://gulpjs.org/recipes/using-external-config-file.html
+  *    - Change possède déjà les fonctionnalités de concaténation des JS.
+  * - Autoprefixer
+  * - (Sourcemaps?)
+  * - CSS: => un simple déplacement des fichiers source.
+  * - SASS: => CSS
+  * - LESS: => CSS
+  *    - Change possède déjà les fonctionnalités de minification des CSS.
+  * - JPG, GIF, PNG: => compression, (sprite?)
+  * - SVG: => compression, sprite, (police d'icônes?)
+  * - FONT: => un simple déplacement des fichiers source.
+  */
 
-
-/**
- * Chargement et initialisation des composants utilisés
- */
-var gulp = require('gulp'),
-    $ = require('gulp-load-plugins')(),
-    browserSync = require('browser-sync').create(),
-    gulpSync = require('gulp-sync')(gulp),
-    argv = require('yargs').argv,
-    del = require('del');
-
-
-/**
- * Configuration générale du projet et des composants utilisés
- */
-var project = {
-  name: 'starter', // nom du projet, utilisé notamment pour le fichier ZIP
-  url: 'http://localhost/', // url du projet, utilisée par browserSync en mode proxy
-  zip: {
-    namespace: 'starter', // préfixe du fichier ZIP
-  },
-  globalJSFile: 'global-min.js', // nom du fichier JS après concaténation
-  plugins: { // activation ou désactivation de certains plugins à la carte
-    browserSync: {
-      status: false, // utilisation du plugin browserSync lors du Watch ?
-      proxyMode: false, // utilisation du plugin browserSync en mode proxy (si false en mode standalone)
-    }
-  },
-  configuration: { // configuration des différents composants de ce projet
-    cssbeautify: {
-      indent: '  ',
-    },
-    htmlExtend: {
-      annotations: false,
-      verbose: false,
-    },
-    imagemin: {
-      svgoPlugins: [
-        {
-          removeViewBox: false,
-        }, {
-          cleanupIDs: false,
-        },
-      ],
-    },
-  },
+var basePaths = {
+    src: './src/',
+    dest: './',
+    bower: 'src/vendor'
 };
 
-
-/**
- * Chemins vers les ressources ciblées
- */
 var paths = {
-  root: './', // dossier actuel
-  src: './src/', // dossier de travail
-  dest: './dist/', // dossier destiné à la livraison
-  vendors: './node_modules/', // dossier des dépendances du projet
-  assets: 'assets/',
-  styles: {
-    root: 'assets/css/', // dossier contenant les fichiers CSS & Sass
-    css: {
-      mainFile: 'assets/css/styles.css', // fichier CSS principal
-      files: 'assets/css/*.css', // cible tous les fichiers CSS
+    images: {
+        src: basePaths.src + 'images/',
+        dest: basePaths.dest + 'images/'
     },
-    sass: {
-      mainFile: 'assets/css/styles.scss', // fichier Sass principal
-      files: 'assets/css/{,includes/}*.scss', // fichiers Sass à surveiller
+    scripts: {
+        src: basePaths.src + 'js/',
+        dest: basePaths.dest + 'js/'
     },
-  },
-  scripts: {
-    root: 'assets/js/', // dossier contenant les fichiers JavaScript
-    files: 'assets/js/*.js', // fichiers JavaScript (hors vendor)
-  },
-  html: {
-    racine: '*.html', // fichiers & dossiers HTML à compiler / copier à la racine uniquement
-    allFiles: '{,includes/}*.html', // fichiers & dossiers HTML à compiler / copier à la racine et dans le dossier includes/
-  },
-  styleguide: {
-    config: 'assets/styleguide/config.md', // fichier config du styleguide
-    files: 'assets/styleguide/patterns/*.md', // fichiers .MD du styleguide
-  },
-  php: '{,includes/}*.php', // fichiers & dossiers PHP à copier
-  fonts: 'assets/css/fonts/', // fichiers typographiques à copier,
-  images: 'assets/{,css/}img/*.{png,jpg,jpeg,gif}', // fichiers images à compresser
-  icons: 'assets/icons/*.svg', // fichiers icônes SVG
-  misc: '*.{ico,htaccess,txt}', // fichiers divers à copier
-  maps: '/maps', // fichiers provenant de sourcemaps
-};
+    styles: {
+        src: basePaths.src + 'style/',
+        dest: basePaths.dest + 'style/'
+    },
+    sprite: {
+        src: basePaths.src + 'sprite/*'
+    },
+    fonts: {
 
-
-/**
- * Ressources JavaScript utilisées par ce projet (vendors + scripts JS spécifiques)
- */
-var vendors = [
-  paths.vendors + 'jquery/dist/jquery.min.js',
-  paths.vendors + 'styledown-skins/dist/Default/styleguide.min.js',
-  paths.vendors + 'swiper/dist/js/swiper.min.js',
-  paths.src + paths.scripts.files,
-];
-
-
-/**
- * Tâche de gestion des erreurs à la volée
- */
-var onError = {
-  errorHandler: function (err) {
-    $.util.beep();
-    console.log(err);
-    this.emit('end');
-  }
-};
-
-/**
- * Tâche de production si ajout de l'argument "--prod"
- */
-var isProduction = argv.prod;
-
-
-/* ------------------------------------------------
- * Tâches de Build : css, html, php, js, img, fonts
- * ------------------------------------------------
- */
-
-// Tâche CSS : Sass + Autoprefixer + CSScomb + beautify + minify (si prod)
-gulp.task('css', function () {
-  return gulp.src(paths.src + paths.styles.sass.mainFile)
-    .pipe($.plumber(onError))
-    .pipe($.sourcemaps.init())
-    .pipe($.sass())
-    .pipe($.csscomb())
-    .pipe($.cssbeautify(project.configuration.cssbeautify))
-    .pipe($.autoprefixer())
-    .pipe(gulp.dest(paths.dest + paths.styles.root))
-    .pipe($.if(isProduction, $.rename({suffix: '.min'})))
-    .pipe($.if(isProduction, $.csso()))
-    .pipe($.sourcemaps.write(paths.maps))
-    .pipe(gulp.dest(paths.dest + paths.styles.root));
-});
-
-// Tâche HTML : includes HTML
-gulp.task('html', function () {
-  return gulp.src(paths.src + paths.html.allFiles)
-    .pipe($.plumber(onError))
-    .pipe($.htmlExtend(project.configuration.htmlExtend))
-    .pipe(gulp.dest(paths.dest));
-});
-
-// Tâche PHP : simple copie des fichiers PHP
-gulp.task('php', function () {
-  return gulp.src(paths.src + paths.php)
-    .pipe(gulp.dest(paths.dest));
-});
-
-// Tâche JS : copie des fichiers JS et vendor + babel (+ concat et uglify si prod)
-gulp.task('js', function () {
-  return gulp.src(vendors)
-    .pipe($.plumber(onError))
-    .pipe($.babel({presets:['es2015','es2016']})) // ,'es2017'
-    .pipe(gulp.dest(paths.dest + paths.scripts.root))
-    .pipe($.if(isProduction, $.concat(project.globalJSFile)))
-    .pipe($.if(isProduction, $.uglify()))
-    .pipe(gulp.dest(paths.dest + paths.scripts.root));
-});
-
-// Tâche IMG : optimisation des images
-gulp.task('img', function () {
-  return gulp.src(paths.src + paths.images)
-    .pipe($.changed(paths.dest + paths.assets))
-    .pipe($.imagemin())
-    .pipe(gulp.dest(paths.dest + paths.assets));
-});
-
-// Tâche SVGSTORE : combine all svg sources into single svg file with <symbol> elements
-gulp.task('svgstore', function () {
-  return gulp.src(paths.src + paths.icons)
-    .pipe($.imagemin(project.configuration.imagemin))
-    .pipe($.svgstore())
-    .pipe(gulp.dest(paths.dest + paths.assets));
-});
-
-// Tâche FONTS : copie des fichiers typographiques
-gulp.task('fonts', function () {
-  return gulp.src(paths.src + paths.fonts + '**/*')
-    .pipe($.changed(paths.dest + paths.fonts))
-    .pipe(gulp.dest(paths.dest + paths.fonts));
-});
-
-// Tâche MISC : copie des fichiers divers
-gulp.task('misc', function () {
-  var dottedFiles = { dot: true };
-  return gulp.src(paths.src + paths.misc, dottedFiles)
-    .pipe($.changed(paths.dest))
-    .pipe(gulp.dest(paths.dest));
-});
-
-
-
-/* ------------------------------------------------
- * Tâches autonomes : styleguide, zip, clean
- * ------------------------------------------------
- */
-
-// Tâche STYLEGUIDE : création automatique d'un guide des styles
-gulp.task('guide', function () {
-  return gulp.src(paths.src + paths.styleguide.files)
-    .pipe($.plumber(onError))
-    .pipe($.styledown({
-      config: paths.src + paths.styleguide.config,
-      filename: 'styleguide.html'
-    }))
-    .pipe(gulp.dest(paths.dest));
-});
-
-// Tâche ZIP : création de fichier .zip du projet
-gulp.task('archive', function () {
-  if(argv.prod) {
-    project.zip.name = 'prod';
-  } else {
-    project.zip.name = 'build';
-  }
-  var now = new Date(),
-      date = now.getFullYear() + '-' + ( now.getMonth() + 1 ) + '-' + now.getDate() + '-' + now.getHours() + 'h' + now.getMinutes(),
-      zipName = project.zip.namespace + '-' + project.name + '-' + project.zip.name + '-' + date + '.zip';
-  return gulp.src(paths.dest + '/**/')
-    .pipe($.zip(zipName))
-    .pipe(gulp.dest(paths.root));
-});
-
-// Tâche CLEAN : supprime les fichiers CSS et JavaScript inutiles en production
-gulp.task('clean', function () {
-  return del([
-    paths.dest + paths.scripts.files, // on supprime tous les fichiers JS de production
-    paths.dest + paths.styles.css.files, // on supprime tous les fichiers CSS de production
-    '!' + paths.dest + paths.scripts.root + project.globalJSFile, // sauf les JS concaténés finaux
-    '!' + paths.dest + paths.styles.root + 'styles.min.css', // sauf les CSS concaténés finaux
-  ]);
-});
-
-/* ----------------------------------
- * Tâches principales : récapitulatif
- * ----------------------------------
- */
-
-// Tâche BUILD : tapez "gulp" ou "gulp build"
-gulp.task('build', ['css', 'js', 'html', 'img', 'svgstore', 'fonts', 'php', 'misc']);
-
-// Tâche PROD : tapez "gulp build --prod"
-
-// Tâche STYLEGUIDE : (tapez "gulp styleguide")
-gulp.task('styleguide', gulpSync.sync(['css', 'guide']));
-
-// Tâche ZIP : (tapez "gulp zip" ou "gulp zip --prod")
-gulp.task('zip', gulpSync.sync(['build', 'archive']));
-
-// Tâche WATCH : surveillance Sass, HTML et PHP
-gulp.task('watch', function () {
-  // si demandé, on créé la configuration du plugin browserSync et on l'initialise
-  if (project.plugins.browserSync.status === true) {
-    var browserSyncConf; // variable contenant la configuration de browserSync
-    if (project.plugins.browserSync.proxyMode === true) {
-      // initialisation du mode proxy si demandé
-      browserSyncConf = {
-        proxy: project.url,
-      };
-    } else {
-      // sinon on initialise le mode standalone
-      browserSyncConf = {
-        server: {
-          baseDir: paths.dest,
-        }
-      };
     }
-    // on initialise le plugin browserSync
-    browserSync.init(browserSyncConf);
-  }
+};
 
-  gulp.watch([paths.src + paths.styles.sass.files], ['css', browserSync.reload]);
-  gulp.watch([paths.src + paths.html.allFiles, paths.src + paths.php], ['html', 'php', browserSync.reload]);
-  gulp.watch([paths.src + paths.scripts.files], ['js', browserSync.reload]);
+// var configs = {
+//     autoprefixer: {
+//       'last 2 version',
+//       'safari 5',
+//       'ie 8',
+//       'ie 9',
+//       'opera 12.1',
+//       'ios 6',
+//       'android 4',
+//       'Firefox >= 4'
+//     }
+// };
+
+var appFiles = {
+  styles: paths.styles.src + '**/*.scss',
+  scripts: [paths.scripts.src + 'scripts.js']
+};
+
+var vendorFiles = {
+  styles: '',
+  scripts: ''
+};
+
+var spriteConfig = {
+  imgName: 'sprite.png',
+  cssName: '_sprite.scss',
+  imgPath: paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
+};
+
+/*
+  Let the magic begin
+*/
+
+var gulp = require('gulp');
+
+var es = require('event-stream');
+var gutil = require('gulp-util');
+
+var plugins = require("gulp-load-plugins")({
+  pattern: ['gulp-*', 'gulp.*'],
+  replaceString: /\bgulp[\-.]/
 });
 
-// Tâche par défaut
-gulp.task('default', ['build']);
+// Uglify a selection of vendor JS sources
+var vendor = require('./vendor.json');
+
+// Allows gulp --dev to be run for a more verbose output
+var isProduction = true;
+var sassStyle = 'compressed';
+var sourceMap = false;
+
+if(gutil.env.dev === true) {
+  sassStyle = 'expanded';
+  sourceMap = true;
+  isProduction = false;
+}
+
+var changeEvent = function(evt) {
+  gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
+};
+
+function doUglify(cfg) {
+  gulp.src(cfg.src)
+    .pipe(plugins.uglify())
+    .pipe(plugins.size())
+    .pipe(gulp.dest(cfg.dest));
+}
+
+gulp.task('css', function(){
+
+  var sassFiles = gulp.src(appFiles.styles)
+  .pipe(plugins.rubySass({
+    style: sassStyle, sourcemap: sourceMap, precision: 2
+  }))
+  .on('error', function(err){
+    new gutil.PluginError('CSS', err, {showStack: true});
+  });
+
+  return es.concat(gulp.src(vendorFiles.styles), sassFiles)
+    .pipe(plugins.concat('style.min.css'))
+    .pipe(plugins.autoprefixer(configs.autoprefixer))
+    .pipe(isProduction ? plugins.combineMediaQueries({
+      log: true
+    }) : gutil.noop())
+    .pipe(isProduction ? plugins.cssmin() : gutil.noop())
+    .pipe(plugins.size())
+    .pipe(gulp.dest(paths.styles.dest));
+});
+
+gulp.task('scripts', function() {
+  // Uglify vendor JS...
+  doUglify(vendor.js);
+  // ...then Uglify custom JS
+  gulp.src(paths.scripts.src + '*.js')
+    .pipe(plugins.uglify())
+    .pipe(plugins.size())
+    .pipe(gulp.dest(paths.scripts.dest));
+});
+
+
+/*
+  Sprite Generator
+*/
+gulp.task('sprite', function () {
+  var spriteData = gulp.src(paths.sprite.src).pipe(plugins.spritesmith({
+    imgName: spriteConfig.imgName,
+    cssName: spriteConfig.cssName,
+    imgPath: spriteConfig.imgPath,
+    cssOpts: {
+      functions: false
+    },
+    cssVarMap: function (sprite) {
+      sprite.name = 'sprite-' + sprite.name;
+    }
+  }));
+  spriteData.img.pipe(gulp.dest(paths.images.dest));
+  spriteData.css.pipe(gulp.dest(paths.styles.src));
+});
+
+gulp.task('watch', ['sprite', 'css', 'scripts'], function(){
+  gulp.watch(appFiles.styles, ['css']).on('change', function(evt) {
+    changeEvent(evt);
+  });
+  gulp.watch(paths.scripts.src + '*.js', ['scripts']).on('change', function(evt) {
+    changeEvent(evt);
+  });
+  gulp.watch(paths.sprite.src, ['sprite']).on('change', function(evt) {
+    changeEvent(evt);
+  });
+});
+
+gulp.task('default', ['css', 'scripts']);
