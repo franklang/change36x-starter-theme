@@ -7,7 +7,9 @@
   *    - [OK] Voir pour un fichier "vendor" qui liste les fichiers vendor à minifier.
   *      => http://gulpjs.org/recipes/using-external-config-file.html
   *      => http://stackoverflow.com/questions/42711164/gulp-watch-not-updating-json-file
-  *    - [NOK] Les modifications dans le fichier "vendor.json" ne sont pas pris en compte par la tache "watch". 
+  *    - [NOK] Les modifications dans le fichier "vendor.json" ne sont pas pris en compte par la tache "watch".
+  *      => https://github.com/jgable/gulp-cache/issues/9
+  *      => http://stackoverflow.com/questions/43111844/gulp-watch-detects-changes-to-external-config-file-but-doesnt-apply-them
   *    - Change possède déjà les fonctionnalités de concaténation des JS.
   * - [OK] Autoprefixer
   * - [NOK] (Sourcemaps?) => http://frontenddeveloper.0fees.net/change-3-xgulp-ajouter-les-sourcemaps-dans-rbs-change/
@@ -63,6 +65,10 @@ var spriteConfig = {
   imgPath: paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
 };
 
+// var autoprefixerConfig = {
+//   browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
+// };
+
 /*
   Let the magic begin
 */
@@ -71,6 +77,7 @@ var gulp = require('gulp');
 
 var es = require('event-stream');
 var gutil = require('gulp-util');
+var cache = require('gulp-cache');
 
 var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
@@ -111,10 +118,13 @@ gulp.task('style', function() {
     .pipe(gulp.dest(paths.styles.dest));    
 });
 
+gulp.task('clear_vendor_cache', function() {
+  gulp.src('./vendor.json')
+    .pipe(cache.clear());
+});
+
 gulp.task('js', function() {
-  // Uglify vendor JS...
-  doUglify(vendor.js);
-  // ...then uglify custom JS
+  // Uglify custom JS...
   gulp.src(paths.scripts.src + '*.js')
     .pipe(plugins.uglify())
     .pipe(plugins.rename(function(opt) {
@@ -123,6 +133,8 @@ gulp.task('js', function() {
     }))    
     .pipe(plugins.size())
     .pipe(gulp.dest(paths.scripts.dest));
+  // ...then uglify vendor JS.
+  doUglify(vendor.js);
 });
 
 
@@ -149,7 +161,7 @@ gulp.task('watch', ['sprite', 'style', 'js'], function(){
   gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
     changeEvent(evt);
   });
-  gulp.watch(appFiles.scripts, ['js']).on('change', function(evt) {
+  gulp.watch(appFiles.scripts, ['clear_vendor_cache', 'js']).on('change', function(evt) {
     changeEvent(evt);
   });
   gulp.watch(paths.sprite.src, ['sprite']).on('change', function(evt) {
