@@ -2,9 +2,11 @@
   * source: https://www.mikestreety.co.uk/blog/advanced-gulp-file
   *
   * - JS:
-  *    - [TODO] rename (pour remplacer les points par des tirets) => https://github.com/hparra/gulp-rename/issues/26
+  *    - [OK] rename (pour remplacer les points par des tirets) => http://stackoverflow.com/questions/2390789/how-to-replace-all-dots-in-a-string-using-javascript
   *    - [OK] minifier
-  *    - [OK] Voir pour un fichier "vendor" qui liste les fichiers vendor à minifier. => http://gulpjs.org/recipes/using-external-config-file.html
+  *    - [OK] Voir pour un fichier "vendor" qui liste les fichiers vendor à minifier.
+  *      => http://gulpjs.org/recipes/using-external-config-file.html
+  *      => http://stackoverflow.com/questions/42711164/gulp-watch-not-updating-json-file
   *    - [NOK] Les modifications dans le fichier "vendor.json" ne sont pas pris en compte par la tache "watch". 
   *    - Change possède déjà les fonctionnalités de concaténation des JS.
   * - [OK] Autoprefixer
@@ -26,8 +28,8 @@ var basePaths = {
 
 var paths = {
     images: {
-        src: basePaths.src + 'images/',
-        dest: basePaths.dest + 'images/'
+        src: basePaths.src + 'image/',
+        dest: basePaths.dest + 'image/'
     },
     scripts: {
         src: basePaths.src + 'js/',
@@ -88,6 +90,10 @@ var changeEvent = function(evt) {
 var doUglify = function(cfg) {
   gulp.src(cfg.src)
     .pipe(plugins.uglify())
+    .pipe(plugins.rename(function(opt) {
+      opt.basename = opt.basename.replace(/\./g,'-');
+      return opt;
+    }))    
     .pipe(plugins.size())
     .pipe(gulp.dest(cfg.dest));
 }
@@ -112,9 +118,9 @@ gulp.task('js', function() {
   gulp.src(paths.scripts.src + '*.js')
     .pipe(plugins.uglify())
     .pipe(plugins.rename(function(opt) {
-      opt.basename = opt.basename.replace(".", "-");
+      opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
-    }))
+    }))    
     .pipe(plugins.size())
     .pipe(gulp.dest(paths.scripts.dest));
 });
