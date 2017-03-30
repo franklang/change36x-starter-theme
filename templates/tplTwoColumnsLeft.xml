@@ -13,6 +13,7 @@
         <change:content id="content-block"/>
       </div>
     </div>
+    <change:templateblock type="modules_website_xhtmltemplate" __template="svgsprite" />
   </change:template>
 
   <change:template content-type="xul" id="tplTwoColumnsLeft">

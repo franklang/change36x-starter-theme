@@ -31,7 +31,13 @@ var basePaths = {
 var paths = {
     images: {
         src: basePaths.src + 'image/',
-        dest: basePaths.dest + 'image/'
+        dest: basePaths.dest + 'image/',
+        sprites: {
+          svg: {
+            src: basePaths.src + 'image/sprites/svg',
+            dest: basePaths.dest + 'image/'
+          }
+        }
     },
     scripts: {
         src: basePaths.src + 'js/',
@@ -84,9 +90,6 @@ var plugins = require("gulp-load-plugins")({
   replaceString: /\bgulp[\-.]/
 });
 
-// Uglify a selection of vendor JS sources
-var vendor = require('./vendor.json');
-
 // Allows gulp --dev to be run for a more verbose output
 var sassStyle = 'compressed';
 
@@ -104,6 +107,23 @@ var doUglify = function(cfg) {
     .pipe(plugins.size())
     .pipe(gulp.dest(cfg.dest));
 }
+
+gulp.task('sprite:svg', function () {
+  return gulp.src('./src/image/sprites/svg/*.svg')
+    .pipe(plugins.svgmin())
+    .pipe(plugins.svgstore({
+      inlineSvg: true
+    }))
+    .pipe(plugins.cheerio({
+      run: function ($, file) {
+          $('svg').css('display', 'none')
+          $('[fill]').removeAttr('fill')
+      },
+      parserOptions: { xmlMode: true }
+    }))
+    .pipe(plugins.rename('Website-Block-Xhtmltemplate-Svgsprite.all.all.html'))
+    .pipe(gulp.dest('./modules/website/templates/'));
+});
 
 gulp.task('style', function() {
   gulp.src(paths.styles.src + '*.scss')
@@ -133,7 +153,9 @@ gulp.task('js', function() {
     }))    
     .pipe(plugins.size())
     .pipe(gulp.dest(paths.scripts.dest));
+
   // ...then uglify vendor JS.
+  var vendor = require('./vendor.json');
   doUglify(vendor.js);
 });
 
@@ -157,7 +179,8 @@ gulp.task('sprite', function () {
   spriteData.css.pipe(gulp.dest(paths.styles.src));
 });
 
-gulp.task('watch', ['sprite', 'style', 'js'], function(){
+gulp.task('watch', ['sprite:svg', 'sprite', 'style', 'js'], function(){
+  gulp.watch('./src/images/sprites/svg/*.svg', ['sprite:svg']);
   gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
     changeEvent(evt);
   });
