@@ -18,7 +18,7 @@
   * - [TODO] LESS: => CSS
   *    - Change possède déjà les fonctionnalités de minification des CSS.
   * - JPG, GIF, PNG: => compression, (sprite?)
-  * - SVG: => compression, sprite, (police d'icônes?)
+  * - [OK] SVG: => compression, sprite, (police d'icônes?)
   * - FONT: => un simple déplacement des fichiers source.
   */
 
@@ -60,10 +60,10 @@ var appFiles = {
   scripts: [paths.scripts.src + '*.js', './vendor.json']
 };
 
-var vendorFiles = {
-  styles: '',
-  scripts: ''
-};
+// var vendorFiles = {
+//   styles: '',
+//   scripts: ''
+// };
 
 var spriteConfig = {
   imgName: 'sprite.png',
