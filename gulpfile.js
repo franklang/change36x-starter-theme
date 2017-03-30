@@ -159,6 +159,12 @@ gulp.task('js', function() {
   doUglify(vendor.js);
 });
 
+// Tâche IMG : optimisation des images
+gulp.task('image', function () {
+  return gulp.src(paths.images.src + '*.{png,jpg,jpeg,gif}')
+    .pipe(plugins.imagemin())
+    .pipe(gulp.dest(paths.images.dest));
+});
 
 /*
   Sprite Generator
