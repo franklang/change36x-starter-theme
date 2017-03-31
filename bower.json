@@ -13,8 +13,5 @@
     "src/vendor",
     "test",
     "tests"
-  ],
-  "devDependencies": {
-    "browser-detection": "jquery-browser-detection#^0.3.3"
-  }
+  ]
 }

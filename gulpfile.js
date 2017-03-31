@@ -123,7 +123,7 @@ gulp.task('js:custom', function() {
     .pipe(gulp.dest(paths.scripts.dest));
 });
 
-gulp.task('sprite:svg', function () {
+gulp.task('svg:sprite', function () {
   return gulp.src('./src/image/sprites/svg/*.svg')
     .pipe(plugins.svgmin())
     .pipe(plugins.svgstore({
@@ -162,33 +162,33 @@ gulp.task('image', function () {
 /*
   Sprite Generator
 */
-gulp.task('sprite', function () {
-  var spriteData = gulp.src(paths.sprite.src).pipe(plugins.spritesmith({
-    imgName: spriteConfig.imgName,
-    cssName: spriteConfig.cssName,
-    imgPath: spriteConfig.imgPath,
-    cssOpts: {
-      functions: false
-    },
-    cssVarMap: function (sprite) {
-      sprite.name = 'sprite-' + sprite.name;
-    }
-  }));
-  spriteData.img.pipe(gulp.dest(paths.images.dest));
-  spriteData.css.pipe(gulp.dest(paths.styles.src));
-});
+// gulp.task('sprite', function () {
+//   var spriteData = gulp.src(paths.sprite.src).pipe(plugins.spritesmith({
+//     imgName: spriteConfig.imgName,
+//     cssName: spriteConfig.cssName,
+//     imgPath: spriteConfig.imgPath,
+//     cssOpts: {
+//       functions: false
+//     },
+//     cssVarMap: function (sprite) {
+//       sprite.name = 'sprite-' + sprite.name;
+//     }
+//   }));
+//   spriteData.img.pipe(gulp.dest(paths.images.dest));
+//   spriteData.css.pipe(gulp.dest(paths.styles.src));
+// });
 
-gulp.task('watch', ['sprite:svg', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
-  gulp.watch('./src/images/sprites/svg/*.svg', ['sprite:svg']);
+gulp.task('watch', ['svg:sprite', 'style', 'js:vendor', 'js:custom'], function(){
+  gulp.watch('./src/images/sprites/svg/*.svg', ['svg:sprite']);
   gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
     changeEvent(evt);
   });
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
     changeEvent(evt);
   });
-  gulp.watch(paths.sprite.src, ['sprite']).on('change', function(evt) {
-    changeEvent(evt);
-  });
+  // gulp.watch(paths.sprite.src, ['sprite']).on('change', function(evt) {
+  //   changeEvent(evt);
+  // });
 });
 
 gulp.task('default', ['style', 'js']);
