@@ -7,9 +7,10 @@
   *    - [OK] Voir pour un fichier "vendor" qui liste les fichiers vendor à minifier.
   *      => http://gulpjs.org/recipes/using-external-config-file.html
   *      => http://stackoverflow.com/questions/42711164/gulp-watch-not-updating-json-file
-  *    - [NOK] Les modifications dans le fichier "vendor.json" ne sont pas pris en compte par la tache "watch".
+  *    - [OK] Les modifications dans le fichier "gulpconf.json" ne sont pas pris en compte par la tache "watch".
   *      => https://github.com/jgable/gulp-cache/issues/9
   *      => http://stackoverflow.com/questions/43111844/gulp-watch-detects-changes-to-external-config-file-but-doesnt-apply-them
+  *      => http://blog.codesupport.info/gulp-minify-concat-javascript/
   *    - Change possède déjà les fonctionnalités de concaténation des JS.
   * - [OK] Autoprefixer
   * - [NOK] (Sourcemaps?) => http://frontenddeveloper.0fees.net/change-3-xgulp-ajouter-les-sourcemaps-dans-rbs-change/
@@ -57,7 +58,7 @@ var paths = {
 
 var appFiles = {
   styles: paths.styles.src + '**/*.scss',
-  scripts: [paths.scripts.src + '*.js', './vendor.json']
+  scripts: [paths.scripts.src + '*.js', './gulpconf.json']
 };
 
 // var vendorFiles = {
@@ -83,12 +84,14 @@ var gulp = require('gulp');
 
 var es = require('event-stream');
 var gutil = require('gulp-util');
-var cache = require('gulp-cache');
 
 var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
 });
+
+var fs = require('fs');
+var gulpconf = "./gulpconf.json";
 
 // Allows gulp --dev to be run for a more verbose output
 var sassStyle = 'compressed';
@@ -97,16 +100,30 @@ var changeEvent = function(evt) {
   gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
 };
 
-var doUglify = function(cfg) {
-  gulp.src(cfg.src)
+gulp.task('js:vendor',function(){
+  var json = JSON.parse(fs.readFileSync(gulpconf)),
+  vendorjs = json.js.vendor;
+
+  gulp.src(vendorjs)
     .pipe(plugins.uglify())
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
     }))    
     .pipe(plugins.size())
-    .pipe(gulp.dest(cfg.dest));
-}
+    .pipe(gulp.dest(paths.scripts.dest));
+});
+
+gulp.task('js:custom', function() {
+  gulp.src(paths.scripts.src + '*.js')
+    .pipe(plugins.uglify())
+    .pipe(plugins.rename(function(opt) {
+      opt.basename = opt.basename.replace(/\./g,'-');
+      return opt;
+    }))    
+    .pipe(plugins.size())
+    .pipe(gulp.dest(paths.scripts.dest));
+});
 
 gulp.task('sprite:svg', function () {
   return gulp.src('./src/image/sprites/svg/*.svg')
@@ -138,27 +155,6 @@ gulp.task('style', function() {
     .pipe(gulp.dest(paths.styles.dest));    
 });
 
-gulp.task('clear_vendor_cache', function() {
-  gulp.src('./vendor.json')
-    .pipe(cache.clear());
-});
-
-gulp.task('js', function() {
-  // Uglify custom JS...
-  gulp.src(paths.scripts.src + '*.js')
-    .pipe(plugins.uglify())
-    .pipe(plugins.rename(function(opt) {
-      opt.basename = opt.basename.replace(/\./g,'-');
-      return opt;
-    }))    
-    .pipe(plugins.size())
-    .pipe(gulp.dest(paths.scripts.dest));
-
-  // ...then uglify vendor JS.
-  var vendor = require('./vendor.json');
-  doUglify(vendor.js);
-});
-
 // Tâche IMG : optimisation des images
 gulp.task('image', function () {
   return gulp.src(paths.images.src + '*.{png,jpg,jpeg,gif}')
@@ -185,12 +181,12 @@ gulp.task('sprite', function () {
   spriteData.css.pipe(gulp.dest(paths.styles.src));
 });
 
-gulp.task('watch', ['sprite:svg', 'sprite', 'style', 'js'], function(){
+gulp.task('watch', ['sprite:svg', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
   gulp.watch('./src/images/sprites/svg/*.svg', ['sprite:svg']);
   gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
     changeEvent(evt);
   });
-  gulp.watch(appFiles.scripts, ['clear_vendor_cache', 'js']).on('change', function(evt) {
+  gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
     changeEvent(evt);
   });
   gulp.watch(paths.sprite.src, ['sprite']).on('change', function(evt) {

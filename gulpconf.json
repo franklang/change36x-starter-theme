@@ -1,0 +1,14 @@
+{
+  "js" : {
+    "vendor" : [
+      "./src/vendor/browser-detection/src/browser-detection.js",
+      "./src/vendor/foundation/js/foundation.js",
+      "./src/vendor/modernizr/lib/metadata.js",
+      "./src/vendor/jquery-mobile/js/events/navigate.js",
+      "./src/vendor/jquery-mobile/js/events/touch.js",
+      "./src/vendor/jquery-ui/ui/jquery.ui.autocomplete.js",
+      "./src/vendor/jquery-ui/ui/jquery.ui.effect-clip.js",
+      "./src/vendor/jquery-ui/ui/jquery.ui.effect-bounce.js"
+    ]
+  }
+}
