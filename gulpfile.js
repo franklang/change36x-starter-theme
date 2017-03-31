@@ -110,7 +110,6 @@ gulp.task('js:vendor',function(){
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
     }))    
-    .pipe(plugins.size())
     .pipe(gulp.dest(paths.scripts.dest));
 });
 
@@ -121,7 +120,6 @@ gulp.task('js:custom', function() {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
     }))    
-    .pipe(plugins.size())
     .pipe(gulp.dest(paths.scripts.dest));
 });
 
@@ -151,7 +149,6 @@ gulp.task('style', function() {
       new gutil.PluginError('CSS', err, {showStack: true});
     })
     .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(plugins.size())
     .pipe(gulp.dest(paths.styles.dest));    
 });
 
