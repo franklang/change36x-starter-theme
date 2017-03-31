@@ -1,3 +1,0 @@
-;(function ($, window, undefined){
-  // code here...
-}(jQuery, window));
