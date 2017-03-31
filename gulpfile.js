@@ -14,13 +14,13 @@
   *    - Change possède déjà les fonctionnalités de concaténation des JS.
   * - [OK] Autoprefixer
   * - [NOK] (Sourcemaps?) => http://frontenddeveloper.0fees.net/change-3-xgulp-ajouter-les-sourcemaps-dans-rbs-change/
-  * - CSS: => un simple déplacement des fichiers source.
+  * - [TODO] CSS: => un simple déplacement des fichiers source.
   * - [OK] SASS: => CSS
   * - [TODO] LESS: => CSS
   *    - Change possède déjà les fonctionnalités de minification des CSS.
-  * - JPG, GIF, PNG: => compression, (sprite?)
+  * - [OK] JPG, GIF, PNG: => compression, (sprite?)
   * - [OK] SVG: => compression, sprite, (police d'icônes?)
-  * - FONT: => un simple déplacement des fichiers source.
+  * - [TODO] FONT: => un simple déplacement des fichiers source.
   */
 
 var basePaths = {
