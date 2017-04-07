@@ -14,67 +14,16 @@
   *    - Change possède déjà les fonctionnalités de concaténation des JS.
   * - [OK] Autoprefixer
   * - [NOK] (Sourcemaps?) => http://frontenddeveloper.0fees.net/change-3-xgulp-ajouter-les-sourcemaps-dans-rbs-change/
-  * - [TODO] CSS: => un simple déplacement des fichiers source.
+  * - CSS: => un simple déplacement des fichiers source.
   * - [OK] SASS: => CSS
   * - [TODO] LESS: => CSS
   *    - Change possède déjà les fonctionnalités de minification des CSS.
-  * - [OK] JPG, GIF, PNG: => compression, (sprite?)
+  * - JPG, GIF, PNG: => compression, (sprite?)
   * - [OK] SVG: => compression, sprite, (police d'icônes?)
-  * - [TODO] FONT: => un simple déplacement des fichiers source.
+  * - FONT: => un simple déplacement des fichiers source.
   */
 
-var basePaths = {
-    src: './src/',
-    dest: './',
-    bower: 'src/vendor'
-};
 
-var paths = {
-    images: {
-        src: basePaths.src + 'image/',
-        dest: basePaths.dest + 'image/',
-        sprites: {
-          svg: {
-            src: basePaths.src + 'image/sprites/svg',
-            dest: basePaths.dest + 'image/'
-          }
-        }
-    },
-    scripts: {
-        src: basePaths.src + 'js/',
-        dest: basePaths.dest + 'js/'
-    },
-    styles: {
-        src: basePaths.src + 'style/',
-        dest: basePaths.dest + 'style/'
-    },
-    sprite: {
-        src: basePaths.src + 'sprite/*'
-    },
-    fonts: {
-
-    }
-};
-
-var appFiles = {
-  styles: paths.styles.src + '**/*.scss',
-  scripts: [paths.scripts.src + '*.js', './gulpconf.json']
-};
-
-// var vendorFiles = {
-//   styles: '',
-//   scripts: ''
-// };
-
-var spriteConfig = {
-  imgName: 'sprite.png',
-  cssName: '_sprite.scss',
-  imgPath: paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
-};
-
-// var autoprefixerConfig = {
-//   browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
-// };
 
 /*
   Let the magic begin
@@ -92,13 +41,34 @@ var plugins = require("gulp-load-plugins")({
 
 var fs = require('fs');
 var gulpconf = "./gulpconf.json";
+var config = require('./gulpconf.json');
 
 // Allows gulp --dev to be run for a more verbose output
 var sassStyle = 'compressed';
 
 var changeEvent = function(evt) {
-  gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
+  gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + config.basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
 };
+
+var appFiles = {
+  styles: config.paths.styles.src + '**/*.scss',
+  scripts: [config.paths.scripts.src + '*.js', './gulpconf.json']
+};
+
+// var vendorFiles = {
+//   styles: '',
+//   scripts: ''
+// };
+
+var spriteConfig = {
+  imgName: 'sprite.png',
+  cssName: '_sprite.scss',
+  imgPath: config.paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
+};
+
+// var autoprefixerConfig = {
+//   browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
+// };
 
 gulp.task('js:vendor',function(){
   var json = JSON.parse(fs.readFileSync(gulpconf)),
@@ -110,20 +80,20 @@ gulp.task('js:vendor',function(){
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
     }))    
-    .pipe(gulp.dest(paths.scripts.dest));
+    .pipe(gulp.dest(config.paths.scripts.dest));
 });
 
 gulp.task('js:custom', function() {
-  gulp.src(paths.scripts.src + '*.js')
+  gulp.src(config.paths.scripts.src + '*.js')
     .pipe(plugins.uglify())
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
     }))    
-    .pipe(gulp.dest(paths.scripts.dest));
+    .pipe(gulp.dest(config.paths.scripts.dest));
 });
 
-gulp.task('svg:sprite', function () {
+gulp.task('sprite:svg', function () {
   return gulp.src('./src/image/sprites/svg/*.svg')
     .pipe(plugins.svgmin())
     .pipe(plugins.svgstore({
@@ -141,7 +111,7 @@ gulp.task('svg:sprite', function () {
 });
 
 gulp.task('style', function() {
-  gulp.src(paths.styles.src + '*.scss')
+  gulp.src(config.paths.styles.src + '*.scss')
     .pipe(plugins.rubySass({
       style: sassStyle, precision: 2
     }))
@@ -149,46 +119,46 @@ gulp.task('style', function() {
       new gutil.PluginError('CSS', err, {showStack: true});
     })
     .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest(paths.styles.dest));    
+    .pipe(gulp.dest(config.paths.styles.dest));    
 });
 
 // Tâche IMG : optimisation des images
 gulp.task('image', function () {
-  return gulp.src(paths.images.src + '*.{png,jpg,jpeg,gif}')
+  return gulp.src(config.paths.images.src + '*.{png,jpg,jpeg,gif}')
     .pipe(plugins.imagemin())
-    .pipe(gulp.dest(paths.images.dest));
+    .pipe(gulp.dest(config.paths.images.dest));
 });
 
 /*
   Sprite Generator
 */
-// gulp.task('sprite', function () {
-//   var spriteData = gulp.src(paths.sprite.src).pipe(plugins.spritesmith({
-//     imgName: spriteConfig.imgName,
-//     cssName: spriteConfig.cssName,
-//     imgPath: spriteConfig.imgPath,
-//     cssOpts: {
-//       functions: false
-//     },
-//     cssVarMap: function (sprite) {
-//       sprite.name = 'sprite-' + sprite.name;
-//     }
-//   }));
-//   spriteData.img.pipe(gulp.dest(paths.images.dest));
-//   spriteData.css.pipe(gulp.dest(paths.styles.src));
-// });
+gulp.task('sprite', function () {
+  var spriteData = gulp.src(config.paths.sprite.src).pipe(plugins.spritesmith({
+    imgName: spriteConfig.imgName,
+    cssName: spriteConfig.cssName,
+    imgPath: spriteConfig.imgPath,
+    cssOpts: {
+      functions: false
+    },
+    cssVarMap: function (sprite) {
+      sprite.name = 'sprite-' + sprite.name;
+    }
+  }));
+  spriteData.img.pipe(gulp.dest(config.paths.images.dest));
+  spriteData.css.pipe(gulp.dest(config.paths.styles.src));
+});
 
-gulp.task('watch', ['svg:sprite', 'style', 'js:vendor', 'js:custom'], function(){
-  gulp.watch('./src/images/sprites/svg/*.svg', ['svg:sprite']);
+gulp.task('watch', ['sprite:svg', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
+  gulp.watch('./src/images/sprites/svg/*.svg', ['sprite:svg']);
   gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
     changeEvent(evt);
   });
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
     changeEvent(evt);
   });
-  // gulp.watch(paths.sprite.src, ['sprite']).on('change', function(evt) {
-  //   changeEvent(evt);
-  // });
+  gulp.watch(config.paths.sprite.src, ['sprite']).on('change', function(evt) {
+    changeEvent(evt);
+  });
 });
 
 gulp.task('default', ['style', 'js']);

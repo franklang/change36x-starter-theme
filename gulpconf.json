@@ -1,4 +1,32 @@
 {
+  "basePaths" : {
+    "src": "./src",
+    "dest": "./"
+  },
+  "paths" : {
+    "images" : {
+      "src": "./src/image/",
+      "dest": "./image/",
+      "sprites" : {
+        "svg" : {
+          "src": "./src/image/sprite/svg/",
+          "dest": "./image/"
+        }
+      }
+    },
+    "scripts" : {
+        "src": "./src/js/",
+        "dest": "./js/"
+    },
+    "styles" : {
+        "src": "./src/style/",
+        "dest": "./style/"
+    },
+    "sprite" : {
+        "src": "./src/sprite/*"
+    },
+    "fonts" : {}
+  },  
   "js" : {
     "vendor" : [
       "./src/vendor/browser-detection/src/browser-detection.js",
@@ -6,9 +34,7 @@
       "./src/vendor/modernizr/lib/metadata.js",
       "./src/vendor/jquery-mobile/js/events/navigate.js",
       "./src/vendor/jquery-mobile/js/events/touch.js",
-      "./src/vendor/jquery-ui/ui/jquery.ui.autocomplete.js",
-      "./src/vendor/jquery-ui/ui/jquery.ui.effect-clip.js",
-      "./src/vendor/jquery-ui/ui/jquery.ui.effect-bounce.js"
+      "./src/vendor/jquery-mobile/js/jquery.mobile.events.js"
     ]
   }
 }
