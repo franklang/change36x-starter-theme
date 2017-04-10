@@ -1,21 +1,7 @@
 /**
   * source: https://www.mikestreety.co.uk/blog/advanced-gulp-file
   *
-  * - JS:
-  *    - [OK] rename (pour remplacer les points par des tirets) => http://stackoverflow.com/questions/2390789/how-to-replace-all-dots-in-a-string-using-javascript
-  *    - [OK] minifier
-  *    - [OK] Voir pour un fichier "vendor" qui liste les fichiers vendor à minifier.
-  *      => http://gulpjs.org/recipes/using-external-config-file.html
-  *      => http://stackoverflow.com/questions/42711164/gulp-watch-not-updating-json-file
-  *    - [OK] Les modifications dans le fichier "gulpconf.json" ne sont pas pris en compte par la tache "watch".
-  *      => https://github.com/jgable/gulp-cache/issues/9
-  *      => http://stackoverflow.com/questions/43111844/gulp-watch-detects-changes-to-external-config-file-but-doesnt-apply-them
-  *      => http://blog.codesupport.info/gulp-minify-concat-javascript/
-  *    - Change possède déjà les fonctionnalités de concaténation des JS.
-  * - [OK] Autoprefixer
-  * - [NOK] (Sourcemaps?) => http://frontenddeveloper.0fees.net/change-3-xgulp-ajouter-les-sourcemaps-dans-rbs-change/
   * - CSS: => un simple déplacement des fichiers source.
-  * - [OK] SASS: => CSS
   * - [TODO] LESS: => CSS
   *    - Change possède déjà les fonctionnalités de minification des CSS.
   * - JPG, GIF, PNG: => compression, (sprite?)
@@ -38,6 +24,8 @@ var plugins = require("gulp-load-plugins")({
   replaceString: /\bgulp[\-.]/
 });
 
+var watch = require('gulp-watch');
+
 var fs = require('fs');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
@@ -51,22 +39,15 @@ var changeEvent = function(evt) {
 
 var appFiles = {
   styles: config.paths.styles.src + '**/*.scss',
-  scripts: [config.paths.scripts.src + '*.js', './gulpconf.json']
+  scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
+  svgSprite: config.paths.images.sprite.svg.src + '*.svg',
+  images: config.paths.images.src + config.plugins.imagemin.formats
 };
-
-// var vendorFiles = {
-//   styles: '',
-//   scripts: ''
-// };
 
 // var spriteConfig = {
 //   imgName: 'sprite.png',
 //   cssName: '_sprite.scss',
 //   imgPath: config.paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
-// };
-
-// var autoprefixerConfig = {
-//   browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
 // };
 
 gulp.task('js:vendor',function(){
@@ -123,9 +104,11 @@ gulp.task('style', function() {
 
 // Tâche IMG : optimisation des images
 gulp.task('image', function () {
-  return gulp.src(config.paths.images.src + '*.{png,jpg,jpeg,gif}')
-    .pipe(plugins.imagemin())
-    .pipe(gulp.dest(config.paths.images.dest));
+  return watch(config.paths.images.src + config.plugins.imagemin.formats, function() {
+    gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
+      .pipe(plugins.imagemin())
+      .pipe(gulp.dest(config.paths.images.dest));
+    });
 });
 
 /*
@@ -148,12 +131,17 @@ gulp.task('image', function () {
 // });
 
 // gulp.task('watch', ['svg:sprite', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
-gulp.task('watch', ['svg:sprite', 'style', 'js:vendor', 'js:custom'], function(){
-  gulp.watch(config.paths.images.sprite.svg.src + '*.svg', ['svg:sprite']);
+gulp.task('watch', ['style', 'js:vendor', 'js:custom', 'svg:sprite', 'image'], function(){
   gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
-    changeEvent(evt);
+    changeEvent(evt);   
   });
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
+    changeEvent(evt);
+  });
+  gulp.watch(appFiles.svgSprite, ['svg:sprite']).on('change', function(evt) {
+    changeEvent(evt);
+  });
+  gulp.watch(appFiles.images, ['image']).on('change', function(evt) {
     changeEvent(evt);
   });
   // gulp.watch(config.paths.sprite.src, ['sprite']).on('change', function(evt) {
