@@ -59,11 +59,11 @@ var appFiles = {
 //   scripts: ''
 // };
 
-var spriteConfig = {
-  imgName: 'sprite.png',
-  cssName: '_sprite.scss',
-  imgPath: config.paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
-};
+// var spriteConfig = {
+//   imgName: 'sprite.png',
+//   cssName: '_sprite.scss',
+//   imgPath: config.paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
+// };
 
 // var autoprefixerConfig = {
 //   browsers: ['last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4']
@@ -92,8 +92,8 @@ gulp.task('js:custom', function() {
     .pipe(gulp.dest(config.paths.scripts.dest));
 });
 
-gulp.task('sprite:svg', function () {
-  return gulp.src('./src/image/sprites/svg/*.svg')
+gulp.task('svg:sprite', function () {
+  return gulp.src(config.paths.images.sprite.svg.src + '*.svg')
     .pipe(plugins.svgmin())
     .pipe(plugins.svgstore({
       inlineSvg: true
@@ -105,8 +105,8 @@ gulp.task('sprite:svg', function () {
       },
       parserOptions: { xmlMode: true }
     }))
-    .pipe(plugins.rename('Website-Block-Xhtmltemplate-Svgsprite.all.all.html'))
-    .pipe(gulp.dest('./modules/website/templates/'));
+    .pipe(plugins.rename(config.paths.images.sprite.svg.output))
+    .pipe(gulp.dest(config.paths.images.sprite.svg.dest));
 });
 
 gulp.task('style', function() {
@@ -131,33 +131,34 @@ gulp.task('image', function () {
 /*
   Sprite Generator
 */
-gulp.task('sprite', function () {
-  var spriteData = gulp.src(config.paths.sprite.src).pipe(plugins.spritesmith({
-    imgName: spriteConfig.imgName,
-    cssName: spriteConfig.cssName,
-    imgPath: spriteConfig.imgPath,
-    cssOpts: {
-      functions: false
-    },
-    cssVarMap: function (sprite) {
-      sprite.name = 'sprite-' + sprite.name;
-    }
-  }));
-  spriteData.img.pipe(gulp.dest(config.paths.images.dest));
-  spriteData.css.pipe(gulp.dest(config.paths.styles.src));
-});
+// gulp.task('sprite', function () {
+//   var spriteData = gulp.src(config.paths.sprite.src).pipe(plugins.spritesmith({
+//     imgName: spriteConfig.imgName,
+//     cssName: spriteConfig.cssName,
+//     imgPath: spriteConfig.imgPath,
+//     cssOpts: {
+//       functions: false
+//     },
+//     cssVarMap: function (sprite) {
+//       sprite.name = 'sprite-' + sprite.name;
+//     }
+//   }));
+//   spriteData.img.pipe(gulp.dest(config.paths.images.dest));
+//   spriteData.css.pipe(gulp.dest(config.paths.styles.src));
+// });
 
-gulp.task('watch', ['sprite:svg', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
-  gulp.watch('./src/images/sprites/svg/*.svg', ['sprite:svg']);
+// gulp.task('watch', ['svg:sprite', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
+gulp.task('watch', ['svg:sprite', 'style', 'js:vendor', 'js:custom'], function(){
+  gulp.watch(config.paths.images.sprite.svg.src + '*.svg', ['svg:sprite']);
   gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
     changeEvent(evt);
   });
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
     changeEvent(evt);
   });
-  gulp.watch(config.paths.sprite.src, ['sprite']).on('change', function(evt) {
-    changeEvent(evt);
-  });
+  // gulp.watch(config.paths.sprite.src, ['sprite']).on('change', function(evt) {
+  //   changeEvent(evt);
+  // });
 });
 
 gulp.task('default', ['style', 'js']);

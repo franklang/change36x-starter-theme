@@ -7,10 +7,11 @@
     "images" : {
       "src": "./src/image/",
       "dest": "./image/",
-      "sprites" : {
+      "sprite" : {
         "svg" : {
           "src": "./src/image/sprite/svg/",
-          "dest": "./image/"
+          "output": "Website-Block-Xhtmltemplate-Svgsprite.all.all.html",
+          "dest": "./modules/website/templates/"
         }
       }
     },
