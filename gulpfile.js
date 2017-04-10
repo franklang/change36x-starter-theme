@@ -64,13 +64,15 @@ gulp.task('js:vendor',function(){
 });
 
 gulp.task('js:custom', function() {
-  gulp.src(config.paths.scripts.src + '*.js')
-    .pipe(plugins.uglify())
-    .pipe(plugins.rename(function(opt) {
-      opt.basename = opt.basename.replace(/\./g,'-');
-      return opt;
-    }))    
-    .pipe(gulp.dest(config.paths.scripts.dest));
+  return watch(config.paths.scripts.src + '*.js', function(){
+    gulp.src(config.paths.scripts.src + '*.js')
+      .pipe(plugins.uglify())
+      .pipe(plugins.rename(function(opt) {
+        opt.basename = opt.basename.replace(/\./g,'-');
+        return opt;
+      }))    
+      .pipe(gulp.dest(config.paths.scripts.dest));
+  });
 });
 
 gulp.task('svg:sprite', function () {
