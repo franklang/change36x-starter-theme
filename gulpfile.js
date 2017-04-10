@@ -74,24 +74,26 @@ gulp.task('js:custom', function() {
 });
 
 gulp.task('svg:sprite', function () {
-  return gulp.src(config.paths.images.sprite.svg.src + '*.svg')
-    .pipe(plugins.svgmin())
-    .pipe(plugins.svgstore({
-      inlineSvg: true
-    }))
-    .pipe(plugins.cheerio({
-      run: function ($, file) {
-          $('svg').css('display', 'none')
-          $('[fill]').removeAttr('fill')
-      },
-      parserOptions: { xmlMode: true }
-    }))
-    .pipe(plugins.rename(config.paths.images.sprite.svg.output))
-    .pipe(gulp.dest(config.paths.images.sprite.svg.dest));
+  return watch(config.paths.images.sprite.svg.src + '*.svg', function(){
+    gulp.src(config.paths.images.sprite.svg.src + '*.svg')
+      .pipe(plugins.svgmin())
+      .pipe(plugins.svgstore({
+        inlineSvg: true
+      }))
+      .pipe(plugins.cheerio({
+        run: function ($, file) {
+            $('svg').css('display', 'none')
+            $('[fill]').removeAttr('fill')
+        },
+        parserOptions: { xmlMode: true }
+      }))
+      .pipe(plugins.rename(config.paths.images.sprite.svg.output))
+      .pipe(gulp.dest(config.paths.images.sprite.svg.dest));
+  });
 });
 
 gulp.task('style', function() {
-  gulp.src(config.paths.styles.src + '*.scss')
+  gulp.src(config.paths.styles.src + '**/*.scss')
     .pipe(plugins.rubySass({
       style: sassStyle, precision: 2
     }))
@@ -108,7 +110,7 @@ gulp.task('image', function () {
     gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
       .pipe(plugins.imagemin())
       .pipe(gulp.dest(config.paths.images.dest));
-    });
+  });
 });
 
 /*
