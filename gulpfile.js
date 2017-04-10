@@ -95,15 +95,17 @@ gulp.task('svg:sprite', function () {
 });
 
 gulp.task('style', function() {
-  gulp.src(config.paths.styles.src + '**/*.scss')
-    .pipe(plugins.rubySass({
-      style: sassStyle, precision: 2
-    }))
-    .on('error', function(err){
-      new gutil.PluginError('CSS', err, {showStack: true});
-    })
-    .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
-    .pipe(gulp.dest(config.paths.styles.dest));    
+  return watch(config.paths.styles.src + '**/*.scss', function(){
+    gulp.src(config.paths.styles.src + '**/*.scss')
+      .pipe(plugins.rubySass({
+        style: sassStyle, precision: 2
+      }))
+      .on('error', function(err){
+        new gutil.PluginError('CSS', err, {showStack: true});
+      })
+      .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
+      .pipe(gulp.dest(config.paths.styles.dest));
+  });
 });
 
 // Tâche IMG : optimisation des images
