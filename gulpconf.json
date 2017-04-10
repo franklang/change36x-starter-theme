@@ -1,35 +1,40 @@
 {
-  "basePaths" : {
+  "basePaths": {
     "src": "./src",
     "dest": "./"
   },
-  "paths" : {
-    "images" : {
+  "paths": {
+    "images": {
       "src": "./src/image/",
       "dest": "./image/",
-      "sprite" : {
-        "svg" : {
+      "sprite": {
+        "svg": {
           "src": "./src/image/sprite/svg/",
           "output": "Website-Block-Xhtmltemplate-Svgsprite.all.all.html",
           "dest": "./modules/website/templates/"
         }
       }
     },
-    "scripts" : {
+    "scripts": {
         "src": "./src/js/",
         "dest": "./js/"
     },
-    "styles" : {
+    "styles": {
         "src": "./src/style/",
         "dest": "./style/"
     },
-    "sprite" : {
+    "sprite": {
         "src": "./src/sprite/*"
     },
-    "fonts" : {}
-  },  
-  "js" : {
-    "vendor" : [
+    "fonts": {}
+  },
+  "plugins": {
+    "autoprefixer": {
+      "browsers": ["last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"]
+    }
+  }, 
+  "js": {
+    "vendor": [
       "./src/vendor/browser-detection/src/browser-detection.js",
       "./src/vendor/foundation/js/foundation.js",
       "./src/vendor/modernizr/lib/metadata.js",

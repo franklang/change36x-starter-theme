@@ -117,7 +117,7 @@ gulp.task('style', function() {
     .on('error', function(err){
       new gutil.PluginError('CSS', err, {showStack: true});
     })
-    .pipe(plugins.autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+    .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
     .pipe(gulp.dest(config.paths.styles.dest));    
 });
 
