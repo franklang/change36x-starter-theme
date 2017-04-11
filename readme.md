@@ -11,7 +11,7 @@ Requirements
 Theme initialization and update
 -------------------------------
 
-Whenever you've just grabbed this starter bundle from GitHub and want to start a fresh theme development or just ran a `git pull` to get last code updates from your team, **always do the following** to make sure you have an up-to-date list of installed dependencies and packages :
+Whenever you've just grabbed this starter bundle from GitHub and want to start a fresh theme development or just ran a `git pull` to get latest code updates from your team, **always do the following** to make sure you have an up-to-date list of installed dependencies and packages :
 
 * Run `bower install` to get or update theme front-end dependencies list
 * Run `npm install` to get or update NodeJS packages list (essentially Gulp plugins)
@@ -77,8 +77,8 @@ Simply store your custom JS within the *./src/js/* folder and use [Change native
 Put your SVG source files within the *./src/image/sprite/svg/* folder. Then run `gulp svg:sprite` to generate the *./modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.
 
 
-List of available Gulp task
----------------------------
+List of available Gulp tasks
+----------------------------
 
 * `gulp style` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
