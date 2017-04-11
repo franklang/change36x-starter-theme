@@ -13,5 +13,9 @@
     "src/vendor",
     "test",
     "tests"
-  ]
+  ],
+  "devDependencies": {
+    "BrowserDetection": "browser-detection#^2.0.0",
+    "modernizr": "^3.3.1"
+  }
 }
