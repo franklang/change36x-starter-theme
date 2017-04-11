@@ -37,13 +37,6 @@ var changeEvent = function(evt) {
   gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + config.basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
 };
 
-var appFiles = {
-  styles: config.paths.styles.src + '**/*.scss',
-  scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
-  svgSprite: config.paths.images.sprite.svg.src + '*.svg',
-  images: config.paths.images.src + config.plugins.imagemin.formats
-};
-
 // var spriteConfig = {
 //   imgName: 'sprite.png',
 //   cssName: '_sprite.scss',
@@ -104,11 +97,11 @@ gulp.task('style', function() {
         new gutil.PluginError('CSS', err, {showStack: true});
       })
       .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
+      .pipe(plugins.shorthand())
       .pipe(gulp.dest(config.paths.styles.dest));
   });
 });
 
-// Tâche IMG : optimisation des images
 gulp.task('image', function () {
   return watch(config.paths.images.src + config.plugins.imagemin.formats, function() {
     gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
@@ -135,6 +128,13 @@ gulp.task('image', function () {
 //   spriteData.img.pipe(gulp.dest(config.paths.images.dest));
 //   spriteData.css.pipe(gulp.dest(config.paths.styles.src));
 // });
+
+var appFiles = {
+  styles: config.paths.styles.src + '**/*.scss',
+  scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
+  svgSprite: config.paths.images.sprite.svg.src + '*.svg',
+  images: config.paths.images.src + config.plugins.imagemin.formats
+};
 
 // gulp.task('watch', ['svg:sprite', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
 gulp.task('watch', ['style', 'js:vendor', 'js:custom', 'svg:sprite', 'image'], function(){

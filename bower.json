@@ -15,7 +15,6 @@
     "tests"
   ],
   "devDependencies": {
-    "BrowserDetection": "browser-detection#^2.0.0",
-    "modernizr": "^3.3.1"
+    "browser-detection": "browserdetection#^0.3.3"
   }
 }
