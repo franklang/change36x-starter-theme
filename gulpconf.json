@@ -1,4 +1,5 @@
 {
+  "themeName": "starter",
   "basePaths": {
     "src": "./src",
     "dest": "./"
@@ -36,6 +37,11 @@
       "formats": "*.{png,jpg,jpeg,gif}"
     }
   }, 
+  "css": {
+    "vendor": [
+      "./src/vendor/bootstrap/dist/css/bootstrap.min.css"
+    ]
+  },
   "js": {
     "vendor": [
       "./src/vendor/browser-detection/src/browser-detection.js"

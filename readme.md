@@ -40,21 +40,47 @@ Anything outside that *./src* folder might be lost either by not being watched b
 
 ### Use vendor styles :
 
-Import vendor styles from *./src/style/main.scss* file. Example :
+## CSS files :
+
+Please note that Gulp `css:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change CSS dependencies naming conventions.
+
+Import vendor CSS from *./gulpconf.json* file. Example :
+
+```json
+{
+  "css": {
+    "vendor": [
+      "./src/vendor/bootstrap/dist/css/bootstrap.min.css"
+    ]
+  }
+}
+```
+
+Import vendor CSS from file. Example :
 
 ```scss
-@import "../vendor/bootstrap-sass/assets/stylesheets/bootstrap";
+@import url('/themes/' + $theme-name + '/style/bootstrap-min.css');
+```
+
+## SASS files :
+
+Import vendor SASS from *./src/style/main.scss* file. Example :
+
+```scss
+@import "../vendor/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
 ```
 
 
-### Use custom styles :
+## Use custom SASS styles :
 
 Simply store your custom styles within the *./src/style/* folder and use `@import` from *./src/style/main.scss* file.
 
 
 ### Use vendor JS :
 
-Import vendor JS from *./gulpfonf.json* file. Example :
+Please note that Gulp `js:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change JS dependencies naming conventions.
+
+Import vendor JS from *./gulpconf.json* file. Example :
 
 ```json
 {
@@ -75,6 +101,8 @@ Simply store your custom JS within the *./src/js/* folder and use [Change native
 ### SVG sprites :
 
 Put your SVG source files within the *./src/image/sprite/svg/* folder. Then run `gulp svg:sprite` to generate the *./modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.
+
+[Enjoy using your SVG icons the way Chris Coyier from css-tricks.com is decribing it](https://css-tricks.com/svg-sprites-use-better-icon-fonts/).
 
 
 List of available Gulp tasks

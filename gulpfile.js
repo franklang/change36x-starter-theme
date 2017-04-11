@@ -43,6 +43,35 @@ var changeEvent = function(evt) {
 //   imgPath: config.paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
 // };
 
+gulp.task('css:vendor', function() {
+  var json = JSON.parse(fs.readFileSync(gulpconf)),
+  vendorcss = json.css.vendor;
+
+  gulp.src(vendorcss)
+    .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
+    .pipe(plugins.shorthand())
+    .pipe(plugins.rename(function(opt) {
+      opt.basename = opt.basename.replace(/\./g,'-');
+      return opt;
+    }))    
+    .pipe(gulp.dest(config.paths.styles.dest));
+});
+
+gulp.task('sass', function() {
+  return watch(config.paths.styles.src + '**/*.scss', function(){
+    gulp.src(config.paths.styles.src + '**/*.scss')
+      .pipe(plugins.rubySass({
+        style: sassStyle, precision: 2
+      }))
+      .on('error', function(err){
+        new gutil.PluginError('CSS', err, {showStack: true});
+      })
+      .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
+      .pipe(plugins.shorthand())
+      .pipe(gulp.dest(config.paths.styles.dest));
+  });
+});
+
 gulp.task('js:vendor',function(){
   var json = JSON.parse(fs.readFileSync(gulpconf)),
   vendorjs = json.js.vendor;
@@ -87,21 +116,6 @@ gulp.task('svg:sprite', function () {
   });
 });
 
-gulp.task('style', function() {
-  return watch(config.paths.styles.src + '**/*.scss', function(){
-    gulp.src(config.paths.styles.src + '**/*.scss')
-      .pipe(plugins.rubySass({
-        style: sassStyle, precision: 2
-      }))
-      .on('error', function(err){
-        new gutil.PluginError('CSS', err, {showStack: true});
-      })
-      .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
-      .pipe(plugins.shorthand())
-      .pipe(gulp.dest(config.paths.styles.dest));
-  });
-});
-
 gulp.task('image', function () {
   return watch(config.paths.images.src + config.plugins.imagemin.formats, function() {
     gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
@@ -130,15 +144,15 @@ gulp.task('image', function () {
 // });
 
 var appFiles = {
-  styles: config.paths.styles.src + '**/*.scss',
+  cssVendor: './gulpconf.json',
+  sass: config.paths.styles.src + '**/*.scss',
   scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
   svgSprite: config.paths.images.sprite.svg.src + '*.svg',
   images: config.paths.images.src + config.plugins.imagemin.formats
 };
 
-// gulp.task('watch', ['svg:sprite', 'sprite', 'style', 'js:vendor', 'js:custom'], function(){
-gulp.task('watch', ['style', 'js:vendor', 'js:custom', 'svg:sprite', 'image'], function(){
-  gulp.watch(appFiles.styles, ['style']).on('change', function(evt) {
+gulp.task('watch', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image'], function(){
+  gulp.watch(appFiles.sass, ['sass']).on('change', function(evt) {
     changeEvent(evt);   
   });
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
