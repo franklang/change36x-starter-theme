@@ -1,5 +1,4 @@
 /**
-  * source: https://www.mikestreety.co.uk/blog/advanced-gulp-file
   *
   * TODOs:
   *
@@ -9,7 +8,6 @@
   *
   *
   * BUGs:
-  * - La tâche de compilation SASS rajoute des guillemets ("") dans les URLs. Change n'aime pas.
   * - La tâche watch ne fonctionne pas pour les fichiers qu'on supprime.
   *
   *
@@ -18,13 +16,13 @@
   * Au 1er lancement du watch :
   *    - les images sont générées: OK
   *      - on ajoute une image en src: OK
-  *      - on retire une image en src: NOK => supression détectée dans la source, mais pas mis à jour.
+  *      - on retire une image en src: NOK => supression détectée dans la source, mais pas mis à jour en destination.
   *    - les JS vendor et custom sont générés: OK
   *      - on ajoute un JS vendor: OK
-  *      - on retire un JS vendor: NOK => supression détectée dans la source, mais pas mis à jour.
+  *      - on retire un JS vendor: NOK => supression détectée dans la source, mais pas mis à jour en destination.
   *      - on ajoute un JS custom: OK
   *      - on fait une modif sur un JS custom: OK
-  *      - on retire un JS custom: NOK => supression détectée dans la source, mais pas mis à jour.
+  *      - on retire un JS custom: NOK => supression détectée dans la source, mais pas mis à jour en destination.
   *    - le sprite svg est généré: OK
   *      - on ajoute un SVG, le sprite est mis à jour: OK
   *      - on retire un SVG, le sprite est mis à jour: OK
@@ -75,6 +73,8 @@ gulp.task('sass', function() {
     .pipe(plugins.sass().on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
     .pipe(plugins.shorthand())
+    .pipe(plugins.replace('url("', 'url('))
+    .pipe(plugins.replace('")', ')'))
     .pipe(gulp.dest(config.paths.styles.dest));
 });
 
