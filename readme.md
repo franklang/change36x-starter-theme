@@ -4,8 +4,8 @@ RBS Change 3.6.x starter theme
 Requirements
 ------------
 
-* [NodeJS is installed](https://docs.npmjs.com/getting-started/installing-node)
-* [Bower is installed](https://bower.io/)
+* [NodeJS installed](https://docs.npmjs.com/getting-started/installing-node)
+* [Bower installed](https://bower.io/)
  
 
 Theme initialization and update
@@ -32,81 +32,89 @@ Start working with this starter theme
 -------------------------------------
 
 **WARNING!** Source code (styles and JS) and media (images, fonts, ...) :
-1. **must** be stored within the *./src* folder
+1. **must** be stored within the *src/* folder
 2. **must** be processed using Gulp.
 
-Anything outside that *./src* folder might be lost by either being ignored by Git (see *.gitignore* file) or erased next time a Gulp task is run. 
+Anything outside that *src/* folder might be lost by either being ignored by Git (see *.gitignore* file) or erased next time a Gulp task is run. 
+
+First thing to do: set `"themeName"` value from the *gulpconf.json* to your theme name (default value is `"starter"`).
+
+Also, rush over *src/style/main.scss* and set `$theme` variable value to your theme name too (default value is `starter`).
 
 
-### Use vendor styles :
+Styles
+------
 
-#### CSS files :
+### Use vendor CSS files :
 
-First thing to do: rush over *./src/style/main.scss* and set `$theme` variable value to your theme name (default value: `starter`).
-
-Please note that Gulp `css:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change CSS dependencies naming conventions.
+Please note that Gulp `css:vendor` task is automatically replacing **.** characters with **-** in file names in order to meet RBS Change CSS dependencies naming conventions.
 
 Also, we don't care about Gulp-concatening and/or -minifying CSS files because Change is doing it natively.
 
-##### Add vendor CSS to your theme source code from *./gulpconf.json* file. Example :
+First, add vendor CSS to your theme source code from *gulpconf.json* file. Example :
 
 ```json
 {
   "css": {
     "vendor": [
-      "./src/vendor/bootstrap/dist/css/bootstrap.min.css"
+      "src/vendor/bootstrap/dist/css/bootstrap.min.css"
     ]
   }
 }
 ```
 
-##### Then, import vendor CSS from any SCSS file stored within the *./src/style/* folder. Example :
+Then, don't forget import vendor CSS from any SCSS file stored within the *src/style/* folder. Example :
 
 ```scss
-@import url('/themes/' + $theme + '/style/bootstrap-min.css');
+@import url('/themes/'#{$theme}'/style/bootstrap-min.css');
 ```
+
 
 ### SASS files :
 
-#### Import vendor SASS from *./src/style/main.scss* file. Example :
+#### Import vendor SASS from *src/style/main.scss* file. Example :
 
 ```scss
 @import "../vendor/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
 ```
 
-
 #### Use custom SASS styles :
 
-Simply store your custom styles within the *./src/style/* folder and use `@import` from *./src/style/main.scss* file.
+Simply store your custom styles within the *src/style/* folder and use `@import` from *src/style/main.scss* file.
 
+
+Scripts
+-------
 
 ### Use vendor JS :
 
-Please note that Gulp `js:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change JS dependencies naming conventions.
+Please note that Gulp `js:vendor` task is automatically replacing **.** characters with **-** in file names in order to meet RBS Change JS dependencies naming conventions.
 
 Also, we don't care about Gulp-concatening JS files because Change is doing it natively.
 
-#### Import vendor JS from *./gulpconf.json* file. Example :
+#### Import vendor JS from *gulpconf.json* file. Example :
 
 ```json
 {
   "js": {
     "vendor": [
-      "./src/vendor/browser-detection/src/browser-detection.js"
+      "src/vendor/browser-detection/src/browser-detection.js"
     ]
   }
 }
 ```
 
-
 ### Use custom JS :
 
-Simply store your custom JS within the *./src/js/* folder and use [Change native functionnalities](http://wiki.rbschange.fr/start) to import their Gulp-processed versions from the *./js/* folder.
+Simply store your custom JS within the *src/js/* folder and use [Change native functionnalities](http://wiki.rbschange.fr/start) to import their Gulp-processed versions from the *js/* folder.
 
+
+Sprites
+-------
 
 ### SVG sprites :
 
-Put your SVG source files within the *./src/image/sprite/svg/* folder. Then run `gulp svg:sprite` to generate the *./modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.
+Put your SVG source files within the *src/image/sprite/svg/* folder. Then run `gulp svg:sprite` to generate the *modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.
 
 [Enjoy using your SVG icons the way Chris Coyier from css-tricks.com is decribing it](https://css-tricks.com/svg-sprites-use-better-icon-fonts/).
 
@@ -118,4 +126,4 @@ List of available Gulp tasks
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
 * `gulp svg:sprite` : SVG sprite generation
 * `gulp image` : Image compression
-* `gulp watch` : Process'em all; this task never stops and continuously watches *./src* folder for changes
+* `gulp watch` : Process'em all; this task never stops and continuously watches *src/* folder for changes
