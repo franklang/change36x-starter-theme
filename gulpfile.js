@@ -1,12 +1,19 @@
 /**
   * source: https://www.mikestreety.co.uk/blog/advanced-gulp-file
   *
-  * - CSS: => un simple déplacement des fichiers source.
-  * - [TODO] LESS: => CSS
-  *    - Change possède déjà les fonctionnalités de minification des CSS.
-  * - JPG, GIF, PNG: => compression, (sprite?)
-  * - [OK] SVG: => compression, sprite, (police d'icônes?)
+  * TODO's:
+  *
+  * - !!! IMPORTANCE niveau 1 !!! Tâche default pour le script de déploiement de Steve.
+  * - LESS: => CSS
   * - FONT: => un simple déplacement des fichiers source.
+  *
+  *
+  * BUGs:
+  * - La tâche de compilation SASS rajoute des guillemets ("") dans les URLs. Change n'aime pas.
+  * - Toutes les taches sont en watch (y compris 'default').
+  *   Au lancement des commandes, aucun fichier n'est processé à part les vendor CSS et JS.
+  *   Les fichiers sont processés à partir du moment ou un changement est détecté.
+  *   
   */
 
 
@@ -58,18 +65,13 @@ gulp.task('css:vendor', function() {
 });
 
 gulp.task('sass', function() {
-  return watch(config.paths.styles.src + '**/*.scss', function(){
+  // return watch(config.paths.styles.src + '**/*.scss', function(){
     gulp.src(config.paths.styles.src + '**/*.scss')
-      .pipe(plugins.rubySass({
-        style: sassStyle, precision: 2
-      }))
-      .on('error', function(err){
-        new gutil.PluginError('CSS', err, {showStack: true});
-      })
+      .pipe(plugins.sass().on('error', plugins.sass.logError))
       .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
       .pipe(plugins.shorthand())
       .pipe(gulp.dest(config.paths.styles.dest));
-  });
+  // });
 });
 
 gulp.task('js:vendor',function(){
@@ -86,7 +88,7 @@ gulp.task('js:vendor',function(){
 });
 
 gulp.task('js:custom', function() {
-  return watch(config.paths.scripts.src + '*.js', function(){
+  // return watch(config.paths.scripts.src + '*.js', function(){
     gulp.src(config.paths.scripts.src + '*.js')
       .pipe(plugins.uglify())
       .pipe(plugins.rename(function(opt) {
@@ -94,11 +96,11 @@ gulp.task('js:custom', function() {
         return opt;
       }))    
       .pipe(gulp.dest(config.paths.scripts.dest));
-  });
+  // });
 });
 
 gulp.task('svg:sprite', function () {
-  return watch(config.paths.images.sprite.svg.src + '*.svg', function(){
+  // return watch(config.paths.images.sprite.svg.src + '*.svg', function(){
     gulp.src(config.paths.images.sprite.svg.src + '*.svg')
       .pipe(plugins.svgmin())
       .pipe(plugins.svgstore({
@@ -113,15 +115,15 @@ gulp.task('svg:sprite', function () {
       }))
       .pipe(plugins.rename(config.paths.images.sprite.svg.output))
       .pipe(gulp.dest(config.paths.images.sprite.svg.dest));
-  });
+  // });
 });
 
 gulp.task('image', function () {
-  return watch(config.paths.images.src + config.plugins.imagemin.formats, function() {
+  // return watch(config.paths.images.src + config.plugins.imagemin.formats, function() {
     gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
       .pipe(plugins.imagemin())
       .pipe(gulp.dest(config.paths.images.dest));
-  });
+  // });
 });
 
 /*
@@ -169,4 +171,4 @@ gulp.task('watch', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite'
   // });
 });
 
-gulp.task('default', ['style', 'js']);
+gulp.task('default', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image']);
