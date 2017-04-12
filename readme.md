@@ -42,11 +42,11 @@ Anything outside that *./src* folder might be lost by either being ignored by Gi
 
 #### CSS files :
 
+First thing to do: rush over *./src/style/main.scss* and set `$theme` variable value to your theme name (default value: `starter`).
+
 Please note that Gulp `css:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change CSS dependencies naming conventions.
 
-Rush over *./src/style/main.scss* and set `$theme` variable value to your theme name (default value: `starter`).
-
-##### Import vendor CSS from *./gulpconf.json* file. Example :
+##### Add vendor CSS to your theme source code from *./gulpconf.json* file. Example :
 
 ```json
 {
@@ -58,7 +58,7 @@ Rush over *./src/style/main.scss* and set `$theme` variable value to your theme 
 }
 ```
 
-##### Import vendor CSS from file. Example :
+##### Then, import vendor CSS from any SCSS file stored within the *./src/style/* folder. Example :
 
 ```scss
 @import url('/themes/' + $theme + '/style/bootstrap-min.css');
