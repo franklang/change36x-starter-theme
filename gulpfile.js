@@ -13,33 +13,41 @@
   * - Toutes les taches sont en watch (y compris 'default').
   *   Au lancement des commandes, aucun fichier n'est processé à part les vendor CSS et JS.
   *   Les fichiers sont processés à partir du moment ou un changement est détecté.
-  *   
+  *
+  *
+  * TESTs:
+  * /!\ retester la tâche default lorsque le watch fonctionnera correctement.
+  * Au 1er lancement du watch :
+  *    - les images sont générées: OK
+  *      - on ajoute une image en src: NOK
+  *    - les JS vendor et custom sont générés: OK
+  *      - on ajoute un JS vendor: OK
+  *      - on retire un JS vendor: NOK
+  *      - on ajoute un JS custom: NOK
+  *      - on retire un JS custom: NOK
+  *      - on fait une modif sur un JS custom: OK
+  *    - le sprite svg est généré: OK
+  *      - on ajoute un svg, le sprite est mis à jour: NOK
+  *    - la SCSS custom "main" et la CSS vendor "bootstrap-min" sont générées : OK
+  *      - on ajoute du code dans main.scss et ça se met à jour: OK
+  *      - on ajoute une CSS vendor et elle est générée: OK  
+  *
+  *    
   */
 
-
-/*
-  Let the magic begin
-*/
-
 var gulp = require('gulp');
-
 var es = require('event-stream');
 var gutil = require('gulp-util');
-
 var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
 });
-
 var watch = require('gulp-watch');
-
 var fs = require('fs');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
-
 // Allows gulp --dev to be run for a more verbose output
 var sassStyle = 'compressed';
-
 var changeEvent = function(evt) {
   gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + config.basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
 };
@@ -146,15 +154,14 @@ gulp.task('image', function () {
 // });
 
 var appFiles = {
-  cssVendor: './gulpconf.json',
-  sass: config.paths.styles.src + '**/*.scss',
+  styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
   scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
   svgSprite: config.paths.images.sprite.svg.src + '*.svg',
   images: config.paths.images.src + config.plugins.imagemin.formats
 };
 
 gulp.task('watch', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image'], function(){
-  gulp.watch(appFiles.sass, ['sass']).on('change', function(evt) {
+  gulp.watch(appFiles.styles, ['css:vendor', 'sass']).on('change', function(evt) {
     changeEvent(evt);   
   });
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
