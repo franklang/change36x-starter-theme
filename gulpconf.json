@@ -1,31 +1,31 @@
 {
   "themeName": "starter",
   "basePaths": {
-    "src": "./src",
-    "dest": "./"
+    "src": "src",
+    "dest": ""
   },
   "paths": {
     "images": {
-      "src": "./src/image/",
-      "dest": "./image/",
+      "src": "src/image/",
+      "dest": "image/",
       "sprite": {
         "svg": {
-          "src": "./src/image/sprite/svg/",
+          "src": "src/image/sprite/svg/",
           "output": "Website-Block-Xhtmltemplate-Svgsprite.all.all.html",
-          "dest": "./modules/website/templates/"
+          "dest": "modules/website/templates/"
         }
       }
     },
     "scripts": {
-        "src": "./src/js/",
-        "dest": "./js/"
+        "src": "src/js/",
+        "dest": "js/"
     },
     "styles": {
-        "src": "./src/style/",
-        "dest": "./style/"
+        "src": "src/style/",
+        "dest": "style/"
     },
     "sprite": {
-        "src": "./src/sprite/*"
+        "src": "src/sprite/*"
     },
     "fonts": {}
   },
@@ -34,17 +34,20 @@
       "browsers": ["last 2 version", "safari 5", "ie 8", "ie 9", "opera 12.1", "ios 6", "android 4"]
     },
     "imagemin": {
-      "formats": "*.{png,jpg,jpeg,gif}"
+      "formats": "*.{png,PNG,jpg,JPG,jpeg,JPEG,gif,GIF}"
     }
   }, 
   "css": {
     "vendor": [
-      "./src/vendor/bootstrap/dist/css/bootstrap.min.css"
+      "src/vendor/bootstrap/dist/css/bootstrap.min.css",
+      "src/vendor/jquery-ui/themes/base/all.css"
     ]
   },
   "js": {
     "vendor": [
-      "./src/vendor/browser-detection/src/browser-detection.js"
+      "src/vendor/browser-detection/src/browser-detection.js",
+      "src/vendor/jquery-ui/ui/data.js",
+      "src/vendor/jquery-ui/ui/ie.js"
     ]
   }
 }

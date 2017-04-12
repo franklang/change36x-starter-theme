@@ -10,16 +10,15 @@
   *
   * BUGs:
   * - La tâche de compilation SASS rajoute des guillemets ("") dans les URLs. Change n'aime pas.
-  * - Toutes les taches sont en watch (y compris 'default').
-  *   Au lancement des commandes, aucun fichier n'est processé à part les vendor CSS et JS.
-  *   Les fichiers sont processés à partir du moment ou un changement est détecté.
+  * - La tâche watch ne fonctionne pas pour les nouveaux fichier ou ceux qu'on supprime
   *
   *
   * TESTs:
   * /!\ retester la tâche default lorsque le watch fonctionnera correctement.
   * Au 1er lancement du watch :
   *    - les images sont générées: OK
-  *      - on ajoute une image en src: NOK
+  *      - on ajoute une image en src: OK
+  *      - on retire une image en src: NOK => supression détectée dans la source, mais pas mis à jour.
   *    - les JS vendor et custom sont générés: OK
   *      - on ajoute un JS vendor: OK
   *      - on retire un JS vendor: NOK
@@ -42,7 +41,7 @@ var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
 });
-var watch = require('gulp-watch');
+// var watch = require('gulp-watch');
 var fs = require('fs');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
@@ -128,7 +127,7 @@ gulp.task('svg:sprite', function () {
 
 gulp.task('image', function () {
   // return watch(config.paths.images.src + config.plugins.imagemin.formats, function() {
-    gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
+    return gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
       .pipe(plugins.imagemin())
       .pipe(gulp.dest(config.paths.images.dest));
   // });
