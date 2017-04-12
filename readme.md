@@ -51,7 +51,7 @@ Please note that Gulp `css:vendor` task is automatically replacing **.** charact
 
 Also, we don't care about Gulp-concatening and/or -minifying CSS files because Change is doing it natively.
 
-First, add vendor CSS to your theme source code from *gulpconf.json* file. Example :
+First, add vendor CSS path to your theme source code from *gulpconf.json* file. Example :
 
 ```json
 {
@@ -63,7 +63,7 @@ First, add vendor CSS to your theme source code from *gulpconf.json* file. Examp
 }
 ```
 
-Then, don't forget import vendor CSS from any SCSS file stored within the *src/style/* folder. Example :
+Then, don't forget to import vendor CSS from any SCSS file stored within the *src/style/* folder. Example :
 
 ```scss
 @import url('/themes/'#{$theme}'/style/bootstrap-min.css');
@@ -80,7 +80,7 @@ Then, don't forget import vendor CSS from any SCSS file stored within the *src/s
 
 #### Use custom SASS styles :
 
-Simply store your custom styles within the *src/style/* folder and use `@import` from *src/style/main.scss* file.
+Simply store your custom styles within the *src/style/* folder and use `@import` from *src/style/main.scss* file for them to be included.
 
 
 Scripts
