@@ -122,8 +122,10 @@ Put your SVG source files within the *src/image/sprite/svg/* folder. Then run `g
 List of available Gulp tasks
 ----------------------------
 
-* `gulp style` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
+* `gulp css:vendor` : Add vendor CSS to the source code 
+* `gulp sass` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
 * `gulp svg:sprite` : SVG sprite generation
 * `gulp image` : Image compression
+* `gulp` : Process'em all once; then stop (no watch)
 * `gulp watch` : Process'em all; this task never stops and continuously watches *src/* folder for changes
