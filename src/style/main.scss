@@ -1,2 +1,9 @@
-// @import "../vendor/";
-// @import "";
+// Import vendor SASS file
+// @import "../vendor/"
+// Example: @import "../vendor/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
+
+// Import vendor CSS file (see "gulpconf.json" for adding any vendor CSS file to your theme)
+// @import url('/themes/' + $theme + '/');
+// Example: @import url('/themes/' + $theme + '/style/bootstrap-min.css');
+
+$theme: starter;

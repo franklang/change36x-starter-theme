@@ -35,16 +35,18 @@ Start working with this starter theme
 1. **must** be stored within the *./src* folder
 2. **must** be processed using Gulp.
 
-Anything outside that *./src* folder might be lost either by not being watched by Git (see *.gitignore* file) or by being erased next time a Gulp task is re-launched. 
+Anything outside that *./src* folder might be lost by either being ignored by Git (see *.gitignore* file) or erased next time a Gulp task is run. 
 
 
 ### Use vendor styles :
 
-## CSS files :
+#### CSS files :
 
 Please note that Gulp `css:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change CSS dependencies naming conventions.
 
-Import vendor CSS from *./gulpconf.json* file. Example :
+Rush over *./src/style/main.scss* and set `$theme` variable value to your theme name (default value: `starter`).
+
+##### Import vendor CSS from *./gulpconf.json* file. Example :
 
 ```json
 {
@@ -56,22 +58,22 @@ Import vendor CSS from *./gulpconf.json* file. Example :
 }
 ```
 
-Import vendor CSS from file. Example :
+##### Import vendor CSS from file. Example :
 
 ```scss
-@import url('/themes/' + $theme-name + '/style/bootstrap-min.css');
+@import url('/themes/' + $theme + '/style/bootstrap-min.css');
 ```
 
-## SASS files :
+### SASS files :
 
-Import vendor SASS from *./src/style/main.scss* file. Example :
+#### Import vendor SASS from *./src/style/main.scss* file. Example :
 
 ```scss
 @import "../vendor/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
 ```
 
 
-## Use custom SASS styles :
+#### Use custom SASS styles :
 
 Simply store your custom styles within the *./src/style/* folder and use `@import` from *./src/style/main.scss* file.
 
@@ -80,7 +82,7 @@ Simply store your custom styles within the *./src/style/* folder and use `@impor
 
 Please note that Gulp `js:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change JS dependencies naming conventions.
 
-Import vendor JS from *./gulpconf.json* file. Example :
+#### Import vendor JS from *./gulpconf.json* file. Example :
 
 ```json
 {
