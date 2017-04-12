@@ -46,6 +46,8 @@ First thing to do: rush over *./src/style/main.scss* and set `$theme` variable v
 
 Please note that Gulp `css:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change CSS dependencies naming conventions.
 
+Also, we don't care about Gulp-concatening and/or -minifying CSS files because Change is doing it natively.
+
 ##### Add vendor CSS to your theme source code from *./gulpconf.json* file. Example :
 
 ```json
@@ -81,6 +83,8 @@ Simply store your custom styles within the *./src/style/* folder and use `@impor
 ### Use vendor JS :
 
 Please note that Gulp `js:vendor` task is automatically replacing **.** caracters with **-** in file names in order to meet RBS Change JS dependencies naming conventions.
+
+Also, we don't care about Gulp-concatening JS files because Change is doing it natively.
 
 #### Import vendor JS from *./gulpconf.json* file. Example :
 
