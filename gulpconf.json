@@ -39,15 +39,12 @@
   }, 
   "css": {
     "vendor": [
-      "src/vendor/bootstrap/dist/css/bootstrap.min.css",
-      "src/vendor/jquery-ui/themes/base/all.css"
+      "src/vendor/bootstrap/dist/css/bootstrap.min.css"
     ]
   },
   "js": {
     "vendor": [
-      "src/vendor/browser-detection/src/browser-detection.js",
-      "src/vendor/jquery-ui/ui/data.js",
-      "src/vendor/jquery-ui/ui/ie.js"
+      "src/vendor/browser-detection/src/browser-detection.js"
     ]
   }
 }
