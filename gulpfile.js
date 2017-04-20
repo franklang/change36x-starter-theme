@@ -2,13 +2,14 @@
   *
   * TODOs:
   *
-  * - Ne repasser que les fichiers qui sont modifiés.
   * - LESS: => CSS
   * - FONT: => un simple déplacement des fichiers source.
   *
   *
   * BUGs:
   * - La tâche watch ne fonctionne pas pour les fichiers qu'on supprime.
+  *   http://gulpjs.org/recipes/handling-the-delete-event-on-watch.html
+  *   https://www.npmjs.com/package/gulp-deleted
   *
   *
   * TESTs:
@@ -54,6 +55,7 @@ gulp.task('css:vendor', function() {
   vendorcss = json.css.vendor;
 
   gulp.src(vendorcss)
+    .pipe(plugins.changed(config.paths.styles.dest))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
     .pipe(plugins.shorthand())
     .pipe(plugins.rename(function(opt) {
@@ -65,6 +67,7 @@ gulp.task('css:vendor', function() {
 
 gulp.task('sass', function() {
   gulp.src(config.paths.styles.src + '**/*.scss')
+    .pipe(plugins.changed(config.paths.styles.dest))
     .pipe(plugins.sass().on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
     .pipe(plugins.shorthand())
@@ -78,6 +81,7 @@ gulp.task('js:vendor',function(){
   vendorjs = json.js.vendor;
 
   return gulp.src(vendorjs)
+    .pipe(plugins.changed(config.paths.scripts.dest))
     .pipe(plugins.uglify())
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
@@ -88,6 +92,7 @@ gulp.task('js:vendor',function(){
 
 gulp.task('js:custom', function() {
   return gulp.src(config.paths.scripts.src + '*.js')
+    .pipe(plugins.changed(config.paths.scripts.dest))
     .pipe(plugins.uglify())
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
@@ -115,6 +120,7 @@ gulp.task('svg:sprite', function () {
 
 gulp.task('image', function () {
   return gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
+    .pipe(plugins.changed(config.paths.images.dest))
     .pipe(plugins.imagemin())
     .pipe(gulp.dest(config.paths.images.dest));
 });
