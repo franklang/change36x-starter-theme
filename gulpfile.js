@@ -2,7 +2,7 @@
   *
   * TODOs:
   *
-  * - !!! IMPORTANCE niveau 1 !!! Tâche default pour le script de déploiement de Steve.
+  * - Ne repasser que les fichiers qui sont modifiés.
   * - LESS: => CSS
   * - FONT: => un simple déplacement des fichiers source.
   *
@@ -145,12 +145,20 @@ var appFiles = {
   images: config.paths.images.src + config.plugins.imagemin.formats
 };
 
-gulp.task('watch', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image'], function(){
+
+
+/* Tasks */
+
+gulp.task('default', ['style', 'script', 'media']);
+
+gulp.task('style', ['css:vendor', 'sass']);
+gulp.task('script', ['js:vendor', 'js:custom']);
+gulp.task('media', ['svg:sprite', 'image']);
+
+gulp.task('watch', ['style', 'script', 'media'], function(){
   gulp.watch(appFiles.styles, ['css:vendor', 'sass']).on('change', function() {});
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function() {});
   gulp.watch(appFiles.svgSprite, ['svg:sprite']).on('change', function() {});
   gulp.watch(appFiles.images, ['image']).on('change', function() {});
   // gulp.watch(config.paths.sprites.src, ['sprite']).on('change', function() {});
 });
-
-gulp.task('default', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image']);

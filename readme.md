@@ -45,6 +45,8 @@ Also, rush over *src/style/main.scss* and set `$theme` variable value to your th
 Styles
 ------
 
+Running `gulp style` will process all style tasks once; then stop.
+
 ### Use vendor CSS files :
 
 Please note that Gulp `css:vendor` task is automatically replacing **.** characters with **-** in file names in order to meet RBS Change CSS dependencies naming conventions.
@@ -86,6 +88,8 @@ Simply store your custom styles within the *src/style/* folder and use `@import`
 Scripts
 -------
 
+Running `gulp script` will process all script tasks once; then stop.
+
 ### Use vendor JS :
 
 Please note that Gulp `js:vendor` task is automatically replacing **.** characters with **-** in file names in order to meet RBS Change JS dependencies naming conventions.
@@ -109,8 +113,14 @@ Also, we don't care about Gulp-concatening JS files because Change is doing it n
 Simply store your custom JS within the *src/js/* folder and use [Change native functionnalities](http://wiki.rbschange.fr/start) to import their Gulp-processed versions from the *js/* folder.
 
 
-Sprites
--------
+Media
+-----
+
+Running `gulp media` will process all media tasks once; then stop.
+
+
+Sprites (part of `gulp media` task)
+-----------------------------------
 
 ### SVG sprites :
 
@@ -122,10 +132,15 @@ Put your SVG source files within the *src/image/sprite/svg/* folder. Then run `g
 List of available Gulp tasks
 ----------------------------
 
+* `gulp` or `gulp default` : Process all tasks once; then stop
+* `gulp watch` : Process all tasks; then continuously watch *src/* folder files for changes
+
+* `gulp style` : Process all style tasks once; then stop
+* `gulp script` : Process all script tasks once; then stop
+* `gulp media` : Process all media tasks once; then stop
+
 * `gulp css:vendor` : Add vendor CSS to the source code 
 * `gulp sass` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
 * `gulp svg:sprite` : SVG sprite generation
-* `gulp image` : Image compression
-* `gulp` : Process'em all once; then stop (no watch)
-* `gulp watch` : Process'em all; this task never stops and continuously watches *src/* folder for changes
+* `gulp image` : PNG, JPG, GIF images compression
