@@ -97,7 +97,7 @@ gulp.task('js:custom', function() {
 });
 
 gulp.task('svg:sprite', function () {
-  return gulp.src(config.paths.images.sprite.svg.src + '*.svg')
+  return gulp.src(config.paths.images.sprites.svg.src + '*.svg')
     .pipe(plugins.svgmin())
     .pipe(plugins.svgstore({
       inlineSvg: true
@@ -109,8 +109,8 @@ gulp.task('svg:sprite', function () {
       },
       parserOptions: { xmlMode: true }
     }))
-    .pipe(plugins.rename(config.paths.images.sprite.svg.output))
-    .pipe(gulp.dest(config.paths.images.sprite.svg.dest));
+    .pipe(plugins.rename(config.paths.images.sprites.svg.output))
+    .pipe(gulp.dest(config.paths.images.sprites.svg.dest));
 });
 
 gulp.task('image', function () {
@@ -123,7 +123,7 @@ gulp.task('image', function () {
   Sprite Generator
 */
 // gulp.task('sprite', function () {
-//   var spriteData = gulp.src(config.paths.sprite.src).pipe(plugins.spritesmith({
+//   var spriteData = gulp.src(config.paths.sprites.src).pipe(plugins.spritesmith({
 //     imgName: spriteConfig.imgName,
 //     cssName: spriteConfig.cssName,
 //     imgPath: spriteConfig.imgPath,
@@ -141,7 +141,7 @@ gulp.task('image', function () {
 var appFiles = {
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
   scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
-  svgSprite: config.paths.images.sprite.svg.src + '*.svg',
+  svgSprite: config.paths.images.sprites.svg.src + '*.svg',
   images: config.paths.images.src + config.plugins.imagemin.formats
 };
 
@@ -150,7 +150,7 @@ gulp.task('watch', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite'
   gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function() {});
   gulp.watch(appFiles.svgSprite, ['svg:sprite']).on('change', function() {});
   gulp.watch(appFiles.images, ['image']).on('change', function() {});
-  // gulp.watch(config.paths.sprite.src, ['sprite']).on('change', function() {});
+  // gulp.watch(config.paths.sprites.src, ['sprite']).on('change', function() {});
 });
 
 gulp.task('default', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image']);

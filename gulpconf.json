@@ -8,9 +8,9 @@
     "images": {
       "src": "src/image/",
       "dest": "image/",
-      "sprite": {
+      "sprites": {
         "svg": {
-          "src": "src/image/sprite/svg/",
+          "src": "src/image/sprites/svg/",
           "output": "Website-Block-Xhtmltemplate-Svgsprite.all.all.html",
           "dest": "modules/website/templates/"
         }
@@ -24,7 +24,7 @@
         "src": "src/style/",
         "dest": "style/"
     },
-    "sprite": {
+    "sprites": {
         "src": "src/sprite/*"
     },
     "fonts": {}
@@ -44,7 +44,8 @@
   },
   "js": {
     "vendor": [
-      "src/vendor/browser-detection/src/browser-detection.js"
+      "src/vendor/browser-detection/src/browser-detection.js",
+      "src/vendor/bootstrap/js/modal.js"
     ]
   }
 }
