@@ -2,14 +2,17 @@
   *
   * TODOs:
   *
+  * - Fixer les versions dans package.json
+  * - séparer configs des paths (gulp-paths.json) et des plugins/tâches (gulp-conf.js) -> un 1er pas vers la modularité des tâches.
   * - LESS: => CSS
+  * - image sprite
+  * - iconfont
   * - FONT: => un simple déplacement des fichiers source.
+  * - auto-génération d'un guide de styles
   *
   *
   * BUGs:
-  * - La tâche watch ne fonctionne pas pour les fichiers qu'on supprime.
-  *   http://gulpjs.org/recipes/handling-the-delete-event-on-watch.html
-  *   https://www.npmjs.com/package/gulp-deleted
+  * - nada
   *
   *
   * TESTs:
@@ -17,13 +20,13 @@
   * Au 1er lancement du watch :
   *    - les images sont générées: OK
   *      - on ajoute une image en src: OK
-  *      - on retire une image en src: NOK => supression détectée dans la source, mais pas mis à jour en destination.
+  *      - on retire une image en src: OK
   *    - les JS vendor et custom sont générés: OK
   *      - on ajoute un JS vendor: OK
-  *      - on retire un JS vendor: NOK => supression détectée dans la source, mais pas mis à jour en destination.
+  *      - on retire un JS vendor: OK
   *      - on ajoute un JS custom: OK
   *      - on fait une modif sur un JS custom: OK
-  *      - on retire un JS custom: NOK => supression détectée dans la source, mais pas mis à jour en destination.
+  *      - on retire un JS custom: OK
   *    - le sprite svg est généré: OK
   *      - on ajoute un SVG, le sprite est mis à jour: OK
   *      - on retire un SVG, le sprite est mis à jour: OK
@@ -34,6 +37,7 @@
   */
 
 var gulp = require('gulp');
+var del = require('del');
 var es = require('event-stream');
 var gutil = require('gulp-util');
 var plugins = require("gulp-load-plugins")({
@@ -50,6 +54,24 @@ var config = require('./gulpconf.json');
 //   imgPath: config.paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
 // };
 
+
+
+/* Clean tasks */
+gulp.task('style:clean', function(){
+  del.sync(config.paths.styles.dest);
+});
+
+gulp.task('script:clean', function(){
+  del.sync(config.paths.scripts.dest);
+});
+
+gulp.task('media:clean', function(){
+  del.sync(config.paths.images.dest);
+});
+/* end: Clean tasks */
+
+
+/* Specific tasks */
 gulp.task('css:vendor', function() {
   var json = JSON.parse(fs.readFileSync(gulpconf)),
   vendorcss = json.css.vendor;
@@ -124,6 +146,7 @@ gulp.task('image', function () {
     .pipe(plugins.imagemin())
     .pipe(gulp.dest(config.paths.images.dest));
 });
+/* end: Specific tasks */
 
 /*
   Sprite Generator
@@ -144,6 +167,15 @@ gulp.task('image', function () {
 //   spriteData.css.pipe(gulp.dest(config.paths.styles.src));
 // });
 
+
+
+/* Tasks */
+gulp.task('default', ['style', 'script', 'media']);
+
+gulp.task('style', ['style:clean', 'css:vendor', 'sass']);
+gulp.task('script', ['script:clean', 'js:vendor', 'js:custom']);
+gulp.task('media', ['media:clean', 'svg:sprite', 'image']);
+
 var appFiles = {
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
   scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
@@ -151,20 +183,10 @@ var appFiles = {
   images: config.paths.images.src + config.plugins.imagemin.formats
 };
 
-
-
-/* Tasks */
-
-gulp.task('default', ['style', 'script', 'media']);
-
-gulp.task('style', ['css:vendor', 'sass']);
-gulp.task('script', ['js:vendor', 'js:custom']);
-gulp.task('media', ['svg:sprite', 'image']);
-
 gulp.task('watch', ['style', 'script', 'media'], function(){
-  gulp.watch(appFiles.styles, ['css:vendor', 'sass']).on('change', function() {});
-  gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function() {});
-  gulp.watch(appFiles.svgSprite, ['svg:sprite']).on('change', function() {});
-  gulp.watch(appFiles.images, ['image']).on('change', function() {});
+  gulp.watch(appFiles.styles, ['style']);
+  gulp.watch(appFiles.scripts, ['script']);
+  gulp.watch(appFiles.svgSprite, ['svg:sprite']);
+  gulp.watch(appFiles.images, ['media:clean', 'image']);
   // gulp.watch(config.paths.sprites.src, ['sprite']).on('change', function() {});
 });

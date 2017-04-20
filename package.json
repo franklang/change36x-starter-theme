@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "description": "RBS Change 3.6.x starter theme",
   "devDependencies": {
+    "del": "^2.2.2",
     "event-stream": "^3.1.5",
-    "gulp": "3.9.1",
+    "gulp": "^3.9.1",
     "gulp-autoprefixer": "3.1.1",
     "gulp-changed": "^2.0.0",
     "gulp-cheerio": "^0.6.2",
