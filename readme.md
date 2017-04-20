@@ -1,6 +1,9 @@
 RBS Change 3.6.x starter theme
 ==============================
 
+**See list of available Gulp tasks at the end of this readme file.**
+
+
 Requirements
 ------------
 
@@ -132,13 +135,16 @@ Put your SVG source files within the *src/image/sprite/svg/* folder. Then run `g
 List of available Gulp tasks
 ----------------------------
 
+### Default tasks
 * `gulp` or `gulp default` : Process all tasks once; then stop
 * `gulp watch` : Process all tasks; then continuously watch *src/* folder files for changes
 
+### Global tasks
 * `gulp style` : Process all style tasks once; then stop
 * `gulp script` : Process all script tasks once; then stop
 * `gulp media` : Process all media tasks once; then stop
 
+### More specific tasks
 * `gulp css:vendor` : Add vendor CSS to the source code 
 * `gulp sass` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
