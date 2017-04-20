@@ -42,11 +42,6 @@ var plugins = require("gulp-load-plugins")({
 var fs = require('fs');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
-// Allows gulp --dev to be run for a more verbose output
-var sassStyle = 'compressed';
-var changeEvent = function(evt) {
-  gutil.log('File', gutil.colors.cyan(evt.path.replace(new RegExp('/.*(?=/' + config.basePaths.src + ')/'), '')), 'was', gutil.colors.magenta(evt.type));
-};
 
 // var spriteConfig = {
 //   imgName: 'sprite.png',
@@ -151,21 +146,11 @@ var appFiles = {
 };
 
 gulp.task('watch', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image'], function(){
-  gulp.watch(appFiles.styles, ['css:vendor', 'sass']).on('change', function(evt) {
-    changeEvent(evt);   
-  });
-  gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function(evt) {
-    changeEvent(evt);
-  });
-  gulp.watch(appFiles.svgSprite, ['svg:sprite']).on('change', function(evt) {
-    changeEvent(evt);
-  });
-  gulp.watch(appFiles.images, ['image']).on('change', function(evt) {
-    changeEvent(evt);
-  });
-  // gulp.watch(config.paths.sprite.src, ['sprite']).on('change', function(evt) {
-  //   changeEvent(evt);
-  // });
+  gulp.watch(appFiles.styles, ['css:vendor', 'sass']).on('change', function() {});
+  gulp.watch(appFiles.scripts, ['js:vendor', 'js:custom']).on('change', function() {});
+  gulp.watch(appFiles.svgSprite, ['svg:sprite']).on('change', function() {});
+  gulp.watch(appFiles.images, ['image']).on('change', function() {});
+  // gulp.watch(config.paths.sprite.src, ['sprite']).on('change', function() {});
 });
 
 gulp.task('default', ['css:vendor', 'sass', 'js:vendor', 'js:custom', 'svg:sprite', 'image']);

@@ -37,7 +37,7 @@ Start working with this starter theme
 
 Anything outside that *src/* folder might be lost by either being ignored by Git (see *.gitignore* file) or erased next time a Gulp task is run. 
 
-First thing to do: set `"themeName"` value from the *gulpconf.json* to your theme name (default value is `"starter"`).
+First thing to do: set `"theme"` value from the *gulpconf.json* to your theme name (default value is `starter`).
 
 Also, rush over *src/style/main.scss* and set `$theme` variable value to your theme name too (default value is `starter`).
 

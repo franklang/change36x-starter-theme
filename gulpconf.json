@@ -1,5 +1,5 @@
 {
-  "themeName": "starter",
+  "theme": "starter",
   "basePaths": {
     "src": "src",
     "dest": ""
