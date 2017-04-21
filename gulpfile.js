@@ -69,7 +69,7 @@ gulp.task('style:clean', function(){
 });
 
 gulp.task('script:clean', function(){
-  del.sync(config.paths.scripts.dest);
+  gulpClean('script', 'js');
 });
 
 gulp.task('media:clean', function(){
