@@ -4,6 +4,7 @@
   *
   * - Fixer les versions dans package.json
   * - séparer configs des paths (gulp-paths.json) et des plugins/tâches (gulp-conf.js) -> un 1er pas vers la modularité des tâches.
+  * - minify: true/false + concatenate: true/false ?
   * - LESS: => CSS
   * - image sprite
   * - iconfont
@@ -12,7 +13,7 @@
   *
   *
   * BUGs:
-  * - nada
+  * - le style:clean efface les fichiers par défaut :/
   *
   *
   * TESTs:
@@ -58,7 +59,8 @@ var config = require('./gulpconf.json');
 
 /* Clean tasks */
 gulp.task('style:clean', function(){
-  del.sync(config.paths.styles.dest);
+  // del.sync([config.paths.styles.dest + '*.css', config.clean.style.ignore]);
+  del.sync(config.clean.style);
 });
 
 gulp.task('script:clean', function(){
