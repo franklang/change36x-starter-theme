@@ -30,7 +30,9 @@
     "fonts": {}
   },
   "clean": {
-    "style": ["style/*.css", "!style/layout.css", "!style/layout.xul.all.css", "!style/skin-variables.css", "!style/skin.css"]
+    "style": {
+      "ignore": ["!style/layout.css", "!style/layout.xul.all.css", "!style/skin-variables.css", "!style/skin.css"]
+    }
   },
   "plugins": {
     "autoprefixer": {

@@ -59,8 +59,9 @@ var config = require('./gulpconf.json');
 
 /* Clean tasks */
 gulp.task('style:clean', function(){
-  // del.sync([config.paths.styles.dest + '*.css', config.clean.style.ignore]);
-  del.sync(config.clean.style);
+  var arr = config.clean.style.ignore;
+  arr.unshift(config.paths.styles.dest + '*.css');
+  del.sync(arr);
 });
 
 gulp.task('script:clean', function(){
