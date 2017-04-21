@@ -17,17 +17,19 @@
       }
     },
     "scripts": {
-        "src": "src/js/",
-        "dest": "js/"
+      "src": "src/js/",
+      "dest": "js/"
     },
     "styles": {
-        "src": "src/style/",
-        "dest": "style/"
+      "src": "src/style/",
+      "dest": "style/"
     },
-    "sprites": {
-        "src": "src/sprite/*"
-    },
-    "fonts": {}
+    "iconfont": {
+      "src": "src/iconfont/",
+      "dest": "image/",
+      "templateSrc": "src/iconfont/template/_iconfont.scss",
+      "templateDest": "src/style/"
+    }
   },
   "clean": {
     "style": {
@@ -43,6 +45,15 @@
     },
     "imagemin": {
       "formats": "*.{png,PNG,jpg,JPG,jpeg,JPEG,gif,GIF}"
+    },
+    "iconfont": {
+      "fontName": "iconfont",
+      "prependUnicode": false,
+      "formats": ["ttf", "eot", "woff", "woff2"],
+      "timestamp": "runTimestamp",
+      "normalize": true,
+      "fontHeight": 1001,
+      "centerHorizontally": true
     }
   }, 
   "css": {

@@ -148,6 +148,26 @@ gulp.task('image', function () {
     .pipe(plugins.imagemin())
     .pipe(gulp.dest(config.paths.images.dest));
 });
+
+gulp.task('iconfont', function () {
+  return gulp.src(config.paths.iconfont.src + '*.svg')
+    .pipe(plugins.changed(config.paths.iconfont.dest))
+    .pipe(plugins.svgmin())
+    .pipe(plugins.iconfont(config.plugins.iconfont))
+    .on('glyphs', function (glyphs) {
+      console.log(glyphs);
+      gulp.src(config.paths.iconfont.templateSrc)
+        .pipe(plugins.consolidate('lodash', {
+          glyphs: glyphs,
+          fontName: 'iconfont',
+          fontPath: '/media/themes/#{$theme}/',
+          className: 'iconfont'
+        })).on('error', function(e){console.log(e);})
+        .pipe(gulp.dest(config.paths.iconfont.templateDest));
+    })
+    .pipe(gulp.dest(config.paths.iconfont.dest));
+});
+
 /* end: Specific tasks */
 
 /*
