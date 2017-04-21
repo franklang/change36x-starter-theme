@@ -64,13 +64,8 @@ function gulpClean(type, format){
   del.sync(arr);
 }
 
-gulp.task('style:clean', function(){
-  gulpClean('style', 'css');
-});
-
-gulp.task('script:clean', function(){
-  gulpClean('script', 'js');
-});
+gulp.task('style:clean', gulpClean('style', 'css'));
+gulp.task('script:clean', gulpClean('script', 'js'));
 
 gulp.task('media:clean', function(){
   del.sync(config.paths.images.dest);
