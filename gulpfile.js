@@ -13,7 +13,7 @@
   *
   *
   * BUGs:
-  * - le style:clean efface les fichiers par défaut :/
+  * - nada :)
   *
   *
   * TESTs:
@@ -58,10 +58,14 @@ var config = require('./gulpconf.json');
 
 
 /* Clean tasks */
-gulp.task('style:clean', function(){
-  var arr = config.clean.style.ignore;
-  arr.unshift(config.paths.styles.dest + '*.css');
+function gulpClean(type, format){
+  var arr = eval("config.clean."+type+".ignore");
+  arr.unshift(eval("config.paths."+type+"s.dest + '*."+format+"'"));
   del.sync(arr);
+}
+
+gulp.task('style:clean', function(){
+  gulpClean('style', 'css');
 });
 
 gulp.task('script:clean', function(){
