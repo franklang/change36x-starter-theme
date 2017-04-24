@@ -131,6 +131,10 @@ Put your SVG source files within the *src/image/sprites/svg/* folder. Then run `
 
 [Enjoy using your SVG icons the way Chris Coyier from css-tricks.com is decribing it](https://css-tricks.com/svg-sprites-use-better-icon-fonts/).
 
+### Icon font :
+
+Put your SVG source files within the *src/iconfont/* folder. Then run `gulp iconfont` to generate both an iconfont in the *image/* folder and an *_iconfont.scss* in the *src/style/* folder.
+
 
 List of available Gulp tasks
 ----------------------------
@@ -150,3 +154,4 @@ List of available Gulp tasks
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
 * `gulp svg:sprite` : SVG sprite generation
 * `gulp image` : PNG, JPG, GIF images compression
+* `gulp iconfont` : generates an iconfont
