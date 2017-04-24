@@ -38,11 +38,14 @@
 var gulp = require('gulp');
 var del = require('del');
 var es = require('event-stream');
+var merge = require('merge-stream');
+var npmpath = require('path');
 var gutil = require('gulp-util');
 var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
 });
+var spritesmithMulti = require('gulp.spritesmith-multi');
 var fs = require('fs');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
@@ -134,17 +137,41 @@ gulp.task('png:sprite', function () {
     .pipe(plugins.changed(config.paths.images.dest))
     .pipe(plugins.imagemin())
     .pipe(plugins.spritesmith({
-    imgName: config.plugins.spritesmith.imgName,
-    cssName: config.plugins.spritesmith.cssName,
-    imgPath: config.plugins.spritesmith.imgPath,
-    cssOpts: config.plugins.spritesmith.cssOpts,
-    cssVarMap: function (sprite) {
-      sprite.name = config.plugins.spritesmith.classPrefix + sprite.name;
-    }
-  }));
-  spriteData.img.pipe(gulp.dest(config.paths.images.dest));
-  spriteData.css.pipe(gulp.dest(config.paths.styles.src));
+      imgName: config.plugins.spritesmith.imgName,
+      cssName: config.plugins.spritesmith.cssName,
+      imgPath: config.plugins.spritesmith.imgPath,
+      cssOpts: config.plugins.spritesmith.cssOpts,
+      cssVarMap: function (sprite) {
+        sprite.name = config.plugins.spritesmith.classPrefix + sprite.name;
+      }
+    }));
+    spriteData.img.pipe(gulp.dest(config.paths.images.dest));
+    spriteData.css.pipe(gulp.dest(config.paths.styles.src));
 });
+
+// TODO: Reste à trouver le moyen de détecter le format de fichier ...
+gulp.task('bitmap:sprite', plugins.folders(config.paths.images.sprites.src, function (folder) {
+  var spriteData = gulp.src(npmpath.join(config.paths.images.sprites.src, folder, '*.png'))
+    .pipe(plugins.spritesmith({
+      imgName: 'sprite-' + folder + '.png',
+      cssName: '_sprite-' + folder + '.scss'
+    }));
+
+  var imgStream = spriteData.img
+    // .pipe(imagemin({
+    //     progressive: true,
+    //     interlaced: true,
+    //     optimizationLevel: 7,
+    //     svgoPlugins: [{removeViewBox: false}, {removeUselessStrokeAndFill: false}],
+    //     use: [pngquant({quality: '65-80', speed: 4})]
+    // }))
+    .pipe(gulp.dest('image/'));
+
+  var cssStream = spriteData.css
+    .pipe(gulp.dest('image/'));
+
+  return merge(imgStream, cssStream);
+}));
 
 gulp.task('iconfont', function () {
   return gulp.src(config.paths.iconfont.src + '*.svg')
@@ -182,16 +209,15 @@ gulp.task('svg:sprite', function () {
     .pipe(plugins.rename(config.paths.images.sprites.svg.output))
     .pipe(gulp.dest(config.paths.images.sprites.svg.dest));
 });
-
 /* end: Specific tasks */
 
 
 /* Tasks */
-gulp.task('default', ['style', 'script', 'media']);
+gulp.task('default', ['media', 'style', 'script']);
 
+gulp.task('media', ['media:clean', 'font', 'image', 'png:sprite', 'iconfont', 'svg:sprite']);
 gulp.task('style', ['style:clean', 'css:vendor', 'sass']);
 gulp.task('script', ['script:clean', 'js:vendor', 'js:custom']);
-gulp.task('media', ['media:clean', 'font', 'image', 'png:sprite', 'iconfont', 'svg:sprite']);
 
 var appFiles = {
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
@@ -203,13 +229,13 @@ var appFiles = {
   fonts: config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}'
 };
 
-gulp.task('watch', ['style', 'script', 'media'], function(){
-  gulp.watch(appFiles.styles, ['style']);
-  gulp.watch(appFiles.scripts, ['script']);
+gulp.task('watch', ['media', 'style', 'script'], function(){
   gulp.watch(appFiles.fonts, ['font']);
   gulp.watch(appFiles.images, ['media:clean', 'image']);
   gulp.watch(appFiles.pngSprite, ['png:sprite']);
   gulp.watch(appFiles.iconFont, ['iconfont']);
   gulp.watch(appFiles.svgSprite, ['svg:sprite']);
+  gulp.watch(appFiles.styles, ['style']);
+  gulp.watch(appFiles.scripts, ['script']);
   // gulp.watch(config.paths.sprites.src, ['sprite']).on('change', function() {});
 });

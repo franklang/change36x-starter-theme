@@ -9,6 +9,8 @@
       "src": "src/image/",
       "dest": "image/",
       "sprites": {
+        "src": "src/image/sprites/",
+        "dest": "image/",
         "svg": {
           "src": "src/image/sprites/svg/",
           "output": "Website-Block-Xhtmltemplate-Svgsprite.all.all.html",
@@ -74,13 +76,16 @@
       }
     },
     "spritesmith": {
-      "imgName": "sprite.png",
+      "imgName": "sprite.jpg",
       "cssName": "_sprite.scss",
-      "imgPath": "/media/themes/#{$theme}/sprite.png",
+      "imgPath": "/media/themes/#{$theme}/sprite.jpg",
       "cssOpts": {
-        "functions": false
+        "cssFormat": ".scss"
       },
-      "classPrefix": "sprite"
+      "imgOpts": {
+
+      },
+      "classPrefix": "sprite-"
     }
   }, 
   "css": {
