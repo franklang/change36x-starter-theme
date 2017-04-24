@@ -37,6 +37,9 @@
     },
     "script": {
       "ignore": []
+    },
+    "media": {
+      "ignore": []
     }
   },
   "plugins": {
@@ -54,6 +57,13 @@
       "normalize": true,
       "fontHeight": 1001,
       "centerHorizontally": true
+    },
+    "consolidate": {
+      "lodash": {
+        "fontName": "iconfont",
+        "fontPath": "/media/themes/#{$theme}/",
+        "className": "iconfont"
+      }
     }
   }, 
   "css": {

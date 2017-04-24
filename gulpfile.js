@@ -7,7 +7,6 @@
   * - minify: true/false + concatenate: true/false ?
   * - LESS: => CSS
   * - image sprite
-  * - iconfont
   * - FONT: => un simple déplacement des fichiers source.
   * - auto-génération d'un guide de styles
   *
@@ -159,10 +158,11 @@ gulp.task('iconfont', function () {
       gulp.src(config.paths.iconfont.templateSrc)
         .pipe(plugins.consolidate('lodash', {
           glyphs: glyphs,
-          fontName: 'iconfont',
-          fontPath: '/media/themes/#{$theme}/',
-          className: 'iconfont'
-        })).on('error', function(e){console.log(e);})
+          fontName: config.plugins.consolidate.lodash.fontName,
+          fontPath: config.plugins.consolidate.lodash.fontPath,
+          className: config.plugins.consolidate.lodash.className
+        }))
+        .on('error', function(e){console.log(e);})
         .pipe(gulp.dest(config.paths.iconfont.templateDest));
     })
     .pipe(gulp.dest(config.paths.iconfont.dest));
@@ -196,12 +196,13 @@ gulp.task('default', ['style', 'script', 'media']);
 
 gulp.task('style', ['style:clean', 'css:vendor', 'sass']);
 gulp.task('script', ['script:clean', 'js:vendor', 'js:custom']);
-gulp.task('media', ['media:clean', 'svg:sprite', 'image']);
+gulp.task('media', ['media:clean', 'svg:sprite', 'iconfont', 'image']);
 
 var appFiles = {
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
   scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
   svgSprite: config.paths.images.sprites.svg.src + '*.svg',
+  iconFont: config.paths.iconfont.src + '*.svg',
   images: config.paths.images.src + config.plugins.imagemin.formats
 };
 
@@ -209,6 +210,7 @@ gulp.task('watch', ['style', 'script', 'media'], function(){
   gulp.watch(appFiles.styles, ['style']);
   gulp.watch(appFiles.scripts, ['script']);
   gulp.watch(appFiles.svgSprite, ['svg:sprite']);
+  gulp.watch(appFiles.iconFont, ['iconfont']);
   gulp.watch(appFiles.images, ['media:clean', 'image']);
   // gulp.watch(config.paths.sprites.src, ['sprite']).on('change', function() {});
 });
