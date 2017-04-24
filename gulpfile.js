@@ -7,7 +7,6 @@
   * - minify: true/false + concatenate: true/false ?
   * - LESS: => CSS
   * - image sprite
-  * - FONT: => un simple déplacement des fichiers source.
   * - auto-génération d'un guide de styles
   *
   *
@@ -154,7 +153,7 @@ gulp.task('iconfont', function () {
     .pipe(plugins.svgmin())
     .pipe(plugins.iconfont(config.plugins.iconfont))
     .on('glyphs', function (glyphs) {
-      console.log(glyphs);
+      // console.log(glyphs);
       gulp.src(config.paths.iconfont.templateSrc)
         .pipe(plugins.consolidate('lodash', {
           glyphs: glyphs,
@@ -166,6 +165,12 @@ gulp.task('iconfont', function () {
         .pipe(gulp.dest(config.paths.iconfont.templateDest));
     })
     .pipe(gulp.dest(config.paths.iconfont.dest));
+});
+
+gulp.task('font', function() {
+  return gulp.src(config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}')
+    .pipe(plugins.changed(config.paths.fonts.dest))
+    .pipe(gulp.dest(config.paths.fonts.dest));
 });
 
 /* end: Specific tasks */
@@ -196,14 +201,15 @@ gulp.task('default', ['style', 'script', 'media']);
 
 gulp.task('style', ['style:clean', 'css:vendor', 'sass']);
 gulp.task('script', ['script:clean', 'js:vendor', 'js:custom']);
-gulp.task('media', ['media:clean', 'svg:sprite', 'iconfont', 'image']);
+gulp.task('media', ['media:clean', 'svg:sprite', 'iconfont', 'image', 'font']);
 
 var appFiles = {
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
   scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
   svgSprite: config.paths.images.sprites.svg.src + '*.svg',
   iconFont: config.paths.iconfont.src + '*.svg',
-  images: config.paths.images.src + config.plugins.imagemin.formats
+  images: config.paths.images.src + config.plugins.imagemin.formats,
+  fonts: config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}'
 };
 
 gulp.task('watch', ['style', 'script', 'media'], function(){
@@ -212,5 +218,6 @@ gulp.task('watch', ['style', 'script', 'media'], function(){
   gulp.watch(appFiles.svgSprite, ['svg:sprite']);
   gulp.watch(appFiles.iconFont, ['iconfont']);
   gulp.watch(appFiles.images, ['media:clean', 'image']);
+  gulp.watch(appFiles.fonts, ['font']);
   // gulp.watch(config.paths.sprites.src, ['sprite']).on('change', function() {});
 });

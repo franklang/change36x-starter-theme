@@ -29,6 +29,10 @@
       "dest": "image/",
       "templateSrc": "src/iconfont/template/_iconfont.scss",
       "templateDest": "src/style/"
+    },
+    "fonts": {
+      "src": "src/font/",
+      "dest": "image/"
     }
   },
   "clean": {

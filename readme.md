@@ -119,19 +119,27 @@ Simply store your custom JS within the *src/js/* folder and use [Change native f
 Media
 -----
 
-Running `gulp media` will process all media tasks once; then stop.
+Running `gulp media` will process all media tasks once; then stop. Media task consists in processing :
+* custom fonts
+* SVG sprite
+* icon font
+* basic images
 
 
-Sprites (part of `gulp media` task)
------------------------------------
+### Custom fonts
 
-### SVG sprites :
+Put your custom fonts files within the *scr/font/* folder. Then run `gulp font` to copy them in the *image/* (destination) folder.
+
+
+### Sprites (part of `gulp media` task)
+
+#### SVG sprites :
 
 Put your SVG source files within the *src/image/sprites/svg/* folder. Then run `gulp svg:sprite` to generate the *modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.
 
 [Enjoy using your SVG icons the way Chris Coyier from css-tricks.com is decribing it](https://css-tricks.com/svg-sprites-use-better-icon-fonts/).
 
-### Icon font :
+#### Icon font :
 
 Put your SVG source files within the *src/iconfont/* folder. Then run `gulp iconfont` to generate both an iconfont in the *image/* folder and an *_iconfont.scss* in the *src/style/* folder.
 
@@ -154,4 +162,5 @@ List of available Gulp tasks
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
 * `gulp svg:sprite` : SVG sprite generation
 * `gulp image` : PNG, JPG, GIF images compression
-* `gulp iconfont` : generates an iconfont
+* `gulp iconfont` : Generates an iconfont
+* `gulp font` : Copies custom font from *src/font/* folder to */image* folder
