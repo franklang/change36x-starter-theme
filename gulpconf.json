@@ -13,6 +13,10 @@
           "src": "src/image/sprites/svg/",
           "output": "Website-Block-Xhtmltemplate-Svgsprite.all.all.html",
           "dest": "modules/website/templates/"
+        },
+        "png": {
+          "src": "src/image/sprites/png/*",
+          "dest": "image/"
         }
       }
     },
@@ -68,6 +72,15 @@
         "fontPath": "/media/themes/#{$theme}/",
         "className": "iconfont"
       }
+    },
+    "spritesmith": {
+      "imgName": "sprite.png",
+      "cssName": "_sprite.scss",
+      "imgPath": "/media/themes/#{$theme}/sprite.png",
+      "cssOpts": {
+        "functions": false
+      },
+      "classPrefix": "sprite"
     }
   }, 
   "css": {

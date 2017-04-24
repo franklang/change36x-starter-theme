@@ -47,13 +47,6 @@ var fs = require('fs');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
 
-// var spriteConfig = {
-//   imgName: 'sprite.png',
-//   cssName: '_sprite.scss',
-//   imgPath: config.paths.images.dest.replace('public', '') + 'sprite.png' // Gets put in the css
-// };
-
-
 
 /* Clean tasks */
 function gulpClean(type, format){
@@ -123,21 +116,10 @@ gulp.task('js:custom', function() {
     .pipe(gulp.dest(config.paths.scripts.dest));
 });
 
-gulp.task('svg:sprite', function () {
-  return gulp.src(config.paths.images.sprites.svg.src + '*.svg')
-    .pipe(plugins.svgmin())
-    .pipe(plugins.svgstore({
-      inlineSvg: true
-    }))
-    .pipe(plugins.cheerio({
-      run: function ($, file) {
-          $('svg').css('display', 'none')
-          $('[fill]').removeAttr('fill')
-      },
-      parserOptions: { xmlMode: true }
-    }))
-    .pipe(plugins.rename(config.paths.images.sprites.svg.output))
-    .pipe(gulp.dest(config.paths.images.sprites.svg.dest));
+gulp.task('font', function() {
+  return gulp.src(config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}')
+    .pipe(plugins.changed(config.paths.fonts.dest))
+    .pipe(gulp.dest(config.paths.fonts.dest));
 });
 
 gulp.task('image', function () {
@@ -145,6 +127,23 @@ gulp.task('image', function () {
     .pipe(plugins.changed(config.paths.images.dest))
     .pipe(plugins.imagemin())
     .pipe(gulp.dest(config.paths.images.dest));
+});
+
+gulp.task('png:sprite', function () {
+  var spriteData = gulp.src(config.paths.images.sprites.png.src)
+    .pipe(plugins.changed(config.paths.images.dest))
+    .pipe(plugins.imagemin())
+    .pipe(plugins.spritesmith({
+    imgName: config.plugins.spritesmith.imgName,
+    cssName: config.plugins.spritesmith.cssName,
+    imgPath: config.plugins.spritesmith.imgPath,
+    cssOpts: config.plugins.spritesmith.cssOpts,
+    cssVarMap: function (sprite) {
+      sprite.name = config.plugins.spritesmith.classPrefix + sprite.name;
+    }
+  }));
+  spriteData.img.pipe(gulp.dest(config.paths.images.dest));
+  spriteData.css.pipe(gulp.dest(config.paths.styles.src));
 });
 
 gulp.task('iconfont', function () {
@@ -167,33 +166,24 @@ gulp.task('iconfont', function () {
     .pipe(gulp.dest(config.paths.iconfont.dest));
 });
 
-gulp.task('font', function() {
-  return gulp.src(config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}')
-    .pipe(plugins.changed(config.paths.fonts.dest))
-    .pipe(gulp.dest(config.paths.fonts.dest));
+gulp.task('svg:sprite', function () {
+  return gulp.src(config.paths.images.sprites.svg.src + '*.svg')
+    .pipe(plugins.svgmin())
+    .pipe(plugins.svgstore({
+      inlineSvg: true
+    }))
+    .pipe(plugins.cheerio({
+      run: function ($, file) {
+          $('svg').css('display', 'none')
+          $('[fill]').removeAttr('fill')
+      },
+      parserOptions: { xmlMode: true }
+    }))
+    .pipe(plugins.rename(config.paths.images.sprites.svg.output))
+    .pipe(gulp.dest(config.paths.images.sprites.svg.dest));
 });
 
 /* end: Specific tasks */
-
-/*
-  Sprite Generator
-*/
-// gulp.task('sprite', function () {
-//   var spriteData = gulp.src(config.paths.sprites.src).pipe(plugins.spritesmith({
-//     imgName: spriteConfig.imgName,
-//     cssName: spriteConfig.cssName,
-//     imgPath: spriteConfig.imgPath,
-//     cssOpts: {
-//       functions: false
-//     },
-//     cssVarMap: function (sprite) {
-//       sprite.name = 'sprite-' + sprite.name;
-//     }
-//   }));
-//   spriteData.img.pipe(gulp.dest(config.paths.images.dest));
-//   spriteData.css.pipe(gulp.dest(config.paths.styles.src));
-// });
-
 
 
 /* Tasks */
@@ -201,12 +191,13 @@ gulp.task('default', ['style', 'script', 'media']);
 
 gulp.task('style', ['style:clean', 'css:vendor', 'sass']);
 gulp.task('script', ['script:clean', 'js:vendor', 'js:custom']);
-gulp.task('media', ['media:clean', 'svg:sprite', 'iconfont', 'image', 'font']);
+gulp.task('media', ['media:clean', 'font', 'image', 'png:sprite', 'iconfont', 'svg:sprite']);
 
 var appFiles = {
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
   scripts: [config.paths.scripts.src + '*.js', './gulpconf.json'],
   svgSprite: config.paths.images.sprites.svg.src + '*.svg',
+  pngSprite: config.paths.images.sprites.png.src + '*.png',
   iconFont: config.paths.iconfont.src + '*.svg',
   images: config.paths.images.src + config.plugins.imagemin.formats,
   fonts: config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}'
@@ -215,9 +206,10 @@ var appFiles = {
 gulp.task('watch', ['style', 'script', 'media'], function(){
   gulp.watch(appFiles.styles, ['style']);
   gulp.watch(appFiles.scripts, ['script']);
-  gulp.watch(appFiles.svgSprite, ['svg:sprite']);
-  gulp.watch(appFiles.iconFont, ['iconfont']);
-  gulp.watch(appFiles.images, ['media:clean', 'image']);
   gulp.watch(appFiles.fonts, ['font']);
+  gulp.watch(appFiles.images, ['media:clean', 'image']);
+  gulp.watch(appFiles.pngSprite, ['png:sprite']);
+  gulp.watch(appFiles.iconFont, ['iconfont']);
+  gulp.watch(appFiles.svgSprite, ['svg:sprite']);
   // gulp.watch(config.paths.sprites.src, ['sprite']).on('change', function() {});
 });
