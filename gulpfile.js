@@ -39,13 +39,12 @@ var gulp = require('gulp');
 var del = require('del');
 var es = require('event-stream');
 var merge = require('merge-stream');
-var npmpath = require('path');
+var path = require('path');
 var gutil = require('gulp-util');
 var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
 });
-var spritesmithMulti = require('gulp.spritesmith-multi');
 var fs = require('fs');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
@@ -149,28 +148,62 @@ gulp.task('png:sprite', function () {
     spriteData.css.pipe(gulp.dest(config.paths.styles.src));
 });
 
-// TODO: Reste à trouver le moyen de détecter le format de fichier ...
 gulp.task('bitmap:sprite', plugins.folders(config.paths.images.sprites.src, function (folder) {
-  var spriteData = gulp.src(npmpath.join(config.paths.images.sprites.src, folder, '*.png'))
+  var spriteDataPng = gulp.src(path.join(config.paths.images.sprites.src, folder, '*.png'))
+    .pipe(plugins.changed(config.paths.images.dest))
+    .pipe(plugins.imagemin())    
     .pipe(plugins.spritesmith({
-      imgName: 'sprite-' + folder + '.png',
-      cssName: '_sprite-' + folder + '.scss'
+      imgName: config.plugins.spritesmith.imgName + folder + '.png',
+      cssName: config.plugins.spritesmith.cssName + folder + '.scss',
+      imgPath: config.plugins.spritesmith.imgPath + folder + '.png',
+      cssVarMap: function (sprite) {
+        sprite.name = config.plugins.spritesmith.classPrefix + sprite.name;
+      }      
     }));
 
-  var imgStream = spriteData.img
-    // .pipe(imagemin({
-    //     progressive: true,
-    //     interlaced: true,
-    //     optimizationLevel: 7,
-    //     svgoPlugins: [{removeViewBox: false}, {removeUselessStrokeAndFill: false}],
-    //     use: [pngquant({quality: '65-80', speed: 4})]
-    // }))
-    .pipe(gulp.dest('image/'));
+  var spriteDataJpg = gulp.src(path.join(config.paths.images.sprites.src, folder, '*.jpg'))
+    .pipe(plugins.changed(config.paths.images.dest))
+    .pipe(plugins.imagemin())    
+    .pipe(plugins.spritesmith({
+      imgName: config.plugins.spritesmith.imgName + folder + '.jpg',
+      cssName: config.plugins.spritesmith.cssName + folder + '.scss',
+      imgPath: config.plugins.spritesmith.imgPath + folder + '.jpg',
+      cssVarMap: function (sprite) {
+        sprite.name = config.plugins.spritesmith.classPrefix + sprite.name;
+      }
+    }));
 
-  var cssStream = spriteData.css
-    .pipe(gulp.dest('image/'));
+  var spriteDataGif = gulp.src(path.join(config.paths.images.sprites.src, folder, '*.gif'))
+    .pipe(plugins.changed(config.paths.images.dest))
+    .pipe(plugins.imagemin())    
+    .pipe(plugins.spritesmith({
+      imgName: config.plugins.spritesmith.imgName + folder + '.gif',
+      cssName: config.plugins.spritesmith.cssName + folder + '.scss',
+      imgPath: config.plugins.spritesmith.imgPath + folder + '.gif',
+      cssVarMap: function (sprite) {
+        sprite.name = config.plugins.spritesmith.classPrefix + sprite.name;
+      }
+    }));
 
-  return merge(imgStream, cssStream);
+  var imgStreamPng = spriteDataPng.img
+    .pipe(gulp.dest(config.paths.images.dest));
+
+  var cssStreamPng = spriteDataPng.css
+    .pipe(gulp.dest(config.paths.styles.src));
+
+  var imgStreamJpg = spriteDataJpg.img
+    .pipe(gulp.dest(config.paths.images.dest));
+
+  var cssStreamJpg = spriteDataJpg.css
+    .pipe(gulp.dest(config.paths.styles.src));
+
+  var imgStreamGif = spriteDataGif.img
+    .pipe(gulp.dest(config.paths.images.dest));
+
+  var cssStreamGif = spriteDataGif.css
+    .pipe(gulp.dest(config.paths.styles.src));
+
+  return merge(imgStreamPng, cssStreamPng, imgStreamJpg, cssStreamJpg, imgStreamGif, cssStreamGif);
 }));
 
 gulp.task('iconfont', function () {

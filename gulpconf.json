@@ -76,15 +76,10 @@
       }
     },
     "spritesmith": {
-      "imgName": "sprite.jpg",
-      "cssName": "_sprite.scss",
-      "imgPath": "/media/themes/#{$theme}/sprite.jpg",
-      "cssOpts": {
-        "cssFormat": ".scss"
-      },
-      "imgOpts": {
-
-      },
+      "imgName": "sprite-",
+      "cssName": "_sprite-",
+      "cssExtension": "less",
+      "imgPath": "/media/themes/#{$theme}/",
       "classPrefix": "sprite-"
     }
   }, 
