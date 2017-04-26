@@ -2,11 +2,9 @@
   *
   * TODOs:
   *
-  * - Fixer les versions dans package.json
   * - séparer configs des paths (gulp-paths.json) et des plugins/tâches (gulp-conf.js) -> un 1er pas vers la modularité des tâches.
   * - minify: true/false + concatenate: true/false ?
   * - LESS: => CSS
-  * - image sprite
   * - auto-génération d'un guide de styles
   *
   *
@@ -61,7 +59,7 @@ gulp.task('style:clean', gulpClean('style', 'css'));
 gulp.task('script:clean', gulpClean('script', 'js'));
 
 gulp.task('media:clean', function(){
-  del.sync(config.paths.images.dest);
+  del.sync(config.paths.images.dest + '**/*.{png,PNG,jpg,JPG,gif,GIF}');
 });
 /* end: Clean tasks */
 
@@ -139,7 +137,7 @@ function spriteData(folder, format){
     .pipe(plugins.spritesmith({
       cssName: config.plugins.spritesmith.cssName + folder + '.' + config.plugins.spritesmith.cssFormat,
       imgName: config.plugins.spritesmith.imgName + folder + format,
-      imgPath: config.plugins.spritesmith.imgPath + folder + format,
+      imgPath: config.plugins.spritesmith.imgPath + config.plugins.spritesmith.imgName + folder + format,
       cssVarMap: function (sprite) {
         sprite.name = config.plugins.spritesmith.classPrefix + sprite.name;
       }
@@ -209,7 +207,7 @@ gulp.task('script', ['script:clean', 'js:vendor', 'js:custom']);
 var appFiles = {
   fonts: config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}',
   images: config.paths.images.src + config.plugins.imagemin.formats,
-  bitmapSprite: config.paths.images.sprites.src + '*.{png,jpg}',
+  bitmapSprite: config.paths.images.sprites.src + '**/*.{png,jpg}',
   iconFont: config.paths.iconfont.src + '*.svg',
   svgSprite: config.paths.images.sprites.svg.src + '*.svg',
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
