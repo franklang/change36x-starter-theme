@@ -15,10 +15,6 @@
           "src": "src/image/sprites/svg/",
           "output": "Website-Block-Xhtmltemplate-Svgsprite.all.all.html",
           "dest": "modules/website/templates/"
-        },
-        "png": {
-          "src": "src/image/sprites/png/*",
-          "dest": "image/"
         }
       }
     },
