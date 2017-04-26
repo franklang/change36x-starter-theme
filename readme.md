@@ -168,14 +168,17 @@ List of available Gulp tasks
 * `gulp media` : Process all media tasks once; then stop
 
 ### More specific tasks
-* `gulp css:vendor` : Add vendor CSS to the source code 
-* `gulp sass` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
-* `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
-* `gulp font` : Copies custom font from source *src/font/* folder to destination */image* folder
-* `gulp image` : Bitmap images (PNG, JPG, GIF) compression
-* `gulp bitmap:sprite` : Generates bitmap (PNG or JPG - GIF not supported!) sprites and relative stylesheets
-* `gulp iconfont` : Generates an iconfont and relative stylesheet
-* `gulp svg:sprite` : Generates SVG sprite
+* style
+  * `gulp css:vendor` : Add vendor CSS to the source code 
+  * `gulp sass` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
+* script
+  * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
+* media
+  * `gulp font` : Copies custom font from source *src/font/* folder to destination */image* folder
+  * `gulp image` : Bitmap images (PNG, JPG, GIF) compression
+  * `gulp bitmap:sprite` : Generates bitmap (PNG or JPG - GIF not supported!) sprites and relative stylesheets
+  * `gulp iconfont` : Generates an iconfont and relative stylesheet
+  * `gulp svg:sprite` : Generates SVG sprite
 
 ### Clean
 * `gulp style:clean` : Cleans destination */style* folder from deleted style source files
