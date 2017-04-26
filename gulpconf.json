@@ -58,7 +58,7 @@
     "iconfont": {
       "fontName": "iconfont",
       "prependUnicode": false,
-      "formats": ["ttf", "eot", "woff", "woff2"],
+      "formats": ["svg", "ttf", "eot", "woff", "woff2"],
       "timestamp": "runTimestamp",
       "normalize": true,
       "fontHeight": 1001,
