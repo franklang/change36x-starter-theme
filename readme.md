@@ -14,6 +14,8 @@ Requirements
 Theme initialization and update
 -------------------------------
 
+Clone this repo: `git clone -b base-workflow https://github.com/franklang/change36x-starter-theme.git`.
+
 Whenever you've just grabbed this starter bundle from GitHub and want to start a fresh theme development or just ran a `git pull` to get latest code updates from your team, **always do the following** to make sure you have an up-to-date list of installed dependencies and packages :
 
 * Run `bower install` to get or update theme front-end dependencies list
