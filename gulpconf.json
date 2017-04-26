@@ -80,13 +80,9 @@
     }
   }, 
   "css": {
-    "vendor": [
-      "src/vendor/jquery-ui/themes/blitzer/jquery-ui.min.css"
-    ]
+    "vendor": []
   },
   "js": {
-    "vendor": [
-      "src/vendor/bootstrap/js/popover.js"
-    ]
+    "vendor": []
   }
 }

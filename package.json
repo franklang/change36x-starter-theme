@@ -12,7 +12,6 @@
     "gulp-consolidate": "0.2.x",
     "gulp-folders": "1.1.0",
     "gulp-iconfont": "8.0.x",
-    "gulp-if": "2.0.2",
     "gulp-imagemin": "3.2.0",
     "gulp-load-plugins": "0.4.0",
     "gulp-rename": "1.2.0",

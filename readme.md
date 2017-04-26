@@ -18,8 +18,8 @@ Clone this repo: `git clone -b base-workflow https://github.com/franklang/change
 
 Whenever you've just grabbed this starter bundle from GitHub and want to start a fresh theme development or just ran a `git pull` to get latest code updates from your team, **always do the following** to make sure you have an up-to-date list of installed dependencies and packages :
 
-* Run `bower install` to get or update theme front-end dependencies list
 * Run `npm install` to get or update NodeJS packages list (essentially Gulp plugins)
+* Run `bower install` to get or update theme front-end dependencies list
 
 
 Bower + Gulp workflow
@@ -124,9 +124,10 @@ Media
 Running `gulp media` will process all media tasks once; then stop. Media tasks consist in :
 * custom fonts
 * bitmap images (PNG, JPG, GIF)
-* bitmap images (PNG, JPG - no GIF support) sprites
-* icon font
-* vector (SVG) sprite
+* sprites :
+  * bitmap images (PNG, JPG - no GIF support from gulp-spritesmith plugin) sprites
+  * icon font
+  * vector images (SVG) sprite
 
 
 ### Custom fonts
