@@ -119,29 +119,40 @@ Simply store your custom JS within the *src/js/* folder and use [Change native f
 Media
 -----
 
-Running `gulp media` will process all media tasks once; then stop. Media task consists in processing :
+Running `gulp media` will process all media tasks once; then stop. Media tasks consist in :
 * custom fonts
-* SVG sprite
+* bitmap images (PNG, JPG, GIF)
+* bitmap images (PNG, JPG - no GIF support) sprites
 * icon font
-* basic images
+* vector (SVG) sprite
 
 
 ### Custom fonts
 
-Put your custom fonts files within the *scr/font/* folder. Then run `gulp font` to copy them in the *image/* (destination) folder.
+Put your custom fonts files within the source *scr/font/* folder. Then run `gulp font` to copy them in the destination *image/* folder.
 
 
-### Sprites (part of `gulp media` task)
+### Bitmap images
+
+Put your PNG, JPG or GIF files within the root of source *scr/image/* folder. Then run `gulp image` to send optimized versions to the destination *image/* folder.
+
+
+### Sprites
+
+#### Bitmap images (PNG, JPG) sprites
+
+**Please note: GIF format is not supported by gulp-spritesmith plugin. Only use PNG or JPG files.**
+You can create multiple sprites using one single task. Create one folder per sprite within the source *src/image/sprites/* folder. Do not mix multiple file formats within the same folder. Then run `gulp bitmap:sprite` to generate both a sprite per folder in the destination *image/* folder and a stylesheet per folder in the source *src/style/* folder. 
+
+#### Icon font :
+
+Put your SVG source files within the *src/iconfont/* folder. Then run `gulp iconfont` to generate both an iconfont in the *image/* folder and an *_iconfont.scss* in the *src/style/* folder.
 
 #### SVG sprites :
 
 Put your SVG source files within the *src/image/sprites/svg/* folder. Then run `gulp svg:sprite` to generate the *modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.
 
 [Enjoy using your SVG icons the way Chris Coyier from css-tricks.com is decribing it](https://css-tricks.com/svg-sprites-use-better-icon-fonts/).
-
-#### Icon font :
-
-Put your SVG source files within the *src/iconfont/* folder. Then run `gulp iconfont` to generate both an iconfont in the *image/* folder and an *_iconfont.scss* in the *src/style/* folder.
 
 
 List of available Gulp tasks
@@ -160,7 +171,13 @@ List of available Gulp tasks
 * `gulp css:vendor` : Add vendor CSS to the source code 
 * `gulp sass` : SASS to CSS compilation (no CSS minification and/or concatenation as RBS Change already does it)
 * `gulp js:vendor` or `gulp js:custom` : Vendor or custom JS minification (no JS concatenation as RBS Change already does it)
-* `gulp svg:sprite` : SVG sprite generation
-* `gulp image` : PNG, JPG, GIF images compression
-* `gulp iconfont` : Generates an iconfont
-* `gulp font` : Copies custom font from *src/font/* folder to */image* folder
+* `gulp font` : Copies custom font from source *src/font/* folder to destination */image* folder
+* `gulp image` : Bitmap images (PNG, JPG, GIF) compression
+* `gulp bitmap:sprite` : Generates bitmap (PNG or JPG - GIF not supported!) sprites and relative stylesheets
+* `gulp iconfont` : Generates an iconfont and relative stylesheet
+* `gulp svg:sprite` : Generates SVG sprite
+
+### Clean
+* `gulp style:clean` : Cleans destination */style* folder from deleted style source files
+* `gulp script:clean` : Cleans destination *js* folder from deleted script source files
+* `gulp media:clean` : Cleans destination */image* folder from deleted media source files
