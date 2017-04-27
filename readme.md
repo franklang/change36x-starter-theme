@@ -151,6 +151,25 @@ You can create multiple sprites using one single task. Create one folder per spr
 
 Put your SVG source files within the *src/iconfont/* folder. Then run `gulp iconfont` to generate both an iconfont in the *image/* folder and an *_iconfont.scss* in the *src/style/* folder.
 
+HTML code to show an icon :
+```html
+<i class="iconfont iconfont-calendar"></i>
+```
+
+**Please note :** there's a whole lot of characters replacement going on for iconfonts within the gulpfile. That's because of Change 3.6.x CSS parser being picky with the double-quotes ("). You might not need the following when working with another CMS.
+
+```js
+gulp.task('sass', function() {
+  gulp.src(config.paths.styles.src + '**/*.scss')
+    .pipe(plugins.replace('"embedded-opentype', "'embedded-opentype'"))
+    .pipe(plugins.replace('"woff2', "'woff2'"))
+    .pipe(plugins.replace('"woff', "'woff'"))
+    .pipe(plugins.replace('"truetype', "'truetype'"))
+    .pipe(plugins.replace('"svg', "'svg'"))
+    .pipe(gulp.dest(config.paths.styles.dest));
+});
+```
+
 #### SVG sprites :
 
 Put your SVG source files within the *src/image/sprites/svg/* folder. Then run `gulp svg:sprite` to generate the *modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.

@@ -89,6 +89,11 @@ gulp.task('sass', function() {
     .pipe(plugins.shorthand())
     .pipe(plugins.replace('url("', 'url('))
     .pipe(plugins.replace('")', ')'))
+    .pipe(plugins.replace('"embedded-opentype', "'embedded-opentype'"))
+    .pipe(plugins.replace('"woff2', "'woff2'"))
+    .pipe(plugins.replace('"woff', "'woff'"))
+    .pipe(plugins.replace('"truetype', "'truetype'"))
+    .pipe(plugins.replace('"svg', "'svg'"))
     .pipe(gulp.dest(config.paths.styles.dest));
 });
 
