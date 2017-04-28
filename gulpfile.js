@@ -49,14 +49,17 @@ var config = require('./gulpconf.json');
 
 
 /* Clean tasks */
-function gulpClean(type, format){
-  var arr = eval("config.clean."+type+".ignore");
-  arr.unshift(eval("config.paths."+type+"s.dest + '*."+format+"'"));
-  del.sync(arr);
-}
+gulp.task('style:clean', function(){
+  var arr = config.clean.style.ignore;
+  arr.unshift(config.paths.styles.dest + '*.css');
+  del.sync(arr);  
+});
 
-gulp.task('style:clean', gulpClean('style', 'css'));
-gulp.task('script:clean', gulpClean('script', 'js'));
+gulp.task('script:clean', function(){
+  var arr = config.clean.script.ignore;
+  arr.unshift(config.paths.scripts.dest + '*.js');
+  del.sync(arr);  
+});
 
 gulp.task('media:clean', function(){
   del.sync(config.paths.images.dest + '**/*.{png,PNG,jpg,JPG,gif,GIF}');
