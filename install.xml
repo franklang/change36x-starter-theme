@@ -14,6 +14,7 @@
           themes.starter.main,
           themes.starter.skin"
         cssprint="themes.starter.print"
+        useprojectjs="false"
         js="themes.starter.js.main">
       </pagetemplate>
 
@@ -26,6 +27,7 @@
           themes.starter.main,
           themes.starter.skin"
         cssprint="themes.starter.print"
+        useprojectjs="false"
         js="themes.starter.js.main">
       </pagetemplate>
 
