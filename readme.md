@@ -14,7 +14,9 @@ Requirements
 Theme initialization and update
 -------------------------------
 
-Clone this repo: `git clone -b base-workflow https://github.com/franklang/change36x-starter-theme.git`.
+**When starting from scratch**, clone the following repo: `git clone -b base-workflow https://github.com/franklang/change36x-starter-theme.git`.
+
+**PLEASE NOTE :** execute `npm` and `bower` commands from the root of your theme, where either `package.json` and `bower.json` are stored.
 
 Whenever you've just grabbed this starter bundle from GitHub and want to start a fresh theme development or just ran a `git pull` to get latest code updates from your team, **always do the following** to make sure you have an up-to-date list of installed dependencies and packages :
 
@@ -42,9 +44,26 @@ Start working with this starter theme
 
 Anything outside that *src/* folder might be lost by either being ignored by Git (see *.gitignore* file) or erased next time a Gulp task is run. 
 
-First thing to do: set `"theme"` value from the *gulpconf.json* to your theme name (default value is `starter`).
+First thing to do: set `"theme"` value from the *gulpconf.json* to your theme name (default value is `starter` - if default value is not `starter`, then this might have already been done).
 
-Also, rush over *src/style/main.scss* and set `$theme` variable value to your theme name too (default value is `starter`).
+Also, rush over *src/style/main.scss* and set `$theme` variable value to your theme name too (default value is `starter` - if default value is not `starter`, then this might have already been done).
+
+
+Overriding vendor components
+----------------------------
+
+You'll find *vendor-override/* folders at the root of both *src/style/* and *src/js/*. Use them to override vendor components.
+**PLEASE** keep original vendor folders and files structure when overriding. Example :
+
+Put overriden version of original :
+```json
+src/vendor/foundation-sites/scss/settings/_settings.scss
+```
+
+in :
+```json
+src/styles/vendor-override/foundation-sites/scss/settings/_settings.scss
+```
 
 
 Styles
