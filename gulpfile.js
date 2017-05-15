@@ -39,6 +39,7 @@ var es = require('event-stream');
 var merge = require('merge-stream');
 var path = require('path');
 var gutil = require('gulp-util');
+var cleanCSS = require('gulp-clean-css');
 var plugins = require("gulp-load-plugins")({
   pattern: ['gulp-*', 'gulp.*'],
   replaceString: /\bgulp[\-.]/
@@ -76,7 +77,7 @@ gulp.task('css:vendor', function() {
   gulp.src(vendorcss)
     .pipe(plugins.changed(config.paths.styles.dest))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
-    .pipe(plugins.shorthand())
+    .pipe(cleanCSS())
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
@@ -89,7 +90,7 @@ gulp.task('sass', function() {
     .pipe(plugins.changed(config.paths.styles.dest))
     .pipe(plugins.sass().on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
-    .pipe(plugins.shorthand())
+    .pipe(cleanCSS())
     .pipe(plugins.replace('url("', 'url('))
     .pipe(plugins.replace('")', ')'))
     .pipe(plugins.replace('"embedded-opentype', "'embedded-opentype'"))
