@@ -45,6 +45,7 @@ var plugins = require("gulp-load-plugins")({
   replaceString: /\bgulp[\-.]/
 });
 var fs = require('fs');
+var runSequence = require('run-sequence');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
 
@@ -209,9 +210,26 @@ gulp.task('svg:sprite', function () {
 /* Tasks */
 gulp.task('default', ['media', 'style', 'script']);
 
-gulp.task('media', ['media:clean', 'font', 'image', 'bitmap:sprite', 'iconfont', 'svg:sprite']);
-gulp.task('style', ['style:clean', 'css:vendor', 'sass']);
-gulp.task('script', ['script:clean', 'js:vendor', 'js:custom']);
+gulp.task('media', ['media:clean'], function(cb) {
+  runSequence(
+    'font', 'image', 'bitmap:sprite', 'iconfont', 'svg:sprite' 
+    cb
+  );
+});
+
+gulp.task('style', ['style:clean'], function(cb) {
+  runSequence(
+    'css:vendor', 'sass',
+    cb
+  );
+});
+
+gulp.task('script', ['script:clean'], function(cb) {
+  runSequence(
+    'js:vendor', 'js:custom',
+    cb
+  );  
+});
 
 var appFiles = {
   fonts: config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}',
@@ -224,11 +242,11 @@ var appFiles = {
 };
 
 gulp.task('watch', ['media', 'style', 'script'], function(){
-  gulp.watch(appFiles.fonts, ['media:clean', 'font']);
-  gulp.watch(appFiles.images, ['media:clean', 'image']);
-  gulp.watch(appFiles.bitmapSprite, ['media:clean', 'bitmap:sprite']);
-  gulp.watch(appFiles.iconFont, ['media:clean', 'iconfont']);
-  gulp.watch(appFiles.svgSprite, ['media:clean', 'svg:sprite']);
-  gulp.watch(appFiles.styles, ['style:clean', 'style']);
-  gulp.watch(appFiles.scripts, ['script:clean', 'script']);
+  gulp.watch(appFiles.fonts, ['media:clean'], function(cb) { runSequence('font', cb); });
+  gulp.watch(appFiles.images, ['media:clean'], function(cb) { runSequence('image', cb); });
+  gulp.watch(appFiles.bitmapSprite, ['media:clean'], function(cb) { runSequence('bitmap:sprite', cb); });
+  gulp.watch(appFiles.iconFont, ['media:clean'], function(cb) { runSequence('iconfont', cb); });
+  gulp.watch(appFiles.svgSprite, ['media:clean'], function(cb) { runSequence('svg:sprite', cb); });
+  gulp.watch(appFiles.styles, ['style:clean'], function(cb) { runSequence('style', cb); });
+ gulp.watch(appFiles.scripts, ['script:clean'], function(cb) { runSequence('script', cb); });
 });
