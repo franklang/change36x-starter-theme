@@ -25,7 +25,8 @@
     "gulp.spritesmith": "6.4.0",
     "lodash": "4.17.x",
     "merge-stream": "1.0.1",
-    "path": "0.12.7"
+    "path": "0.12.7",
+    "run-sequence": "1.2.x"
   },
   "repository": {
     "type": "git",
