@@ -208,7 +208,12 @@ gulp.task('svg:sprite', function () {
 
 
 /* Tasks */
-gulp.task('default', ['media', 'style', 'script']);
+gulp.task('default', function(cb) {
+  runSequence(
+    'media', 'style', 'script',
+    cb
+  );
+});
 
 gulp.task('media', ['media:clean'], function(cb) {
   runSequence(
