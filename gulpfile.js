@@ -247,11 +247,11 @@ var appFiles = {
 };
 
 gulp.task('watch', ['media', 'style', 'script'], function(){
-  gulp.watch(appFiles.fonts, ['media:clean'], function(cb) { runSequence('font', cb); });
-  gulp.watch(appFiles.images, ['media:clean'], function(cb) { runSequence('image', cb); });
-  gulp.watch(appFiles.bitmapSprite, ['media:clean'], function(cb) { runSequence('bitmap:sprite', cb); });
-  gulp.watch(appFiles.iconFont, ['media:clean'], function(cb) { runSequence('iconfont', cb); });
-  gulp.watch(appFiles.svgSprite, ['media:clean'], function(cb) { runSequence('svg:sprite', cb); });
-  gulp.watch(appFiles.styles, ['style:clean'], function(cb) { runSequence('style', cb); });
- gulp.watch(appFiles.scripts, ['script:clean'], function(cb) { runSequence('script', cb); });
+  gulp.watch(appFiles.fonts, ['media:clean', 'font']);
+  gulp.watch(appFiles.images, ['media:clean', 'image']);
+  gulp.watch(appFiles.bitmapSprite, ['media:clean', 'bitmap:sprite']);
+  gulp.watch(appFiles.iconFont, ['media:clean', 'iconfont']);
+  gulp.watch(appFiles.svgSprite, ['media:clean', 'svg:sprite']);
+  gulp.watch(appFiles.styles, ['style']);
+ gulp.watch(appFiles.scripts, ['script']);
 });
