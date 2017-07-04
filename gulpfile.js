@@ -212,7 +212,7 @@ gulp.task('default', ['media', 'style', 'script']);
 
 gulp.task('media', ['media:clean'], function(cb) {
   runSequence(
-    'font', 'image', 'bitmap:sprite', 'iconfont', 'svg:sprite' 
+    'font', 'image', 'bitmap:sprite', 'iconfont', 'svg:sprite', 
     cb
   );
 });
