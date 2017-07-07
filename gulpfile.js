@@ -53,13 +53,13 @@ var config = require('./gulpconf.json');
 /* Clean tasks */
 gulp.task('style:clean', function(){
   var arr = config.clean.style.ignore;
-  arr.unshift(config.paths.styles.dest + '*.css');
+  arr.unshift(config.paths.styles.dest + '**/*.css');
   del.sync(arr);  
 });
 
 gulp.task('script:clean', function(){
   var arr = config.clean.script.ignore;
-  arr.unshift(config.paths.scripts.dest + '*.js');
+  arr.unshift(config.paths.scripts.dest + '**/*.js');
   del.sync(arr);  
 });
 
@@ -117,7 +117,7 @@ gulp.task('js:vendor',function(){
 });
 
 gulp.task('js:custom', function() {
-  return gulp.src(config.paths.scripts.src + '*.js')
+  return gulp.src(config.paths.scripts.src + '**/*.js')
     .pipe(plugins.changed(config.paths.scripts.dest))
     .pipe(plugins.uglify())
     .pipe(plugins.rename(function(opt) {
@@ -243,7 +243,7 @@ var appFiles = {
   iconFont: config.paths.iconfont.src + '*.svg',
   svgSprite: config.paths.images.sprites.svg.src + '*.svg',
   styles: [config.paths.styles.src + '**/*.scss', './gulpconf.json'],
-  scripts: [config.paths.scripts.src + '*.js', './gulpconf.json']
+  scripts: [config.paths.scripts.src + '**/*.js', './gulpconf.json']
 };
 
 gulp.task('watch', ['media', 'style', 'script'], function(){
