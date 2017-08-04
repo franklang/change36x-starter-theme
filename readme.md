@@ -225,3 +225,17 @@ List of available Gulp tasks
 * `gulp style:clean` : Cleans destination */style* folder from deleted style source files
 * `gulp script:clean` : Cleans destination *js* folder from deleted script source files
 * `gulp media:clean` : Cleans destination */image* folder from deleted media source files
+
+
+NPM font-blast
+==============
+
+**Extract individual SVG/PNG icons from vendor font libraries like Font Awesome/Foundation/Fontello/etc.**
+
+Make sure your icon fonts libraries are added as dev dependencies within the bower.json file.
+
+Then, run the following command from the root of your theme folder :
+`node_modules/font-blast/bin/font-blast.js [source path to vendor icon font SVG file] [destination path to splitted SVG files]`
+
+Example :
+`node_modules/font-blast/bin/font-blast.js src/vendor/font-awesome/fonts/fontawesome-webfont.svg src/iconfont/lib/font-awesome/splitted/`
