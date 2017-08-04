@@ -39,7 +39,7 @@
   },
   "clean": {
     "style": {
-      "ignore": ["!style/layout.css", "!style/layout.xul.all.css", "!style/skin-variables.css", "!style/skin.css"]
+      "ignore": ["!style/layout.css", "!style/layout.xul.all.css", "!style/skin-variables.css", "!style/skin.css", "!style/print.css"]
     },
     "script": {
       "ignore": []
