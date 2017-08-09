@@ -9,7 +9,12 @@ Requirements
 
 * [NodeJS installed](https://docs.npmjs.com/getting-started/installing-node)
 * [Bower installed](https://bower.io/)
- 
+* [Git installed](https://git-scm.com/)
+
+**WARNING:** NPM version used for this project is **4.0.5**. Run `npm install npm@4.0.5` to get that version.
+You might want to **use the same version** in order to avoid packages versions conflicts when running Gulp or any other NPM package for this project.
+Also, if you run multiple projects at the same time (and potentially need multiple NPM versions to be available), it's better **not** to install NPM as global, but to proceed to a dedicated installation for each of your projects. So don't add the `-g` option when installing NPM.
+
 
 Theme initialization and update
 -------------------------------
