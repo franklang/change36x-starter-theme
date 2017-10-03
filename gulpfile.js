@@ -2,6 +2,7 @@
   *
   * TODOs:
   *
+  * - séparer tâches de DEV et tâches de PROD
   * - séparer configs des paths (gulp-paths.json) et des plugins/tâches (gulp-conf.js) -> un 1er pas vers la modularité des tâches.
   * - minify: true/false + concatenate: true/false ?
   * - LESS: => CSS
@@ -64,6 +65,7 @@ gulp.task('script:clean', function(){
 });
 
 gulp.task('media:clean', function(){
+  del.sync(config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}');
   del.sync(config.paths.images.dest + '**/*.{png,PNG,jpg,JPG,gif,GIF}');
 });
 /* end: Clean tasks */
@@ -246,11 +248,15 @@ var appFiles = {
   scripts: [config.paths.scripts.src + '**/*.js', './gulpconf.json']
 };
 
-gulp.task('watch', ['media', 'style', 'script'], function(){
+gulp.task('watch', function(cb){
+  runSequence(
+    'media', 'style', 'script',
+    cb
+  ); 
   gulp.watch(appFiles.fonts, ['media:clean', 'font']);
   gulp.watch(appFiles.images, ['media:clean', 'image']);
   gulp.watch(appFiles.bitmapSprite, ['media:clean', 'bitmap:sprite']);
-  gulp.watch(appFiles.iconFont, ['media:clean', 'iconfont']);
+  gulp.watch(appFiles.iconFont, ['media:clean', 'iconfont', 'style']);
   gulp.watch(appFiles.svgSprite, ['media:clean', 'svg:sprite']);
   gulp.watch(appFiles.styles, ['style']);
  gulp.watch(appFiles.scripts, ['script']);
