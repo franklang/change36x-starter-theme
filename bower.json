@@ -15,6 +15,6 @@
     "tests"
   ],
   "devDependencies": {
-    "font-awesome": "^4.7.0"
+    "browser-detection": "browserdetection#0.3.4"
   }
 }
