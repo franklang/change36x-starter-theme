@@ -57,7 +57,8 @@ By default, this theme is called `starter`. But if you need to use another name,
 
 1. First, set `"theme"` value from the *gulpconf.json* to your theme name.
 2. Then, rush over *src/style/main.scss* and set `$theme` variable value to your theme name too.
-3. Finally, replace any occurence of the `starter` keyword you'll find with your theme name in *style/layout.css*, *style/skin.css* and *install.xml* files.
+3. Then, replace any occurence of the `starter` keyword you'll find with your theme name in *style/layout.css*, *style/skin.css* and *install.xml* files.
+4. Finally, replace any occurence of the `starter` keyword you'll find with your theme name in *i18n/skin/fr_FR.xml* and *i18n/templates/fr_FR.xml* files.
 
 
 Overriding vendor components
