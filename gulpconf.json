@@ -24,6 +24,7 @@
     },
     "styles": {
       "src": "src/style/",
+      "srcVendor": "src/vendor/",
       "dest": "style/"
     },
     "iconfont": {
