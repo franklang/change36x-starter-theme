@@ -91,7 +91,10 @@ gulp.task('css:vendor', function() {
 gulp.task('sass', function() {
   gulp.src(config.paths.styles.src + '**/*.scss')
     .pipe(plugins.changed(config.paths.styles.dest))
-    .pipe(plugins.sass().on('error', plugins.sass.logError))
+    .pipe(plugins.sass({
+        includePaths: [config.paths.styles.src, config.paths.styles.srcVendor]
+      })
+      .on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
     .pipe(cleanCSS())
     .pipe(plugins.replace('url("', 'url('))
