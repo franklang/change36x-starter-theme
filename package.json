@@ -27,8 +27,7 @@
     "lodash": "4.17.x",
     "merge-stream": "1.0.1",
     "path": "0.12.7",
-    "run-sequence": "1.2.x",
-    "sass-include-paths": "4.10.0"
+    "run-sequence": "1.2.x"
   },
   "repository": {
     "type": "git",
