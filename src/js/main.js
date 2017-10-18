@@ -1,8 +1,8 @@
-;(function ($, window, undefined){
+$(document).ready(function(){
   // Browser detection
   browserDetection({
     addClasses: true
   });
   
   // code here...
-}(jQuery, window));
+});
