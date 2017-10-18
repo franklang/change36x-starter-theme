@@ -24,7 +24,7 @@
     },
     "styles": {
       "src": "src/style/",
-      "srcVendor": "src/vendor/",
+      "srcIncludePaths": ["src/style/", "src/style/vendor-override/some_dependency_override", "src/vendor/some_dependency"],
       "dest": "style/"
     },
     "iconfont": {
