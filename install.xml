@@ -15,7 +15,8 @@
           themes.starter.skin"
         cssprint="themes.starter.print"
         useprojectjs="false"
-        js="themes.starter.js.main">
+        js="themes.starter.js.browser-detection,
+            themes.starter.js.main">
       </pagetemplate>
 
       <pagetemplate byCodename="starter/tplTwoColumnsLeft" doctype="HTML-5"
@@ -28,7 +29,8 @@
           themes.starter.skin"
         cssprint="themes.starter.print"
         useprojectjs="false"
-        js="themes.starter.js.main">
+        js="themes.starter.js.browser-detection,
+            themes.starter.js.main">
       </pagetemplate>
 
       <pagetemplate byCodename="starter/tplPopin" doctype="HTML-5"
