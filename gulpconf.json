@@ -84,6 +84,8 @@
     "vendor": []
   },
   "js": {
-    "vendor": []
+    "vendor": [
+      "src/vendor/browser-detection/src/browser-detection.js"
+    ]
   }
 }
