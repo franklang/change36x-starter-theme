@@ -80,7 +80,7 @@ src/styles/vendor-override/foundation-sites/scss/settings/_settings.scss
 Characters replacement issues
 -----------------------------
 
-**Please note :** there's a whole lot of characters replacement going on for iconfonts within the gulpfile. That's because of Change 3.6.x CSS parser being picky with the double-quotes ("). You might not need the following when working with another CMS.
+**Please note :** there's a whole lot of characters replacement going on within the gulpfile. That's because of Change 3.6.x CSS parser being picky with the double-quotes ("). You might not need the following when working with another CMS.
 
 **Please note 2.:** you might not need this trick anymore, even when working with Change CMS. If you get trouble with getting some of your styles to apply (especially with SCSS files imported **after** style declarations that involve characters replacement), try removing those characters replacement instructions from the gulpfile.
 
