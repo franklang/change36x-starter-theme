@@ -19,7 +19,7 @@ Also, if you run multiple projects at the same time (and potentially need multip
 Theme initialization and update
 -------------------------------
 
-**When starting from scratch**, clone the following repo: `git clone -b base-workflow https://github.com/franklang/change36x-starter-theme.git`.
+**When starting from scratch**, clone the following repo: `git clone -b base-workflow https://github.com/franklang/change36x-starter-theme.git#base-workflow`.
 
 **PLEASE NOTE :** execute `npm` and `bower` commands from the root of your theme, where either `package.json` and `bower.json` are stored.
 
