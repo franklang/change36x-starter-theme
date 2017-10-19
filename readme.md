@@ -60,6 +60,12 @@ By default, this theme is called `starter`. But if you need to use another name,
 3. Then, replace any occurence of the `starter` keyword you'll find with your theme name in *style/layout.css*, *style/skin.css*, *install.xml*, *i18n/skin/fr_FR.xml* and *i18n/templates/fr_FR.xml* files.
 
 
+`external/` folder
+------------------
+
+This starter theme contains a folder called `external/`. Make sure you move everything that's inside this folder to the root of your Change project.
+
+
 Overriding vendor components
 ----------------------------
 
