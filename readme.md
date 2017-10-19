@@ -57,8 +57,7 @@ By default, this theme is called `starter`. But if you need to use another name,
 
 1. First, set `"theme"` value from the *gulpconf.json* to your theme name.
 2. Then, rush over *src/style/main.scss* and set `$theme` variable value to your theme name too.
-3. Then, replace any occurence of the `starter` keyword you'll find with your theme name in *style/layout.css*, *style/skin.css* and *install.xml* files.
-4. Finally, replace any occurence of the `starter` keyword you'll find with your theme name in *i18n/skin/fr_FR.xml* and *i18n/templates/fr_FR.xml* files.
+3. Then, replace any occurence of the `starter` keyword you'll find with your theme name in *style/layout.css*, *style/skin.css*, *install.xml*, *i18n/skin/fr_FR.xml* and *i18n/templates/fr_FR.xml* files.
 
 
 Overriding vendor components
@@ -75,6 +74,28 @@ src/vendor/foundation-sites/scss/settings/_settings.scss
 in :
 ```json
 src/styles/vendor-override/foundation-sites/scss/settings/_settings.scss
+```
+
+
+Characters replacement
+----------------------
+
+**Please note :** there's a whole lot of characters replacement going on for iconfonts within the gulpfile. That's because of Change 3.6.x CSS parser being picky with the double-quotes ("). You might not need the following when working with another CMS.
+**Please note 2.:** you might not need this trick anymore, even when working with Change CMS. If you get trouble with getting some of your styles to apply (especially with SCSS files imported **after** style declarations that involve characters replacement), try removing those characters replacement instructions from the gulpfile.
+**Please note 3.:** characters replacement now commented by default in the gulpfile!
+
+```js
+gulp.task('sass', function() {
+  gulp.src(config.paths.styles.src + '**/*.scss')
+    .pipe(plugins.replace('"embedded-opentype', "'embedded-opentype'"))
+    .pipe(plugins.replace('"woff2', "'woff2'"))
+    .pipe(plugins.replace('"woff', "'woff'"))
+    .pipe(plugins.replace('"truetype', "'truetype'"))
+    .pipe(plugins.replace('"svg', "'svg'"))
+    .pipe(plugins.replace('data:image/svg', '"data:image'))
+    .pipe(plugins.replace('</svg>', '</svg>"'))    
+    .pipe(gulp.dest(config.paths.styles.dest));
+});
 ```
 
 
@@ -185,20 +206,6 @@ Put your SVG source files within the *src/iconfont/* folder. Then run `gulp icon
 HTML code to show an icon :
 ```html
 <i class="iconfont iconfont-calendar"></i>
-```
-
-**Please note :** there's a whole lot of characters replacement going on for iconfonts within the gulpfile. That's because of Change 3.6.x CSS parser being picky with the double-quotes ("). You might not need the following when working with another CMS.
-
-```js
-gulp.task('sass', function() {
-  gulp.src(config.paths.styles.src + '**/*.scss')
-    .pipe(plugins.replace('"embedded-opentype', "'embedded-opentype'"))
-    .pipe(plugins.replace('"woff2', "'woff2'"))
-    .pipe(plugins.replace('"woff', "'woff'"))
-    .pipe(plugins.replace('"truetype', "'truetype'"))
-    .pipe(plugins.replace('"svg', "'svg'"))
-    .pipe(gulp.dest(config.paths.styles.dest));
-});
 ```
 
 #### SVG sprites :
