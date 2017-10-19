@@ -2,7 +2,6 @@
   *
   * TODOs:
   *
-  * - séparer tâches de DEV et tâches de PROD
   * - séparer configs des paths (gulp-paths.json) et des plugins/tâches (gulp-conf.js) -> un 1er pas vers la modularité des tâches.
   * - minify: true/false + concatenate: true/false ?
   * - LESS: => CSS
@@ -49,6 +48,7 @@ var fs = require('fs');
 var runSequence = require('run-sequence');
 var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
+var argv = require('yargs').argv;
 
 
 /* Clean tasks */
@@ -113,7 +113,7 @@ gulp.task('js:vendor',function(){
 
   return gulp.src(vendorjs)
     .pipe(plugins.changed(config.paths.scripts.dest))
-    .pipe(plugins.uglify())
+    .pipe(plugins.if(!argv.dev, plugins.uglify()))
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
@@ -124,7 +124,7 @@ gulp.task('js:vendor',function(){
 gulp.task('js:custom', function() {
   return gulp.src(config.paths.scripts.src + '**/*.js')
     .pipe(plugins.changed(config.paths.scripts.dest))
-    .pipe(plugins.uglify())
+    .pipe(plugins.if(!argv.dev, plugins.uglify()))
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
