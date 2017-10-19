@@ -97,13 +97,16 @@ gulp.task('sass', function() {
       .on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
     .pipe(cleanCSS())
-    .pipe(plugins.replace('url("', 'url('))
-    .pipe(plugins.replace('")', ')'))
-    .pipe(plugins.replace('"embedded-opentype', "'embedded-opentype'"))
-    .pipe(plugins.replace('"woff2', "'woff2'"))
-    .pipe(plugins.replace('"woff', "'woff'"))
-    .pipe(plugins.replace('"truetype', "'truetype'"))
-    .pipe(plugins.replace('"svg', "'svg'"))
+    // Please see readme.MD on characters replacement issue with Change CMS
+    // .pipe(plugins.replace('url("', 'url('))
+    // .pipe(plugins.replace('")', ')'))
+    // .pipe(plugins.replace('"embedded-opentype', "'embedded-opentype'"))
+    // .pipe(plugins.replace('"woff2', "'woff2'"))
+    // .pipe(plugins.replace('"woff', "'woff'"))
+    // .pipe(plugins.replace('"truetype', "'truetype'"))
+    // .pipe(plugins.replace('"svg', "'svg'"))
+    // .pipe(plugins.replace('data:image/svg', '"data:image'))
+    // .pipe(plugins.replace('</svg>', '</svg>"'))
     .pipe(gulp.dest(config.paths.styles.dest));
 });
 
