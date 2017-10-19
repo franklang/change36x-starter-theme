@@ -19,7 +19,7 @@
   </xsl:template>
   
   <xsl:template match="div[not(descendant::*)]">
-    <div style="display: none;"><xsl:copy-of select="@*[not(name() = 'orient' or name() = 'flex')]"/>&#160;</div>
+    <div style="position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); border: 0;"><xsl:copy-of select="@*[not(name() = 'orient' or name() = 'flex')]"/>&#160;</div>
   </xsl:template>
 
   <xsl:template match="change:templates"><xsl:apply-templates /></xsl:template>
