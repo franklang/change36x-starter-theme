@@ -100,8 +100,6 @@ gulp.task('sass', function() {
     .pipe(plugins.replace('"woff', "'woff'"))
     .pipe(plugins.replace('"truetype', "'truetype'"))
     .pipe(plugins.replace('"svg', "'svg'"))
-    .pipe(plugins.replace('data:image/svg', '"data:image'))
-    .pipe(plugins.replace('</svg>', '</svg>"'))    
     .pipe(gulp.dest(config.paths.styles.dest));
 });
 ```
