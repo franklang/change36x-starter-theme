@@ -65,6 +65,8 @@ By default, this theme is called `starter`. But if you need to use another name,
 
 This starter theme contains a folder called `external/`. Make sure you move everything that's inside this folder to the root of your Change project.
 
+* `/external/override/modules/generic/style/layout.css` is useful if you use a Flexbox based grid (like [Foundation for Sites 6 - Flexbox Grid](https://foundation.zurb.com/sites/docs/flex-grid.html). 
+
 
 Overriding vendor components
 ----------------------------
