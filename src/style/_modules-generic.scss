@@ -1,0 +1,39 @@
+*:focus {
+  outline: none;
+}
+
+@include breakpoint(small only) {
+  .cRow {
+    margin-bottom: 0px !important;
+  }
+  .cColumn,
+  .cCell {
+    display: block;
+    width: auto !important;
+    margin-bottom: 0px !important;
+  }
+}
+
+@include breakpoint(medium) {
+  .cLayout {
+    > .cColumn:not([style*="width:100%"]) {
+      padding-left: 15px;
+      padding-right: 15px;
+      // ...or if you use Foundation for Sites 6
+      // padding-left: map-get($grid-column-gutter, medium)/2;
+      // padding-right: map-get($grid-column-gutter, medium)/2;
+      &:first-of-type {
+        padding-left: 0;
+      }
+      &:last-of-type {
+        padding-right: 0;
+      }
+    }
+  }
+  .cColumn, .cCell {
+    vertical-align: top;
+  }
+  .cColumn[style*="width:100%"] {
+    width: auto !important;
+  }
+}
