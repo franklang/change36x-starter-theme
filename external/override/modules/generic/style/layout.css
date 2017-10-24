@@ -1,0 +1,66 @@
+.freeLocation {
+  clear: left;
+  float: left;
+  width: 100%;
+}
+.freeBlock {
+  float: left;
+  width: 100%;
+}
+
+.cLayout,
+.cRow {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+.cColumn,
+.cCell {
+  display: table-cell;
+}
+.cColumn {
+  -webkit-box-sizing: padding-box;
+  -moz-box-sizing: padding-box;
+  box-sizing: padding-box;
+}
+
+.freeBlock .cblock .columns{
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+}
+.freeBlock .cblock .columns > div{
+  display: table-cell;
+  vertical-align: top;
+}
+.freeBlock .cblock .columns > :not(:first-child){
+  padding-left: 10px;
+}
+.freeBlock .cblock .columns > :not(:last-child){
+  padding-right: 10px;
+}
+.freeBlock .cblock .columns .column-50{
+  width: 50%;
+}
+.freeBlock .cblock .columns .column-25{
+  width: 25%;
+}
+.freeBlock .cblock .columns .column-75{
+  width: 75%;
+}
+.freeBlock .cblock .columns .column-33{
+  width: 33%;
+}
+.freeBlock .cblock .columns .column-66{
+  width: 66%;
+}
+
+.display-none {
+  display: none;
+}
+.display-inline {
+  display: inline;
+}
+
+@import url(/modules/generic/style/layout.!xul.all.css);
+@import url(/modules/generic/style/layout.xul.all.css);
