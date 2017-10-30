@@ -62,7 +62,7 @@
       "normalize": true,
       "fontHeight": 1001,
       "formats": ["svg", "ttf", "eot", "woff", "woff2"],
-      "prependUnicode": true,
+      "prependUnicode": false,
       "timestamp": "runTimestamp"      
     },
     "consolidate": {
