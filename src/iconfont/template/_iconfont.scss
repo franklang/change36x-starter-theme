@@ -1,10 +1,15 @@
 @mixin iconfont(){
-  display: inline-block;
   font: normal normal normal 14px/1 '<%= fontName %>';
   font-size: inherit;
+  speak: none;
   text-rendering: auto;
+  text-transform: none;
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
+  
+  // Use if icons are not properly aligned vertically
+  // position: relative;
+  // bottom: -0.16666rem;
 }
 
 @font-face {
