@@ -80,7 +80,8 @@ gulp.task('css:vendor', function() {
   gulp.src(vendorcss)
     .pipe(plugins.changed(config.paths.styles.dest))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
-    .pipe(cleanCSS())
+    // .pipe(cleanCSS())
+    .pipe(plugins.if(!argv.dev, cleanCSS()))
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
@@ -96,7 +97,8 @@ gulp.task('sass', function() {
       })
       .on('error', plugins.sass.logError))
     .pipe(plugins.autoprefixer(config.plugins.autoprefixer.browsers))
-    .pipe(cleanCSS())
+    // .pipe(cleanCSS())
+    .pipe(plugins.if(!argv.dev, cleanCSS()))
     // Please see readme.MD on characters replacement issue with Change CMS
     // .pipe(plugins.replace('url("', 'url('))
     // .pipe(plugins.replace('")', ')'))
@@ -143,14 +145,16 @@ gulp.task('font', function() {
 gulp.task('image', function () {
   return gulp.src(config.paths.images.src + '**/' + config.plugins.imagemin.formats)
     .pipe(plugins.changed(config.paths.images.dest))
-    .pipe(plugins.imagemin())
+    // .pipe(plugins.imagemin())
+    .pipe(plugins.if(!argv.dev, plugins.imagemin()))
     .pipe(gulp.dest(config.paths.images.dest));
 });
 
 function spriteData(folder, format){
   return gulp.src(path.join(config.paths.images.sprites.src, folder, '*'+format))
     .pipe(plugins.changed(config.paths.images.dest))
-    .pipe(plugins.imagemin())
+    // .pipe(plugins.imagemin())
+    .pipe(plugins.if(!argv.dev, plugins.imagemin()))
     .pipe(plugins.spritesmith({
       cssName: config.plugins.spritesmith.cssName + folder + '.' + config.plugins.spritesmith.cssFormat,
       imgName: config.plugins.spritesmith.imgName + folder + format,
@@ -178,7 +182,8 @@ gulp.task('bitmap:sprite', plugins.folders(config.paths.images.sprites.src, func
 gulp.task('iconfont', function () {
   return gulp.src(config.paths.iconfont.src + '*.svg')
     .pipe(plugins.changed(config.paths.iconfont.dest))
-    .pipe(plugins.svgmin())
+    // .pipe(plugins.svgmin())
+    .pipe(plugins.if(!argv.dev, plugins.svgmin()))
     .pipe(plugins.iconfont(config.plugins.iconfont))
     .on('glyphs', function (glyphs) {
       // console.log(glyphs);
@@ -197,7 +202,8 @@ gulp.task('iconfont', function () {
 
 gulp.task('svg:sprite', function () {
   return gulp.src(config.paths.images.sprites.svg.src + '*.svg')
-    .pipe(plugins.svgmin())
+    // .pipe(plugins.svgmin())
+    .pipe(plugins.if(!argv.dev, plugins.svgmin()))
     .pipe(plugins.svgstore({
       inlineSvg: true
     }))
