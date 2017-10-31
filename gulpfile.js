@@ -129,8 +129,9 @@ gulp.task('js:custom', function() {
     .pipe(plugins.rename(function(opt) {
       opt.basename = opt.basename.replace(/\./g,'-');
       return opt;
-    }))    
-    .pipe(gulp.dest(config.paths.scripts.dest));
+    }))
+   .pipe(plugins.rename({dirname: ''}))
+   .pipe(gulp.dest(config.paths.scripts.dest));
 });
 
 gulp.task('font', function() {
