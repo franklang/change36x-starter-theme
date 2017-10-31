@@ -9,7 +9,6 @@
         useprojectcss="false"
         cssscreen="
           modules.generic.layout,
-          modules.media.fancybox,
           themes.starter.layout,
           themes.starter.main,
           themes.starter.skin"
@@ -23,7 +22,6 @@
         useprojectcss="false"
         cssscreen="
           modules.generic.layout,
-          modules.media.fancybox,
           themes.starter.layout,
           themes.starter.main,
           themes.starter.skin"
