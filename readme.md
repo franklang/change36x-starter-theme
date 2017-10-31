@@ -224,6 +224,29 @@ Put your SVG source files within the *src/image/sprites/svg/* folder. Then run `
 [Enjoy using your SVG icons the way Chris Coyier from css-tricks.com is decribing it](https://css-tricks.com/svg-sprites-use-better-icon-fonts/).
 
 
+Adding page template declination
+--------------------------------
+
+```xml
+<pagetemplate byCodename="starter/tplOneColumn" doctype="HTML-5"
+  useprojectcss="false"
+  cssscreen="
+    modules.generic.layout,
+    themes.starter.layout,
+    themes.starter.main,
+    themes.starter.skin"
+  cssprint="themes.starter.print"
+  useprojectjs="false"
+  js="themes.starter.js.browser-detection,
+      themes.responsive.js.jquery-fancybox-1-3-4,
+      themes.starter.js.main">
+  <pagetemplatedeclination byCodename="starter/tplOneColumn-homepage">
+    <templateblock editname="template-block-01" type="modules_website_xhtmltemplate" __template="Svgsprite" />
+  </pagetemplatedeclination>
+</pagetemplate>
+```
+
+
 List of available Gulp tasks
 ----------------------------
 
