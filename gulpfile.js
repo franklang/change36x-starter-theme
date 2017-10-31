@@ -244,7 +244,7 @@ gulp.task('script', ['script:clean'], function(cb) {
 
 var appFiles = {
   fonts: config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}',
-  images: config.paths.images.src + config.plugins.imagemin.formats,
+  images: config.paths.images.src + '**/' + config.plugins.imagemin.formats,
   bitmapSprite: config.paths.images.sprites.src + '**/*.{png,jpg}',
   iconFont: config.paths.iconfont.src + '*.svg',
   svgSprite: config.paths.images.sprites.svg.src + '*.svg',
