@@ -85,7 +85,10 @@
   },
   "js": {
     "vendor": [
-      "src/vendor/browser-detection/src/browser-detection.js"
+      "src/vendor/browser-detection/src/browser-detection.js",
+      "src/vendor/jquery/dist/jquery.js",      
+      "src/vendor/jquery-migrate-3.0.1/index.js",
+      "src/js/vendor-override/fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.js"      
     ]
   }
 }
