@@ -1,7 +1,7 @@
 /*
  * Migrated to avoid following console error log:
  * "Uncaught TypeError: Cannot read property 'msie' of undefined"
- * https://stackoverflow.com/questions/14923301/uncaught-typeerror-cannot-read-property-msie-of-undefined-jquery-tools
+ * "style.removeAttribute is not a function"
  */
 
 /*
@@ -582,10 +582,10 @@
     },
 
     _finish = function () {
-      if (!$.support.opacity) {
-        content.get(0).style.removeAttribute('filter');
-        wrap.get(0).style.removeAttribute('filter');
-      }
+      // if (!$.support.opacity) {
+      //   content.get(0).style.removeAttribute('filter');
+      //   wrap.get(0).style.removeAttribute('filter');
+      // }
 
       if (selectedOpts.autoDimensions) {
         content.css('height', 'auto');
@@ -1090,9 +1090,9 @@
       });
     }
 
-    if (!$.support.opacity) {
-      wrap.addClass('fancybox-ie');
-    }
+    // if (!$.support.opacity) {
+    //   wrap.addClass('fancybox-ie');
+    // }
 
     // if (isIE6) {
     //  loading.addClass('fancybox-ie6');
