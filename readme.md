@@ -65,7 +65,7 @@ By default, this theme is called `starter`. But if you need to use another name,
 
 This starter theme contains a folder called `external/`. Make sure you move everything that's inside this folder to the root of your Change project.
 
-* `override/modules/website/lib/js/jquery-core.js` **HAS TO BE REPLACED** with your theme's current version of jQuery. If you have to keep or maintain older jQuery code with a newer version of jQuery, please consider the use of [jQuery Migrate](https://github.com/jquery/jquery-migrate) along with the most up-to-date version of jQuery you need.
+* `override/modules/website/lib/js/jquery-core.js` **HAS TO BE REPLACED** with your theme's current version of jQuery. If you have to keep or maintain older jQuery code with a newer version of jQuery, please consider the use of [jQuery Migrate](https://github.com/jquery/jquery-migrate) along with the most up-to-date version of jQuery you need. By default, jquery-migrate-3.0.1 is added to this theme. It migrates older jQuery code to 3.x versions. **BUT** if you use jQuery 2.x, you might want to include [jquery-migrate-1.4.1](https://code.jquery.com/jquery-migrate-1.4.1.min.js) instead. It migrates older jQuery code to 2.x versions.
 * `/external/override/modules/generic/style/layout.css` is useful if you use a Flexbox based grid. 
 
 
