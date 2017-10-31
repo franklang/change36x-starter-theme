@@ -1,19 +1,22 @@
 // Import vendor SASS file
-// @import "../vendor/"
-// Example: @import "../vendor/bootstrap-sass/assets/stylesheets/bootstrap/alerts";
+// @import '../vendor/'
+// Example: @import '../vendor/bootstrap-sass/assets/stylesheets/bootstrap/alerts';
 
 // Import vendor CSS file (see "gulpconf.json" for adding any vendor CSS file to your theme)
 // @import url('/themes/#{$theme}/');
 // Example: @import url('/themes/#{$theme}/style/bootstrap-min.css');
 
-// Use any media from "./image/" folder
+// Use any media from './image/' folder
 // url('/media/themes/#{$theme}/');
 // Example: background-image: url('/media/themes/#{$theme}/image.png');
 
 $theme: starter;
 
 // Import _iconfont.scss if needed
-// @import "iconfont";
+// @import 'iconfont';
 
-// Import "_modules-generic.scss" if you use a Flexbox based grid (like Foundation for Sites 6's grid).
-// @import "modules-generic";
+// Import '_modules-generic.scss' if you use a Flexbox based grid
+// @import 'modules-generic';
+
+// Import '_jquery.fancybox-1.3.4.scss' from 'vendor-override/fancybox-1.3.4/fancybox/' if your project uses Fancybox for modals
+// @import 'vendor-override/fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4';
