@@ -140,7 +140,7 @@ gulp.task('font', function() {
 });
 
 gulp.task('image', function () {
-  return gulp.src(config.paths.images.src + config.plugins.imagemin.formats)
+  return gulp.src(config.paths.images.src + '**/' + config.plugins.imagemin.formats)
     .pipe(plugins.changed(config.paths.images.dest))
     .pipe(plugins.imagemin())
     .pipe(gulp.dest(config.paths.images.dest));
