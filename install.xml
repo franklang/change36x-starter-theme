@@ -14,9 +14,10 @@
           themes.starter.skin"
         cssprint="themes.starter.print"
         useprojectjs="false"
-        js="themes.responsive.js.index,
+        js="themes.starter.js.index,
             themes.starter.js.browser-detection,
-            themes.responsive.js.jquery-fancybox-1-3-4,
+            themes.starter.js.jquery-fancybox-1-3-4,
+            themes.starter.js.jquery-qtip-1-0-0-rc3,
             themes.starter.js.main">
       </pagetemplate>
 
@@ -29,9 +30,10 @@
           themes.starter.skin"
         cssprint="themes.starter.print"
         useprojectjs="false"
-        js="themes.responsive.js.index,
+        js="themes.starter.js.index,
             themes.starter.js.browser-detection,
-            themes.responsive.js.jquery-fancybox-1-3-4,
+            themes.starter.js.jquery-fancybox-1-3-4,
+            themes.starter.js.jquery-qtip-1-0-0-rc3,
             themes.starter.js.main">
       </pagetemplate>
 
