@@ -1,3 +1,7 @@
+/*
+ * Migrated to avoid 'msie' console error log
+ */
+
 /*!
  * jquery.qtip. The jQuery tooltip plugin
  *
