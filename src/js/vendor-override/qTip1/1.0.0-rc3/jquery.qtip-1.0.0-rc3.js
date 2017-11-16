@@ -1,7 +1,3 @@
-/*
- * Migrated to avoid 'msie' console error log
- */
-
 /*!
  * jquery.qtip. The jQuery tooltip plugin
  *
@@ -1397,10 +1393,10 @@
             // self.elements.tip.css({ right: self.options.style.border.radius + ieAdjust });
             self.elements.tip.css({ right: self.options.style.border.radius });
 
-         if(corner.search(/top/) !== -1)
-            self.elements.tip.css({ top: -positionAdjust });
-         else
-            self.elements.tip.css({ bottom: positionAdjust });
+         // if(corner.search(/top/) !== -1)
+         //    self.elements.tip.css({ top: -positionAdjust });
+         // else
+         //    self.elements.tip.css({ bottom: positionAdjust });
 
       }
       else if(corner.search(/left|right/) !== -1)
