@@ -11,7 +11,8 @@
           modules.generic.layout,
           themes.starter.layout,
           themes.starter.main,
-          themes.starter.skin"
+          themes.starter.skin,
+          themes.starter.browserhacks"
         cssprint="themes.starter.print"
         useprojectjs="false"
         js="themes.starter.js.index,
@@ -27,7 +28,8 @@
           modules.generic.layout,
           themes.starter.layout,
           themes.starter.main,
-          themes.starter.skin"
+          themes.starter.skin,
+          themes.starter.browserhacks"
         cssprint="themes.starter.print"
         useprojectjs="false"
         js="themes.starter.js.index,
