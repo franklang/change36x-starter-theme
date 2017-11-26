@@ -54,7 +54,7 @@
       "browsers": ["last 2 version", "ios 8", "ie 10", "ie 11"]
     },
     "imagemin": {
-      "formats": "*.{png,PNG,jpg,JPG,jpeg,JPEG,gif,GIF}"
+      "formats": "*.{png,PNG,jpg,JPG,jpeg,JPEG,gif,GIF,svg,SVG}"
     },
     "iconfont": {
       "fontName": "iconfont",
