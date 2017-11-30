@@ -16,6 +16,7 @@ echo "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" ?>
     <?php echo $this->getPlainHeadMarker(); ?>
     <?php echo $this->getStylesheetInclusions(); ?>
     <?php echo $this->getStyles(); ?>
+    <link rel="stylesheet" src="/media/themes/starter/browserhacks.css" type="text/css" media="screen" />
     <?php echo $this->getScripts(); ?>
     <?php echo $this->getLinkTags(); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
