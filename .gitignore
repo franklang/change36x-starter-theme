@@ -1,6 +1,7 @@
 /.sass-cache
 /node_modules
 /image
+!/image/browserhacks.css
 /js
 /src/vendor
 /style/*
