@@ -1,2 +1,2 @@
-* Déplacer les composants JS du framework (jQuery-ui, qTip, ...) qui ont fait l'objet d'une migration pour compatibilité avec jQuery 3.x hors du thème, dans `override/modules/website/lib/js/`
+* Déplacer les composants JS du framework (jQuery-ui, qTip, ...) qui ont fait l'objet d'une migration pour compatibilité avec jQuery 3.x hors du thème, dans `override/modules/website/lib/js/` car on ne maîtrise pas l'ordre de chargement des dépendances JS dans Change quand ces dernières sont appelées via une vue/un bloc embarqué.
 * [Migrer la méthode .curCSS](https://www.abricocotier.fr/21157/methode-jquery-curcss-probleme-entre-les-versions-de-jquery-ui-1-7-x-et-jquery-1-8-x/) dans jquery-ui-core.js et jquery-ui-position.js
