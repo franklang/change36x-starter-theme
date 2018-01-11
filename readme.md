@@ -65,10 +65,15 @@ By default, this theme is called `starter`. But if you need to use another name,
 
 This starter theme contains a folder called `external/`. Make sure you move everything that's inside this folder to the root of your Change project, **BUT before you do that** be aware of the following:
 
-* `override/modules/website/lib/js/jquery-core.js` **HAS TO BE REPLACED** with your theme's current version of jQuery. If you have to keep or maintain older jQuery code with a newer version of jQuery, please consider the use of [jQuery Migrate](https://github.com/jquery/jquery-migrate) along with the most up-to-date version of jQuery you need. By default, jquery-migrate-3.0.1 is added to this theme. It migrates older jQuery code to 3.x versions. **BUT** if you use jQuery 2.x, you might want to include [jquery-migrate-1.4.1](https://code.jquery.com/jquery-migrate-1.4.1.min.js) instead. It migrates older jQuery code to 2.x versions.
-* Every file prefixed with `jquery-ui` has to be overriden carefully. If you create an new theme for an existing projet, check if some jQuery UI widgets that need to keep working are not already in use within standard or custom features. If you need to keep some jQuery UI features, chances are you'll also have to copy/paste/adapt some styles to your new theme because nothing is included so far.
-* `override/modules/website/lib/js/jquery-fancybox.js` is 100% handled within and by this starter theme.
-* `/external/override/modules/generic/style/layout.css` is useful if you use a Flexbox based grid. 
+* `override/modules/website/lib/js/jquery-core.js` **HAS TO BE REPLACED** with your theme's current version of jQuery.
+* If you have to keep or maintain older jQuery code with a newer version of jQuery, please consider the use of [jQuery Migrate](https://github.com/jquery/jquery-migrate) along with the most up-to-date version of jQuery you need. By default, jquery-migrate-3.0.1 is added to this theme. It migrates older jQuery code to 3.x versions. **BUT** if you use jQuery 2.x, you might want to include [jquery-migrate-1.4.1](https://code.jquery.com/jquery-migrate-1.4.1.min.js) instead. It migrates older jQuery code to 2.x versions.
+
+Overriding Change's framework JS
+--------------------------------
+
+* This starter theme loads original sources of jquery-ui, fancybox and qtip within the `bower.json` file. You'll also find some pre-migrated (to be jQuery 3.x compliant - and maybe jQuery 2.x compliant too, who knows...?) components within the `src/js/vendor-override/` folder. Don't call them from your theme (see above).
+* Whenever you need to use jQuery UI, Fancybox, qTip or any other JS library that is natively included in Change's framework (see: `modules/website/lib/js/` for a complete list), you'll HAVE to override your modified files to `override/modules/website/lib/js/`.
+* Every file prefixed with `jquery-ui` has to be overriden carefully. If you create a new theme for an existing projet, check if some jQuery UI widgets that need to keep working are not already in use within standard or custom features. If you need to keep some jQuery UI features, chances are you'll also have to copy/paste/adapt some styles to your new theme because nothing is included so far. Same goes for `jquery-fancybox.js` and `jquery-qtip.js` (so far...).
 
 
 Overriding vendor components
