@@ -137,7 +137,7 @@ gulp.task('js:custom', function() {
 });
 
 gulp.task('font', function() {
-  return gulp.src(config.paths.fonts.src + '**/*.{ttf,woff,woff2,eof,otf,svg}')
+  return gulp.src(config.paths.fonts.src + '**/*.{ttf,woff,woff2,eot,otf,svg}')
     .pipe(plugins.changed(config.paths.fonts.dest))
     .pipe(gulp.dest(config.paths.fonts.dest));
 });
