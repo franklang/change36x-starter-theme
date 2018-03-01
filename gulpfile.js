@@ -65,7 +65,7 @@ gulp.task('script:clean', function(){
 });
 
 gulp.task('media:clean', function(){
-  del.sync(config.paths.fonts.dest + '**/*.{ttf,woff,woff2,eof,otf,svg}');
+  del.sync(config.paths.fonts.dest + '**/*.{ttf,woff,woff2,eot,otf,svg}');
   del.sync(config.paths.images.dest + '**/*.{png,PNG,jpg,JPG,gif,GIF,svg,SVG}');
 });
 /* end: Clean tasks */
