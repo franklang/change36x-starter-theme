@@ -62,8 +62,7 @@
       "normalize": true,
       "fontHeight": 1001,
       "formats": ["svg", "ttf", "eot", "woff", "woff2"],
-      "prependUnicode": false,
-      "timestamp": "runTimestamp"      
+      "prependUnicode": false
     },
     "consolidate": {
       "lodash": {

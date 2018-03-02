@@ -50,18 +50,31 @@ var gulpconf = "./gulpconf.json";
 var config = require('./gulpconf.json');
 var argv = require('yargs').argv;
 
+/* iconfont */
+var crypto = require('crypto');
+var iconfont = require('gulp-iconfont');
+var intercept = require('gulp-intercept');
+var naturalSort = require('gulp-natural-sort');
+
+var PACKAGE = require('./package.json');
+if(!('timestamps' in PACKAGE)) {
+    PACKAGE.timestamps = {};
+}
+/* end: iconfont */
+
+
 
 /* Clean tasks */
 gulp.task('style:clean', function(){
   var arr = config.clean.style.ignore;
   arr.unshift(config.paths.styles.dest + '**/*.css');
-  del.sync(arr);  
+  del.sync(arr);
 });
 
 gulp.task('script:clean', function(){
   var arr = config.clean.script.ignore;
   arr.unshift(config.paths.scripts.dest + '**/*.js');
-  del.sync(arr);  
+  del.sync(arr);
 });
 
 gulp.task('media:clean', function(){
@@ -179,26 +192,65 @@ gulp.task('bitmap:sprite', plugins.folders(config.paths.images.sprites.src, func
   return merge(imgStreamPng, cssStreamPng, imgStreamJpg, cssStreamJpg);
 }));
 
-gulp.task('iconfont', function () {
-  return gulp.src(config.paths.iconfont.src + '*.svg')
-    .pipe(plugins.changed(config.paths.iconfont.dest))
-    // .pipe(plugins.svgmin())
-    .pipe(plugins.if(!argv.dev, plugins.svgmin()))
-    .pipe(plugins.iconfont(config.plugins.iconfont))
-    .on('glyphs', function (glyphs) {
-      // console.log(glyphs);
-      gulp.src(config.paths.iconfont.templateSrc)
-        .pipe(plugins.consolidate('lodash', {
-          glyphs: glyphs,
-          fontName: config.plugins.consolidate.lodash.fontName,
-          fontPath: config.plugins.consolidate.lodash.fontPath,
-          className: config.plugins.consolidate.lodash.className
+/*
+ * start: iconfont
+ * https://github.com/nfroidure/gulp-iconfont/issues/95
+ */
+var FILES = './' + config.paths.iconfont.src + '*.svg';
+var FONT_NAME = config.plugins.consolidate.lodash.fontName;
+var DESTINATION = './' + config.paths.iconfont.dest;
+
+var digest;
+ 
+gulp.task('iconfont:digest', function() {
+    var hash = crypto.createHash('sha1');
+    return gulp.src([FILES])
+        .pipe(naturalSort())
+        .pipe(intercept(function(file){
+            hash.update(file.relative);
+            hash.update(file.contents);
         }))
-        .on('error', function(e){console.log(e);})
-        .pipe(gulp.dest(config.paths.iconfont.templateDest));
-    })
-    .pipe(gulp.dest(config.paths.iconfont.dest));
+        .on('end', function() {
+            digest = hash.digest('base64').replace(/[+\/=]+/g, '').substring(0, 5);
+            if(!(digest in PACKAGE.timestamps)) {
+                PACKAGE.timestamps[digest] = Math.round(Date.now()/1000);
+            }
+            fs.writeFileSync('./package.json', JSON.stringify(PACKAGE, null, 2));
+        });
 });
+ 
+gulp.task('iconfont:clean', ['iconfont:digest'], function() {
+    var glob = path.join(DESTINATION, FONT_NAME);
+    return del([glob+'*', '!'+glob+'@'+digest+'*'], {force: true});
+});
+ 
+gulp.task('iconfont:generate', ['iconfont:digest'], function() {
+    var options = {
+        fontName: FONT_NAME,
+        fileName: FONT_NAME+'@'+digest,
+        timestamp: PACKAGE.timestamps[digest]
+    };
+    return gulp.src([FILES])
+      .pipe(plugins.changed(DESTINATION))
+      .pipe(plugins.if(!argv.dev, plugins.svgmin()))
+      .pipe(plugins.iconfont(options))
+      .on('glyphs', function (glyphs) {
+        gulp.src(config.paths.iconfont.templateSrc)
+          .pipe(plugins.consolidate('lodash', {
+            glyphs: glyphs,
+            fontName: FONT_NAME+'@'+digest,
+            fontPath: config.plugins.consolidate.lodash.fontPath,
+            className: config.plugins.consolidate.lodash.className,
+            timestamp: PACKAGE.timestamps[digest]
+          }))
+          .on('error', function(e){console.log(e);})
+          .pipe(gulp.dest(config.paths.iconfont.templateDest));
+      })
+      .pipe(gulp.dest(DESTINATION));
+});
+
+gulp.task('iconfont', ['iconfont:generate', 'iconfont:clean']);
+/* end: iconfont */
 
 gulp.task('svg:sprite', function () {
   return gulp.src(config.paths.images.sprites.svg.src + '*.svg')

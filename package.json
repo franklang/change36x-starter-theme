@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "description": "RBS Change 3.6.x starter theme",
   "devDependencies": {
+    "crypto": "^1.0.1",
     "del": "2.2.2",
     "event-stream": "3.1.5",
     "font-blast": "0.6.1",
@@ -16,7 +17,9 @@
     "gulp-iconfont": "8.0.x",
     "gulp-if": "2.0.2",
     "gulp-imagemin": "3.2.0",
+    "gulp-intercept": "^0.1.0",
     "gulp-load-plugins": "0.4.0",
+    "gulp-natural-sort": "^0.1.1",
     "gulp-rename": "1.2.0",
     "gulp-replace": "0.5.4",
     "gulp-sass": "3.1.0",
@@ -48,5 +51,9 @@
   "bugs": {
     "url": ""
   },
-  "homepage": "https://github.com/franklang/change36x-starter-theme/tree/base-workflow"
+  "homepage": "https://github.com/franklang/change36x-starter-theme/tree/base-workflow",
+  "timestamps": {
+    "YCiyZ": 1520002037,
+    "KukPQ": 1520003658
+  }
 }

@@ -224,6 +224,12 @@ HTML code to show an icon :
 <i class="iconfont iconfont-calendar"></i>
 ```
 
+Use in your CSS if icons are not properly aligned vertically
+```html
+position: relative;
+bottom: -0.16666rem;
+```
+
 #### SVG sprites :
 
 Put your SVG source files within the *src/image/sprites/svg/* folder. Then run `gulp svg:sprite` to generate the *modules/website/templates/Website-Block-Xhtmltemplate-Svgsprite.all.all.html* file which is already included in the starter theme's pages.
