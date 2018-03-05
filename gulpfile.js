@@ -56,7 +56,7 @@ var iconfont = require('gulp-iconfont');
 var intercept = require('gulp-intercept');
 var naturalSort = require('gulp-natural-sort');
 
-var PACKAGE = require('./package.json');
+var PACKAGE = require('./src/iconfont/_timestamp.json');
 if(!('timestamps' in PACKAGE)) {
     PACKAGE.timestamps = {};
 }
@@ -215,7 +215,7 @@ gulp.task('iconfont:digest', function() {
             if(!(digest in PACKAGE.timestamps)) {
                 PACKAGE.timestamps[digest] = Math.round(Date.now()/1000);
             }
-            fs.writeFileSync('./package.json', JSON.stringify(PACKAGE, null, 2));
+            fs.writeFileSync('./src/iconfont/_timestamp.json', JSON.stringify(PACKAGE, null, 2));
         });
 });
  

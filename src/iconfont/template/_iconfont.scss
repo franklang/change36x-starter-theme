@@ -23,9 +23,10 @@
   font-style: normal;
 }
 
-.<%= className %>[class^="<%= className %>-"],
-.<%= className %>[class*=" <%= className %>-"],
-[class*="-<%= className %>-"]{
+// .<%= className %>[class^="<%= className %>-"],
+// .<%= className %>[class*=" <%= className %>-"],
+// [class*="-<%= className %>-"],
+.iconfont{
   @include iconfont();
 }
 
