@@ -5,7 +5,7 @@ No need to locally install NodeJS and Bower anymore! Every Gulp task can now be 
 
 1. Execute `docker build -t fassets .` from the root of your project to build a *fassets* (for "front-end assets") container that includes everything you need, from NodeJS to NPM and Bower, to process your front-end assets.
 2. Once the build has ended, execute `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets npm install`. This executes the `npm install` command within the *fassets* container.
-3. Main command to process your assets is `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets`. It executes a `gulp watch` inside container and process your files locally.
+3. Main command to process your assets is `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets`. It executes a `gulp` command inside container and processes your files locally.
 
 
 RBS Change 3.6.x starter theme
