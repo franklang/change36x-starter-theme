@@ -8,6 +8,7 @@ No need to locally install NodeJS and Bower anymore! Every Gulp task can now be 
 3. Main command to process your assets is `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets`. It executes a `gulp` command inside container and processes your files locally.
 
 **If you get log errors at this point ("gulp watch" crashing at processing files properly, ...):**
+
 4. Try re-installing Bower dependencies manually by running `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets bower --allow-root install`. Then re-execute main command (point 3).
 5. If you still get log errors, try executing other available Gulp tasks (full list at the end of this readme file) like `gulp style`, `gulp script` or `gulp media`. Example command: `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets gulp style`.
 
