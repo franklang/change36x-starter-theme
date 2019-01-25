@@ -7,10 +7,20 @@ No need to locally install NodeJS and Bower anymore! Every Gulp task can now be 
 2. Once the build has ended, execute `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets npm install`. This executes the `npm install` command within the *fassets* container.
 3. Main command to process your assets is `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets`. It executes a `gulp` command inside container and processes your files locally.
 
+**If you get a "Error: Cannot find module '<missing_module_name_here>'" error:**
+
+4. Edit those following two lines in the Dockerfile by adding the missing module:
+```json
+RUN /usr/bin/npm install bower gulp <missing_module_name_here>
+RUN /usr/bin/npm install -g bower gulp <missing_module_name_here>
+```
+
+5. Then re-build the *fassets* container (restart from point 1. (sorry)).
+
 **If you get log errors at this point ("gulp watch" crashing at processing files properly, ...):**
 
-4. Try re-installing Bower dependencies manually by running `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets bower --allow-root install`. Then re-execute main command (point 3).
-5. If you still get log errors, try executing other available Gulp tasks (full list at the end of this readme file) like `gulp style`, `gulp script` or `gulp media`. Example command: `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets gulp style`.
+6. Try re-installing Bower dependencies manually by running `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets bower --allow-root install`. Then re-execute main command (point 3).
+7. If you still get log errors, try executing other available Gulp tasks (full list at the end of this readme file) like `gulp style`, `gulp script` or `gulp media`. Example command: `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets gulp style`.
 
 
 RBS Change 3.6.x starter theme
