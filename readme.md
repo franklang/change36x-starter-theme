@@ -22,7 +22,6 @@ ubuntu        16.04     2fa927b5cdd3    5 weeks ago     122 MB
 
 Get existing local node_modules dir out of the way:
 ```json
-$ cd ~/Sites/some-project
 $ rm -rf node_modules # everyone's familiar with this command
 ```
 
