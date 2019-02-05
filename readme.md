@@ -27,7 +27,7 @@ $ rm -rf node_modules # everyone's familiar with this command
 
 Use the container to build a new node_modules dir:
 ```json
-$ docker run --rm -v ~/Sites/some-project:/opt gulp npm install
+$ docker run --rm --pid=host -v ~/Sites/some-project:/opt gulp npm install
 ```
 
 Once that's done, a new node_modules directory will exist! We're ready to run `gulp watch` now:
