@@ -30,6 +30,11 @@ Use the container to build a new node_modules dir:
 $ docker run --rm --pid=host -v ~/Sites/some-project:/opt gulp npm install
 ```
 
+Use the container to get vendor dependencies with Bower:
+```json
+$ docker run --rm --pid=host -v ~/change30/euroairport/themes/responsive:/opt gulp bower install --allow-root
+``` 
+
 Once that's done, a new node_modules directory will exist! We're ready to run `gulp watch` now:
 ```json
 $ docker run --rm --pid=host -v ~/Sites/some-project:/opt gulp
