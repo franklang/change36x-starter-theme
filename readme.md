@@ -1,26 +1,40 @@
-**Update (2018/12/04):** use Docker to process front-end assets
+**Update (2019/02/05):** use Docker to process front-end assets
 ===============================================================
 
-No need to locally install NodeJS and Bower anymore! Every Gulp task can now be processed thru a Docker container.
+No need to locally install NodeJS/NPM, Bower and Gulp anymore! Every Gulp task can now be processed thru a Docker container.
 
-1. Execute `docker build -t fassets .` from the root of your project to build a *fassets* (for "front-end assets") container that includes everything you need, from NodeJS to NPM and Bower, to process your front-end assets.
-2. Once the build has ended, execute `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets npm install`. This executes the `npm install` command within the *fassets* container.
-3. Main command to process your assets is `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets`. It executes a `gulp` command inside container and processes your files locally.
-
-**If you get a "Error: Cannot find module '<missing_module_name_here>'" error:**
-
-4. Edit those following two lines in the Dockerfile by adding the missing module:
 ```json
-RUN /usr/bin/npm install bower gulp <missing_module_name_here>
-RUN /usr/bin/npm install -g bower gulp <missing_module_name_here>
+$ cd /path/to/dir/with/Dockerfile
 ```
 
-5. Then re-build the *fassets* container (restart from point 1. (sorry)).
+Build a new Docker image. Name (tag) it simply gulp:
+```json
+$ docker build -t gulp .
+# ...it builds...
+```
 
-**If you get log errors at this point ("gulp watch" crashing at processing files properly, ...):**
+```json
+$ docker images
+REPOSITORY    TAG       IMAGE ID        CREATED         SIZE
+gulp          latest    59fe57f1d14a    17 hours ago    460.6 MB
+ubuntu        16.04     2fa927b5cdd3    5 weeks ago     122 MB
+```
 
-6. Try re-installing Bower dependencies manually by running `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets bower --allow-root install`. Then re-execute main command (point 3).
-7. If you still get log errors, try executing other available Gulp tasks (full list at the end of this readme file) like `gulp style`, `gulp script` or `gulp media`. Example command: `docker run --rm --pid=host -v ~/euroairport/themes/responsive:/home/app/ fassets gulp style`.
+Get existing node_modules dir out of the way:
+```json
+$ cd ~/Sites/some-project
+$ rm -rf node_modules # everyone's familiar with this command
+```
+
+Use the container to build a new node_modules dir:
+```json
+$ docker run --rm -v ~/Sites/some-project:/opt gulp npm install
+```
+
+Once that's done, a new node_modules directory will exist! We're ready to run `gulp watch` now:
+```json
+$ docker run --rm -v ~/Sites/some-project:/opt gulp
+```
 
 
 RBS Change 3.6.x starter theme
