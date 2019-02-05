@@ -1,20 +1,15 @@
 FROM ubuntu:16.04
 
-WORKDIR /home/app/
-COPY ./themes/responsive/ /home/app/
+WORKDIR /opt
 
-ADD setup_4.x /tmp/setup_4.x
-RUN bash /tmp/setup_4.x
+ADD setup_5.x /tmp/setup_5.x
+RUN bash /tmp/setup_5.x
 
 RUN apt-get update
-RUN apt-get install -y build-essential nodejs git
+RUN apt-get install -y build-essential
+RUN apt-get install -y nodejs
+RUN /usr/bin/npm install -g gulp
+RUN /usr/bin/npm install -g bower
 
-RUN /usr/bin/npm install bower gulp
-RUN /usr/bin/npm install -g bower gulp
-
-#RUN rm -rf node_modules/
-RUN bower install --allow-root
-RUN npm install
-RUN gulp
-
-CMD ["gulp watch"]
+VOLUME ["/opt"]
+CMD ["gulp", "watch"]
