@@ -22,22 +22,22 @@ ubuntu        16.04     2fa927b5cdd3    5 weeks ago     122 MB
 
 Get existing local node_modules dir out of the way:
 ```json
-$ rm -rf node_modules # everyone's familiar with this command
+$ rm -rf node_modules # everyone's familiar with this command - add "sudo" if necessary
 ```
 
 Use the container to build a new node_modules dir:
 ```json
-$ docker run --rm --pid=host -v ~/Sites/some-project:/opt gulp npm install
+$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt gulp npm install
 ```
 
 Use the container to get vendor dependencies with Bower:
 ```json
-$ docker run --rm --pid=host -v ~/change30/euroairport/themes/responsive:/opt gulp bower install --allow-root
+$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt gulp bower install --allow-root
 ``` 
 
 Once that's done, a new node_modules directory will exist! We're ready to run `gulp watch` now:
 ```json
-$ docker run --rm --pid=host -v ~/Sites/some-project:/opt gulp
+$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt gulp
 ```
 
 
