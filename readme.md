@@ -7,7 +7,7 @@ No need to locally install NodeJS/NPM, Bower and Gulp anymore! Every Gulp task c
 $ cd /path/to/dir/with/Dockerfile
 ```
 
-Build a new Docker image. Name (tag) it simply gulp:
+Build a new Docker image. Name (tag) it simply **c36**:
 ```json
 $ docker build -t c36 .
 # ...it builds...
