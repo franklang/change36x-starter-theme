@@ -9,14 +9,14 @@ $ cd /path/to/dir/with/Dockerfile
 
 Build a new Docker image. Name (tag) it simply gulp:
 ```json
-$ docker build -t gulp .
+$ docker build -t c36 .
 # ...it builds...
 ```
 
 ```json
 $ docker images
 REPOSITORY    TAG       IMAGE ID        CREATED         SIZE
-gulp          latest    59fe57f1d14a    17 hours ago    460.6 MB
+c36           latest    59fe57f1d14a    17 hours ago    460.6 MB
 ubuntu        16.04     2fa927b5cdd3    5 weeks ago     122 MB
 ```
 
@@ -27,17 +27,17 @@ $ rm -rf node_modules # everyone's familiar with this command - add "sudo" if ne
 
 Use the container to build a new node_modules dir:
 ```json
-$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt gulp npm install
+$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt c36 npm install
 ```
 
 Use the container to get vendor dependencies with Bower:
 ```json
-$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt gulp bower install --allow-root
+$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt c36 bower install --allow-root
 ``` 
 
 Once that's done, a new node_modules directory will exist! We're ready to run `gulp watch` now:
 ```json
-$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt gulp
+$ docker run --rm --pid=host -v ~/path/to/your/project's/theme:/opt c36
 ```
 
 
